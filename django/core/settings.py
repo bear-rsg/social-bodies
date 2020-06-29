@@ -95,11 +95,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Import local_settings.py
+SECRET_KEY = None
 try:
     from .local_settings import *  # NOQA
 except ImportError:
     sys.exit('Unable to import local_settings.py (refer to local_settings.example.py for help)')
 
-# Ensure required content from local_settings.py are supplied
-if SECRET_KEY is None or SECRET_KEY == "":  # NOQA
+# Ensure the SECRET_KEY is supplied in local_settings.py - and trust that the other settings are there too.
+if not SECRET_KEY:  # NOQA
     sys.exit('Missing SECRET_KEY in local_settings.py')
