@@ -17,13 +17,13 @@ To run this project, you're required to have the following software installed on
 ### Installing
 
 * The project dependencies are specified in requirements.txt
-* cd into project directory and run `pip install -r requirements.txt`
+* cd into project directory 
+* create a virtualenv
+* run `pip install -r requirements.txt`
 
 ## Built With
 
 * [Django](https://www.djangoproject.com/) - The Python web framework used
-* [Bootstrap](https://getbootstrap.com/) - The CSS framework used (also includes a lot of custom CSS, on top of Bootstrap)
-* [jQuery](https://jquery.com/) - The JS library used
 
 ## License
 
