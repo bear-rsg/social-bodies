@@ -1,3 +1,31 @@
+---
+
+Django Tests:
+  image: ${DOCKER_REGISTRY}/django:latest
+  tags:
+    - bear-gitlab-runners
+  before_script:
+    - pip install -r requirements.txt
+    - pip install -r requirements-test.txt
+  script:
+    - cd django
+    - mv core/local_settings.test.py core/local_settings.py
+    - coverage run manage.py test
+    - coverage report
+
+accessibility:
+  tags:
+  - bear-gitlab-runners
+  image: ${DOCKER_REGISTRY}/django:latest
+  before_script:
+    - pip install -r requirements.txt
+  script:
+    - cd django
+    - mv core/local_settings.test.py core/local_settings.py
+    - python manage.py migrate
+    - python manage.py runserver & sleep 5
+    - pa11y-ci
+
 flake8:
   tags:
   - bear-gitlab-runners
@@ -11,19 +39,15 @@ stylelint:
   image: pipelinecomponents/stylelint
   script:
     - stylelint .
-
-accessibility:
+    
+eslint:
   tags:
   - bear-gitlab-runners
-  image: ${DOCKER_REGISTRY}/accessibility:latest
-  before_script:
-    - pip install -r requirements.txt
+  image: pipelinecomponents/stylelint
   script:
-    - cd django
-    - mv core/local_settings.test.py core/local_settings.py
-    - python manage.py migrate
-    - python manage.py runserver & sleep 5
-    - pa11y-ci
+    # - eslint .
+    - echo "Enable eslint when JS added"
+
 
 tidy:
   tags:
