@@ -13,4 +13,3 @@ __pycache__
 setup.cfg
 fixtures
 site.webmanifest
-django/core/static/css/bootstrap-themes/bootstrap.theme.min.css
