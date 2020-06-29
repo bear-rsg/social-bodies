@@ -1,6 +1,7 @@
 # RSG Django Template
 
-This project is a Django-based website created by the Research Software Group.
+This project is a Django-based website created by the Research Software Group. This is our template for all new Django projects.
+When you make a project please mention (in a git commit?) which version of the template project you used - E.g. "Based on django-template commit 8asde872"
 
 ## Getting Started
 
