@@ -1,13 +1,13 @@
-# Invisible Worlds - Django Project
+# RSG Django Template - Django Project
 
-Invisible Worlds explores the long cultural history of a non-built heritage site, Alderley Edge in North-East Cheshire, through localised legendary medieval and medievalist content integrated in a new site-specific Augmented Reality (AR) resource. This website promotes this research project and offers users an interactive tour of Alderley Edge.
+RSG Django Template explores the long cultural history of a non-built heritage site, Alderley Edge in North-East Cheshire, through localised legendary medieval and medievalist content integrated in a new site-specific Augmented Reality (AR) resource. This website promotes this research project and offers users an interactive tour of Alderley Edge.
 
 This document is primarily designed for technical staff working on the development of the project (e.g. software engineers and system admins).
 
 
 ## Django Project
 
-The project is called 'invisibleworlds', but project files are stored in the 'core' folder. Please refer to core/settings.py for further details
+The project is called 'django-template', but project files are stored in the 'core' folder. Please refer to core/settings.py for further details
 
 
 ## Django Apps
@@ -71,7 +71,7 @@ You can use coverage to see how much of the code is included in the tests:
 
 ## Database
 
-The SQLite3 database used sits in the Django project root folder (alongside this README file). It is not included within the Git repo, so must instead be requested from the system admin. Once you have a copy of this database, give it a suitable name like 'invisibleworlds.sqlite3' and place in the 'django/' directory (same directory that stores 'manage.py'). Remember to name this database in local_settings.py (see Settings section of this document for more details)
+The SQLite3 database used sits in the Django project root folder (alongside this README file). It is not included within the Git repo, so must instead be requested from the system admin. Once you have a copy of this database, give it a suitable name like 'django-template.sqlite3' and place in the 'django/' directory (same directory that stores 'manage.py'). Remember to name this database in local_settings.py (see Settings section of this document for more details)
 
 
 ## Settings

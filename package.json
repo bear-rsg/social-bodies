@@ -1,7 +1,7 @@
 {
-  "name": "invisibleworlds",
+  "name": "django-template",
   "version": "1.0.0",
-  "description": "Invisible Worlds project for Victoria Flood",
+  "description": "RSG Django Template",
   "main": "main.js",
   "dependencies": {
     "jest": "^24.9.0"
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.bham.ac.uk/res-comp-team/bear-software/active-projects/invisibleworlds.git"
+    "url": "https://gitlab.bham.ac.uk/res-comp-team/bear-software/active-projects/django-template.git"
   },
   "author": "Mike Allaway",
   "license": "MIT"

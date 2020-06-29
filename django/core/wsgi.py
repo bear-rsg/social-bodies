@@ -1,5 +1,5 @@
 """
-WSGI config for invisibleworlds project.
+WSGI config for django-template project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
