@@ -6,6 +6,7 @@ Django Tests:
     - bear-gitlab-runners
   before_script:
     - pip install -r requirements.txt
+    - pip install -r requirements-test.txt
   script:
     - cd django
     - mv core/local_settings.test.py core/local_settings.py
