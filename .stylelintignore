@@ -1,0 +1,16 @@
+*.py
+*.txt
+*.png
+*.sql
+*.ico
+*.svg
+*.sh
+*.jpg
+*.json
+*.js
+lib
+__pycache__
+setup.cfg
+fixtures
+site.webmanifest
+django/core/static/css/bootstrap-themes/bootstrap.theme.min.css
