@@ -1,50 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>RSG Django Template (Coming Soon)</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:700,900" rel="stylesheet"> 
-    <style>
-        body {
-            background: #485563;  /* fallback for old browsers */
-            background: -webkit-linear-gradient(to right, #29323c, #485563);  /* Chrome 10-25, Safari 5.1-6 */
-            background: linear-gradient(to right, #29323c, #485563); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-            font-family: 'Roboto', sans-serif;
-            font-weight: bolder;
-            padding: 15vh 5vw 15vh 5vw;
-        }
+{% extends 'base.html' %}
+{% load static %}
 
-        h1 {
-            font-size: 4em;
-            color: white;
-        }
-
-        p {
-            font-size: 1.7em;
-            margin-bottom: 2em;
-            color: white;
-            line-height: 1.3em;
-            width: 30em;
-            max-width: 90%;
-        }
-
-        a {
-            color: white;
-            text-decoration: none;
-        }
-
-        .highlight {
-            color: white;
-        }
-    </style>
-</head>
-<body>
-    <main role="main">
-        <h1>Coming Soon</h1>
-        <p>The <span class="highlight">RSG Django Template</span> website is under construction and will be coming soon.</p>
-        <p>For information about the project in the meantime, please email: <a href="mailto:bear-software@contacts.bham.ac.uk">bear-software@contacts.bham.ac.uk</a></p>
-    </main>
-</body>
-</html>
+{% block content %}
+<h1>Coming Soon</h1>
+<p>The <span class="highlight">RSG Django Template</span> website is under construction and will be coming soon.</p>
+<p>For information about the project in the meantime, please email: <a href="mailto:bear-software@contacts.bham.ac.uk">bear-software@contacts.bham.ac.uk</a></p>
+{% endblock %}
