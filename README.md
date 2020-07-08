@@ -3,6 +3,11 @@
 This project is a Django-based website created by the Research Software Group. This is our template for all new Django projects.
 When you make a project please mention (in a git commit?) which version of the template project you used - E.g. "Based on django-template commit 8asde872"
 
+## Using this as a template to start up a new project
+
+* Fork this template project (just click "fork" in GitLab)
+* Change the places it talks about being a template project into your own project (e.g. name) and send a merge request
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
