@@ -39,7 +39,7 @@ stylelint:
   image: pipelinecomponents/stylelint
   script:
     - stylelint .
-    
+
 eslint:
   tags:
   - bear-gitlab-runners
@@ -47,7 +47,6 @@ eslint:
   script:
     # - eslint .
     - echo "Enable eslint when JS added"
-
 
 tidy:
   tags:
