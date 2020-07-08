@@ -6,7 +6,8 @@ When you make a project please mention (in a git commit?) which version of the t
 ## Using this as a template to start up a new project
 
 * Fork this template project (just click "fork" in GitLab)
-* Change the places it talks about being a template project into your own project (e.g. name) and send a merge request
+* Change the places it talks about being a template project into your own project (e.g. name) and send a merge request to get the changes merged *in your new repository*.
+* We would not normally expect you to pull any new changes from the template into your fork, or push any changes back. There may be exceptions to this though.
 
 ## Getting Started
 
