@@ -63,6 +63,13 @@ You can use coverage to see how much of the code is included in the tests:
 + For bundling JavaScript files, we use [Browserify](https://browserify.org/). Each time a change is made to the standard files (e.g. main.js or the individual functions) you must bundle these into `bundle.js`, which is then read by the browser. You can bundle by running, for example, `browserify main.js -o bundle.js'
 
 
+## Accessibility
+
+Our websites must comply with accessibility regulations. See the [BEAR Accessibility](https://accessibility.bear.bham.ac.uk/) site for more information.
+
+Please note that the RSG's template Django project will link to the home page of the BEAR Accessibility website in the footer. This will likely need to be changed (on a per site basis) to the specific page that holds the correct accessibility statement for each site. E.g. standard CAL Django websites can point to: <https://accessibility.bear.bham.ac.uk/statements-cal.html> or you may need to create a new statement page and link to that.
+
+
 ## Database
 
 The SQLite3 database used sits in the Django project root folder (alongside this README file). It is not included within the Git repo, so must instead be requested from the system admin. Once you have a copy of this database, give it a suitable name like `django-template.sqlite3` and place in the `django/` directory (same directory that stores `manage.py`). Remember to name this database in `local_settings.py` (see Settings section of this document for more details)
