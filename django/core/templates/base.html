@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <main role="main">
+    <main role="main" id="main">
         {% block content %}{% endblock %}
     </main>
     <footer role="contentinfo">
@@ -22,5 +22,8 @@
             <a href="https://accessibility.bear.bham.ac.uk/" target="_blank">Accessibility</a>
         </p>
     </footer>
+
+    <!-- JavaScript -->
+    <script src="{% static 'js/cookiesmsg.js' %}"></script>
 </body>
 </html>
