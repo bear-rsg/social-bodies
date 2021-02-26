@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from . import apps
 
 
-
 """
 
 Letter
@@ -24,7 +23,6 @@ SL - body_subject
 SL - letter_collection
 
 """
-
 
 
 # Select List models
@@ -74,7 +72,6 @@ class SlLetterCollection(models.Model):
         return self.name
 
 
-
 # Main models
 
 
@@ -82,7 +79,7 @@ class Letter(models.Model):
     """
     Letter model
     """
-    
+
     title = models.CharField(max_length=255)
     summary = models.TextField(blank=True, null=True)
     description_dynamic = models.TextField(blank=True, null=True)
@@ -98,18 +95,19 @@ class Letter(models.Model):
 
     # sent_from = (location)
     # sent_to = (location)
-    
+
     # Foreign key fields
     collection = models.ForeignKey(SlLetterCollection, on_delete=models.SET_NULL, blank=True, null=True)
     created_by = models.ForeignKey(User, related_name="letter_created_by",
-                                        on_delete=models.PROTECT, blank=True, null=True)
+                                   on_delete=models.PROTECT, blank=True, null=True)
     created_datetime = models.DateTimeField(auto_now_add=True, verbose_name="Created")
     lastupdated_by = models.ForeignKey(User, related_name="letter_lastupdated_by",
-                                            on_delete=models.PROTECT, blank=True, null=True)
+                                       on_delete=models.PROTECT, blank=True, null=True)
     lastupdated_datetime = models.DateTimeField(auto_now=True, verbose_name="Last Updated")
     # Many to many relationship fields
     related_name = "letter"
-    author = models.ManyToManyField("self", related_name=related_name, blank=True, db_table="{}_m2m_letter_letter".format(apps.app_name))
+    author = models.ManyToManyField("self", related_name=related_name,
+                                    blank=True, db_table="{}_m2m_letter_letter".format(apps.app_name))
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
     admin_published = models.BooleanField(default=True)
@@ -122,21 +120,23 @@ class Person(models.Model):
     """
     Person model
     """
-    
+
     first_name = models.CharField(max_length=100)
     middle_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     informal_name = models.CharField(max_length=100)
     date_of_birth = models.CharField(max_length=100)
-    date_of_death = models.CharField(max_length=100)    
+    date_of_death = models.CharField(max_length=100)
     # Foreign key fields
     title = models.ForeignKey(SlPersonTitle, on_delete=models.SET_NULL, blank=True, null=True)
     religion = models.ForeignKey(SlPersonReligion, on_delete=models.SET_NULL, blank=True, null=True)
     gender = models.ForeignKey(SlPersonGender, on_delete=models.SET_NULL, blank=True, null=True)
     # Many to many relationship fields
     related_name = "person"
-    author = models.ManyToManyField("self", related_name=related_name, blank=True, db_table="{}_m2m_author_author".format(apps.app_name))
-    author = models.ManyToManyField("Letter", related_name=related_name, blank=True, db_table="{}_m2m_author_text".format(apps.app_name))
+    author = models.ManyToManyField("self", related_name=related_name,
+                                    blank=True, db_table="{}_m2m_author_author".format(apps.app_name))
+    author = models.ManyToManyField("Letter", related_name=related_name,
+                                    blank=True, db_table="{}_m2m_author_text".format(apps.app_name))
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
     admin_published = models.BooleanField(default=True)
