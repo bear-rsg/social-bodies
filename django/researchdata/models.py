@@ -2,74 +2,151 @@ from django.db import models
 from django.contrib.auth.models import User
 from . import apps
 
-
-"""
-
-Letter
-Person
-Location
-Letter content
-
-m2m - letter, letter (custom fields: relationship type)
-m2m - letter, person (custom fields: relationship type)
-m2m - person, person (custom fields: relationship type)
-
-
-SL - relationship type (for different m2ms...)
-SL - person_religion
-SL - person_gender
-SL - person_title (mr, ...)
-SL - body_subject
-SL - letter_collection
-
-"""
-
-
 # Select List models
 
 
-class SlPersonGender(models.Model):
+class SlGeneric(models.Model):
     """
     Select List table: person's gender (e.g. Male, Female)
     """
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.name
 
 
-class SlPersonReligion(models.Model):
+class SlPersonGender(SlGeneric):
+    """
+    Select List table: person's gender (e.g. Male, Female)
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlPersonRank(SlGeneric):
+    """
+    Select List table: person's rank
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlPersonReligion(SlGeneric):
     """
     Select List table: person's religion (e.g. Catholic, Protestant)
+    Inherits the standard SlGeneric model
     """
-    name = models.CharField(max_length=150)
-    description = models.TextField(blank=True, null=True)
-
-    def __str__(self):
-        return self.name
 
 
-class SlPersonTitle(models.Model):
+class SlPersonTitle(SlGeneric):
     """
     Select List table: person's title (e.g. Mr, Mrs, Dr)
+    Inherits the standard SlGeneric model
     """
-    name = models.CharField(max_length=150)
-    description = models.TextField(blank=True, null=True)
-
-    def __str__(self):
-        return self.name
 
 
-class SlLetterCollection(models.Model):
+class SlLetterCollection(SlGeneric):
     """
     Select List table: letter collection
+    Inherits the standard SlGeneric model
     """
-    name = models.CharField(max_length=150)
-    description = models.TextField(blank=True, null=True)
 
-    def __str__(self):
-        return self.name
+
+class SlLetterContentSubject(SlGeneric):
+    """
+    Select List table: letter content - subject
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlLetterContentBodyPart(SlGeneric):
+    """
+    Select List table: letter content - body part
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlLetterContentBodilyActivity(SlGeneric):
+    """
+    Select List table: letter content - bodily activity
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlLetterContentEmotion(SlGeneric):
+    """
+    Select List table: letter content - emotion
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlLetterContentImmaterial(SlGeneric):
+    """
+    Select List table: letter content - immaterial
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlLetterContentCondition(SlGeneric):
+    """
+    Select List table: letter content - condition
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlLetterContentTreatment(SlGeneric):
+    """
+    Select List table: letter content - treatment
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlLetterContentSensation(SlGeneric):
+    """
+    Select List table: letter content - sensation
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlLetterContentContext(SlGeneric):
+    """
+    Select List table: letter content - context
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlLetterContentAppearance(SlGeneric):
+    """
+    Select List table: letter content - appearance
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlLetterContentRole(SlGeneric):
+    """
+    Select List table: letter content - role
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlLetterContentEstimatedProportionOfLetter(SlGeneric):
+    """
+    Select List table: letter content - estimated proportion of letter
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlLetterContentCommentary(SlGeneric):
+    """
+    Select List table: letter content - commentary
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlLetterContentState(SlGeneric):
+    """
+    Select List table: letter content - state
+    Inherits the standard SlGeneric model
+    """
 
 
 # Main models
@@ -84,26 +161,26 @@ class Letter(models.Model):
     summary = models.TextField(blank=True, null=True)
     description_dynamic = models.TextField(blank=True, null=True)
     image_of_letter = models.ImageField(upload_to='researchdata/letters', blank=True, null=True)
+    collection = models.ForeignKey(SlLetterCollection, on_delete=models.SET_NULL, blank=True, null=True)
+    item_number = models.CharField(max_length=255, blank=True, null=True)
     repository = models.CharField(max_length=255, blank=True, null=True)
-    shelfmark = models.CharField(max_length=255, blank=True, null=True)
-    permission_produce_text = models.BooleanField(blank=True, null=True)
-    permission_produce_text = models.BooleanField(blank=True, null=True)
-    transcription_original = models.TextField(blank=True, null=True)
-    transcription_corrected = models.TextField(blank=True, null=True)
+    permission_reproduce_text = models.BooleanField(blank=True, null=True)
+    permission_reproduce_image = models.BooleanField(blank=True, null=True)
+    transcription_plain = models.TextField(blank=True, null=True)
+    transcription_normalized = models.TextField(blank=True, null=True)
     sent_date = models.CharField(max_length=255, blank=True, null=True)
-    sent_time = models.TimeField(blank=True, null=True)
+    sent_time = models.CharField(max_length=255, blank=True, null=True)
 
     # sent_from = (location)
     # sent_to = (location)
 
-    # Foreign key fields
-    collection = models.ForeignKey(SlLetterCollection, on_delete=models.SET_NULL, blank=True, null=True)
     created_by = models.ForeignKey(User, related_name="letter_created_by",
-                                   on_delete=models.PROTECT, blank=True, null=True)
+                                   on_delete=models.PROTECT, blank=True, null=True, verbose_name="Created By")
     created_datetime = models.DateTimeField(auto_now_add=True, verbose_name="Created")
     lastupdated_by = models.ForeignKey(User, related_name="letter_lastupdated_by",
-                                       on_delete=models.PROTECT, blank=True, null=True)
+                                       on_delete=models.PROTECT, blank=True, null=True, verbose_name="Last Updated By")
     lastupdated_datetime = models.DateTimeField(auto_now=True, verbose_name="Last Updated")
+
     # Many to many relationship fields
     related_name = "letter"
     author = models.ManyToManyField("self", related_name=related_name,
@@ -116,30 +193,104 @@ class Letter(models.Model):
         return self.title
 
 
+class LetterContentLocation(models.Model):
+    """
+    Where in the letter a letter content item occurs
+    """
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class LetterContentType(models.Model):
+    """
+    A single letter content item can have multiple types
+    """
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class LetterContent(models.Model):
+    """
+    A Letter can have multiple 'contents' aka instances of interest that are worth recording
+    """
+
+    letter = models.ForeignKey(Letter, on_delete=models.CASCADE, blank=True, null=True)
+    subject = models.ForeignKey(SlLetterContentSubject, on_delete=models.SET_NULL, blank=True, null=True)
+    body_part = models.ForeignKey(SlLetterContentBodyPart, on_delete=models.SET_NULL, blank=True, null=True)
+    bodily_activity = models.ForeignKey(SlLetterContentBodilyActivity,
+                                        on_delete=models.SET_NULL, blank=True, null=True)
+    emotion = models.ForeignKey(SlLetterContentEmotion, on_delete=models.SET_NULL, blank=True, null=True)
+    immaterial = models.ForeignKey(SlLetterContentImmaterial, on_delete=models.SET_NULL, blank=True, null=True)
+    condition = models.ForeignKey(SlLetterContentCondition, on_delete=models.SET_NULL, blank=True, null=True)
+    treatment = models.ForeignKey(SlLetterContentTreatment, on_delete=models.SET_NULL, blank=True, null=True)
+    sensation = models.ForeignKey(SlLetterContentSensation, on_delete=models.SET_NULL, blank=True, null=True)
+    context = models.ForeignKey(SlLetterContentContext, on_delete=models.SET_NULL, blank=True, null=True)
+    appearance = models.ForeignKey(SlLetterContentAppearance, on_delete=models.SET_NULL, blank=True, null=True)
+    roles = models.ForeignKey(SlLetterContentRole, on_delete=models.SET_NULL, blank=True, null=True)
+    estimated_proportion_of_letter = models.ForeignKey(SlLetterContentEstimatedProportionOfLetter,
+                                                       on_delete=models.SET_NULL, blank=True, null=True)
+    commentary = models.ForeignKey(SlLetterContentCommentary, on_delete=models.SET_NULL, blank=True, null=True)
+    state = models.ForeignKey(SlLetterContentState, on_delete=models.SET_NULL, blank=True, null=True)
+    state_notes = models.TextField(blank=True, null=True)
+
+    # Many to many relationship fields
+    related_name = "lettercontent"
+    content_type = models.ManyToManyField("LetterContentType",
+                                          related_name=related_name,
+                                          blank=True,
+                                          db_table="{}_m2m_lettercontent_lettercontenttype".format(apps.app_name))
+    location = models.ManyToManyField("LetterContentLocation",
+                                      related_name=related_name,
+                                      blank=True,
+                                      db_table="{}_m2m_lettercontent_lettercontentlocation".format(apps.app_name))
+
+    # Admin fields
+    admin_notes = models.TextField(blank=True, null=True)
+    admin_published = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.letter
+
+
 class Person(models.Model):
     """
     Person model
     """
 
-    first_name = models.CharField(max_length=100)
-    middle_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    informal_name = models.CharField(max_length=100)
-    date_of_birth = models.CharField(max_length=100)
-    date_of_death = models.CharField(max_length=100)
-    # Foreign key fields
     title = models.ForeignKey(SlPersonTitle, on_delete=models.SET_NULL, blank=True, null=True)
-    religion = models.ForeignKey(SlPersonReligion, on_delete=models.SET_NULL, blank=True, null=True)
+    first_name = models.CharField(max_length=255, blank=True, null=True)
+    middle_name = models.CharField(max_length=255, blank=True, null=True)
+    last_name = models.CharField(max_length=255, blank=True, null=True)
+    informal_name = models.CharField(max_length=255, blank=True, null=True)
+    date_of_birth = models.CharField(max_length=255, blank=True, null=True)
+    date_of_death = models.CharField(max_length=255, blank=True, null=True)
+    date_active = models.CharField(max_length=255, blank=True, null=True)
     gender = models.ForeignKey(SlPersonGender, on_delete=models.SET_NULL, blank=True, null=True)
+    religion = models.ForeignKey(SlPersonReligion, on_delete=models.SET_NULL, blank=True, null=True)
+    occupation = models.CharField(max_length=255, blank=True, null=True)
+    rank = models.ForeignKey(SlPersonRank, on_delete=models.SET_NULL, blank=True, null=True)
     # Many to many relationship fields
     related_name = "person"
-    author = models.ManyToManyField("self", related_name=related_name,
+    person = models.ManyToManyField("self", related_name=related_name,
                                     blank=True, db_table="{}_m2m_author_author".format(apps.app_name))
-    author = models.ManyToManyField("Letter", related_name=related_name,
+    letter = models.ManyToManyField("Letter", related_name=related_name,
                                     blank=True, db_table="{}_m2m_author_text".format(apps.app_name))
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
     admin_published = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.title
+        return self.first_name
+
+
+# Many to Many Relationships
+
+# Letter > Letter (relationship type: conversation, event, familial, ...)
+# Letter > Person (relationship type: primary author, secondary author, addressee)
+# Person > Person
