@@ -21,6 +21,40 @@ class LetterAdminView(admin.ModelAdmin):
     ordering = ('-id',)
 
 
+class LetterContentAdminView(admin.ModelAdmin):
+    """
+    Customise the Letter section of the Django admin
+    """
+    list_display = ('id',
+                    'body_part',
+                    'bodily_activity',
+                    'emotion',
+                    'immaterial',
+                    'condition',
+                    'treatment',
+                    'sensation',
+                    'context',
+                    'appearance',
+                    'roles',
+                    'estimated_proportion_of_letter',
+                    'commentary',
+                    'state')
+    list_filter = ('body_part',
+                   'bodily_activity',
+                   'emotion',
+                   'immaterial',
+                   'condition',
+                   'treatment',
+                   'sensation',
+                   'context',
+                   'appearance',
+                   'roles',
+                   'estimated_proportion_of_letter',
+                   'commentary',
+                   'state')
+    ordering = ('-id',)
+
+
 class PersonAdminView(admin.ModelAdmin):
     """
     Customise the Person section of the Django admin
@@ -86,6 +120,7 @@ admin.site.register(models.SlLetterContentState, SlGenericAdminView)
 
 # Main models
 admin.site.register(models.Letter, LetterAdminView)
+admin.site.register(models.LetterContent, LetterContentAdminView)
 admin.site.register(models.Person, PersonAdminView)
 
 # Many to Many models
