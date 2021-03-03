@@ -149,6 +149,27 @@ class SlLetterContentState(SlGeneric):
     """
 
 
+class SlM2MLetterLetterRelationshipType(SlGeneric):
+    """
+    Select List table: type of many to many relationship (letter <-> letter)
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlM2MLetterPersonRelationshipType(SlGeneric):
+    """
+    Select List table: type of many to many relationship (letter <-> person)
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlM2MPersonPersonRelationshipType(SlGeneric):
+    """
+    Select List table: type of many to many relationship (person <-> person)
+    Inherits the standard SlGeneric model
+    """
+
+
 # Main models
 
 
@@ -159,7 +180,6 @@ class Letter(models.Model):
 
     title = models.CharField(max_length=255)
     summary = models.TextField(blank=True, null=True)
-    description_dynamic = models.TextField(blank=True, null=True)
     image_of_letter = models.ImageField(upload_to='researchdata/letters', blank=True, null=True)
     collection = models.ForeignKey(SlLetterCollection, on_delete=models.SET_NULL, blank=True, null=True)
     item_number = models.CharField(max_length=255, blank=True, null=True)
@@ -171,8 +191,8 @@ class Letter(models.Model):
     sent_date = models.CharField(max_length=255, blank=True, null=True)
     sent_time = models.CharField(max_length=255, blank=True, null=True)
 
-    # sent_from = (location)
-    # sent_to = (location)
+    sent_from_location = models.TextField(blank=True, null=True)
+    sent_to_location = models.TextField(blank=True, null=True)
 
     created_by = models.ForeignKey(User, related_name="letter_created_by",
                                    on_delete=models.PROTECT, blank=True, null=True, verbose_name="Created By")
@@ -182,9 +202,11 @@ class Letter(models.Model):
     lastupdated_datetime = models.DateTimeField(auto_now=True, verbose_name="Last Updated")
 
     # Many to many relationship fields
-    related_name = "letter"
-    author = models.ManyToManyField("self", related_name=related_name,
-                                    blank=True, db_table="{}_m2m_letter_letter".format(apps.app_name))
+    related_name = "related_letter"
+    letter = models.ManyToManyField("self", related_name=related_name,
+                                    blank=True, through='M2MLetterLetter')
+    person = models.ManyToManyField("Person", related_name=related_name,
+                                    blank=True, through='M2MLetterPerson')
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
     admin_published = models.BooleanField(default=True)
@@ -276,11 +298,11 @@ class Person(models.Model):
     occupation = models.CharField(max_length=255, blank=True, null=True)
     rank = models.ForeignKey(SlPersonRank, on_delete=models.SET_NULL, blank=True, null=True)
     # Many to many relationship fields
-    related_name = "person"
+    related_name = "related_person"
     person = models.ManyToManyField("self", related_name=related_name,
-                                    blank=True, db_table="{}_m2m_author_author".format(apps.app_name))
+                                    through='M2MPersonPerson', blank=True)
     letter = models.ManyToManyField("Letter", related_name=related_name,
-                                    blank=True, db_table="{}_m2m_author_text".format(apps.app_name))
+                                    through='M2MLetterPerson', blank=True)
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
     admin_published = models.BooleanField(default=True)
@@ -294,3 +316,21 @@ class Person(models.Model):
 # Letter > Letter (relationship type: conversation, event, familial, ...)
 # Letter > Person (relationship type: primary author, secondary author, addressee)
 # Person > Person
+
+
+class M2MLetterLetter(models.Model):
+    letter_1 = models.ForeignKey(Letter, related_name='letter_1', on_delete=models.CASCADE)
+    letter_2 = models.ForeignKey(Letter, related_name='letter_2', on_delete=models.CASCADE)
+    relationship_type = models.ForeignKey(SlM2MLetterLetterRelationshipType, on_delete=models.CASCADE)
+
+
+class M2MLetterPerson(models.Model):
+    letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    relationship_type = models.ForeignKey(SlM2MLetterPersonRelationshipType, on_delete=models.CASCADE)
+
+
+class M2MPersonPerson(models.Model):
+    person_1 = models.ForeignKey(Person, related_name='person_1', on_delete=models.CASCADE)
+    person_2 = models.ForeignKey(Person, related_name='person_2', on_delete=models.CASCADE)
+    relationship_type = models.ForeignKey(SlM2MPersonPersonRelationshipType, on_delete=models.CASCADE)
