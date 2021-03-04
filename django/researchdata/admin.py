@@ -5,6 +5,26 @@ from . import models
 admin.site.site_header = 'Material Identities, Social Bodies: Admin Dashboard'
 
 
+# Inlines
+
+
+class LetterLetterInline(admin.TabularInline):
+    model = models.Letter.letter.through
+    fk_name = "letter_1"
+
+
+class LetterPersonInline(admin.TabularInline):
+    model = models.Letter.person.through
+
+
+class PersonPersonInline(admin.TabularInline):
+    model = models.Person.person.through
+    fk_name = "person_1"
+
+
+# Admin views
+
+
 class SlGenericAdminView(admin.ModelAdmin):
     list_display = ('name', 'description')
     search_fields = ('name', 'description')
@@ -19,6 +39,7 @@ class LetterAdminView(admin.ModelAdmin):
     list_filter = ('collection',)
     search_fields = ('title', 'summary')
     ordering = ('-id',)
+    inlines = [LetterLetterInline, LetterPersonInline]
 
 
 class LetterContentAdminView(admin.ModelAdmin):
@@ -63,6 +84,7 @@ class PersonAdminView(admin.ModelAdmin):
     list_filter = ('title', 'religion', 'gender')
     search_fields = ('first_name', 'middle_name', 'last_name', 'informal_name')
     ordering = ('-id',)
+    inlines = [LetterPersonInline, PersonPersonInline]
 
 
 class M2MLetterLetterAdminView(admin.ModelAdmin):
