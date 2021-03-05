@@ -277,7 +277,10 @@ class LetterContent(models.Model):
     admin_published = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.letter
+        if self.letter:
+            return self.letter
+        else:
+            return "A letter content"
 
 
 class Person(models.Model):
