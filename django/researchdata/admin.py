@@ -62,6 +62,7 @@ class LetterContentAdminView(admin.ModelAdmin):
     Customise the Letter section of the Django admin
     """
     list_display = ('id',
+                    'letter',
                     'body_part',
                     'bodily_activity',
                     'emotion',
@@ -75,7 +76,8 @@ class LetterContentAdminView(admin.ModelAdmin):
                     'estimated_proportion_of_letter',
                     'commentary',
                     'state')
-    list_filter = ('body_part',
+    list_filter = ('letter',
+                   'body_part',
                    'bodily_activity',
                    'emotion',
                    'immaterial',

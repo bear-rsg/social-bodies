@@ -278,7 +278,7 @@ class LetterContent(models.Model):
 
     def __str__(self):
         if self.letter:
-            return self.letter
+            return self.letter.title
         else:
             return "A letter content"
 
