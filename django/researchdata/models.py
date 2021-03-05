@@ -292,7 +292,6 @@ class Person(models.Model):
     first_name = models.CharField(max_length=255, blank=True, null=True)
     middle_name = models.CharField(max_length=255, blank=True, null=True)
     last_name = models.CharField(max_length=255, blank=True, null=True)
-    informal_name = models.CharField(max_length=255, blank=True, null=True)
     date_of_birth = models.CharField(max_length=255, blank=True, null=True)
     date_of_death = models.CharField(max_length=255, blank=True, null=True)
     date_active = models.CharField(max_length=255, blank=True, null=True)
@@ -331,6 +330,7 @@ class M2MLetterPerson(models.Model):
     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     relationship_type = models.ForeignKey(SlM2MLetterPersonRelationshipType, on_delete=models.CASCADE)
+    person_form_of_address = models.CharField(max_length=255, blank=True, null=True)
 
 
 class M2MPersonPerson(models.Model):

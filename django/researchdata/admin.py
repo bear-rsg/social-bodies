@@ -40,6 +40,21 @@ class LetterAdminView(admin.ModelAdmin):
     search_fields = ('title', 'summary')
     ordering = ('-id',)
     inlines = [LetterLetterInline, LetterPersonInline]
+    readonly_fields = ('created_by', 'created_datetime', 'lastupdated_by', 'lastupdated_datetime')
+
+    def save_model(self, request, obj, form, change):
+        """
+        Override default save_model, by adding values to automated fields
+        """
+
+        # Created by
+        if getattr(obj, 'created_by', None) is None:
+            obj.created_by = request.user
+            obj.lastupdated_by = request.user
+        # Last updated by
+        else:
+            obj.lastupdated_by = request.user
+        obj.save()
 
 
 class LetterContentAdminView(admin.ModelAdmin):
@@ -80,9 +95,9 @@ class PersonAdminView(admin.ModelAdmin):
     """
     Customise the Person section of the Django admin
     """
-    list_display = ('id', 'title', 'first_name', 'middle_name', 'last_name', 'informal_name', 'gender', 'religion')
+    list_display = ('id', 'title', 'first_name', 'middle_name', 'last_name', 'gender', 'religion')
     list_filter = ('title', 'religion', 'gender')
-    search_fields = ('first_name', 'middle_name', 'last_name', 'informal_name')
+    search_fields = ('first_name', 'middle_name', 'last_name')
     ordering = ('-id',)
     inlines = [LetterPersonInline, PersonPersonInline]
 
@@ -101,9 +116,9 @@ class M2MLetterPersonAdminView(admin.ModelAdmin):
     """
     Customise the M2M Letter <-> Person section of the Django admin
     """
-    list_display = ('id', 'letter', 'person', 'relationship_type')
+    list_display = ('id', 'letter', 'person', 'relationship_type', 'person_form_of_address')
     list_filter = ('relationship_type',)
-    search_fields = ('letter', 'person', 'relationship_type')
+    search_fields = ('letter', 'person', 'relationship_type', 'person_form_of_address')
     ordering = ('-id',)
 
 
