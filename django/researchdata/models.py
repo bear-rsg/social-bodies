@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from . import apps
 
 # Select List models
 
@@ -243,17 +242,16 @@ class Letter(models.Model):
 class LetterContent(models.Model):
     """
     A Letter can have multiple 'contents' aka instances of interest that are worth recording
-    """    
+    """
 
     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
     subject = models.ForeignKey(SlLetterContentSubject, on_delete=models.SET_NULL, blank=True, null=True)
-    
+
     # Many to many relationship fields
     related_name = "lettercontent"
-    
+
     body_part = models.ManyToManyField(SlLetterContentBodyPart, related_name=related_name, blank=True)
-    bodily_activity = models.ManyToManyField(SlLetterContentBodilyActivity,
-                                        related_name=related_name, blank=True)
+    bodily_activity = models.ManyToManyField(SlLetterContentBodilyActivity, related_name=related_name, blank=True)
     appearance = models.ManyToManyField(SlLetterContentAppearance, related_name=related_name, blank=True)
     condition = models.ManyToManyField(SlLetterContentCondition, related_name=related_name, blank=True)
     emotion = models.ManyToManyField(SlLetterContentEmotion, related_name=related_name, blank=True)
@@ -261,10 +259,10 @@ class LetterContent(models.Model):
     sensation = models.ManyToManyField(SlLetterContentSensation, related_name=related_name, blank=True)
     treatment = models.ManyToManyField(SlLetterContentTreatment, related_name=related_name, blank=True)
     context = models.ManyToManyField(SlLetterContentContext, related_name=related_name, blank=True)
-    roles = models.ManyToManyField(SlLetterContentRole, related_name=related_name, blank=True)    
+    roles = models.ManyToManyField(SlLetterContentRole, related_name=related_name, blank=True)
     content_type = models.ManyToManyField(SlLetterContentType, related_name=related_name, blank=True)
     state = models.ManyToManyField(SlLetterContentState, related_name=related_name, blank=True)
-    commentary = models.ManyToManyField(SlLetterContentCommentary, related_name=related_name, blank=True)    
+    commentary = models.ManyToManyField(SlLetterContentCommentary, related_name=related_name, blank=True)
     location = models.ManyToManyField(SlLetterContentLocation, related_name=related_name, blank=True)
 
     estimated_proportion_of_letter = models.ForeignKey(SlLetterContentEstimatedProportionOfLetter,
@@ -285,7 +283,7 @@ class LetterImage(models.Model):
     """
     A Letter can have multiple images
     """
-    
+
     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='researchdata/letters')
     description = models.TextField(blank=True, null=True)
