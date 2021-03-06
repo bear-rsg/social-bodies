@@ -106,54 +106,22 @@ def insert_sllettercollection(apps, schema_editor):
         models.SlLetterCollection(name=name).save()
 
 
-def insert_lettercontentlocation(apps, schema_editor):
-    """
-    Inserts select list objects for LetterContentLocation
-    """
-
-    names = [
-        "opening",
-        "main body",
-        "closing",
-        "throughout (consistent)",
-        "throughout (inconsistent)"
-    ]
-
-    for name in names:
-        models.LetterContentLocation(name=name).save()
-
-
-
-def insert_lettercontenttype(apps, schema_editor):
-    """
-    Inserts select list objects for LetterContentType
-    """
-
-    names = [
-        "reporting",
-        "enquiry",
-        "advising",
-        "response"
-    ]
-
-    for name in names:
-        models.LetterContentType(name=name).save()
-
-
 def insert_sllettercontentbodypart(apps, schema_editor):
     """
     Inserts select list objects for SlLetterContentBodyPart
     """
 
     names = [
+        "leg",
+        "arm",
+        "head",
         "eyes",
         "brain",
         "teeth",
         "cheeks",
         "hair",
-        "leg",
-        "arm",
-        "head",
+        "ears",
+        "stomach",
         "body",
         "whole-body",
         "mind",
@@ -161,9 +129,11 @@ def insert_sllettercontentbodypart(apps, schema_editor):
         "face",
         "hands",
         "constitution",
-        "nerves",
+        "teeth",
         "gizzard",
-        "lips"
+        "lips",
+        "nerves",
+        "spirits (body part)"
     ]
 
     for name in names:
@@ -179,25 +149,47 @@ def insert_sllettercontentbodilyactivity(apps, schema_editor):
         "walking",
         "writing",
         "accident",
-        "violence",
-        "assault",
-        "dining",
-        "eating",
-        "crying",
-        "reading",
-        "hearing",
-        "seeing",
+        "violence / assault",
+        "travel",
+        "childbirth",
         "breastfeeding",
         "work",
         "incapacitated",
         "confinement",
-        "lying-down",
-        "dying",
-        "being in bed",
+        "dancing",
+        "death",
+        "dining",
+        "eating",
+        "crying",
+        "reading",
+        "listening",
+        "looking",
+        "looking",
+        "resting",
+        "in bed",
         "sleeping",
-        "breating",
+        "breathing",
         "smiling",
-        "drinking"
+        "drinking",
+        "acting",
+        "singing",
+        "devotional practice",
+        "meditating",
+        "fasting",
+        "thinking",
+        "digesting",
+        "cleaning",
+        "exercise",
+        "kissing",
+        "licking",
+        "shooting",
+        "fishing",
+        "horse-riding",
+        "sight-seeing",
+        "theatre-going",
+        "visiting",
+        "embracing",
+        "gifting"
     ]
 
     for name in names:
@@ -210,10 +202,10 @@ def insert_sllettercontentemotion(apps, schema_editor):
     """
 
     names = [
-        "spirit",
-        "love",
+        "feeling",
         "shame",
         "anger",
+        "",
         "resentment",
         "amused",
         "shock",
@@ -241,20 +233,16 @@ def insert_sllettercontentimmaterial(apps, schema_editor):
 
     names = [
         "mind",
+        "distraction",
+        "peace",
+        "education",
+        "thought",
+        "slow of mind",
         "soul",
-        "self",
-        "unmoved",
-        "feeling",
-        "settled",
-        "distressed",
-        "countenance",
-        "uneasy",
-        "safe",
-        "pleasure",
-        "charity",
+        "sinful",
+        "personal blessings",
         "duty",
-        "gloomy",
-        "consolation"
+        "virtues"
     ]
 
     for name in names:
@@ -285,9 +273,19 @@ def insert_sllettercontenttreatment(apps, schema_editor):
 
     names = [
         "medical",
-        "care",
+        "care provided by family/kin/household",
         "recipe",
-        "regimen"
+        "regimen",
+        "religion",
+        "doctor",
+        "nurse",
+        "midwife",
+        "surgery",
+        "apothecary",
+        "rest",
+        "air",
+        "exercise",
+        "consolation"
     ]
 
     for name in names:
@@ -304,7 +302,10 @@ def insert_sllettercontentsensation(apps, schema_editor):
         "smell",
         "taste",
         "sight",
-        "touch"
+        "touch",
+        "hearing",
+        "hot",
+        "cold"
     ]
 
     for name in names:
@@ -319,11 +320,56 @@ def insert_sllettercontentcontext(apps, schema_editor):
     names = [
         "environment",
         "space",
-        "weather"
+        "weather",
+        "winter",
+        "summer",
+        "autumn",
+        "spring",
+        "prison",
+        "school",
+        "in bed",
+        "at home",
+        "travel",
+        "work",
+        "urban",
+        "rural"
     ]
 
     for name in names:
         models.SlLetterContentContext(name=name).save()
+
+
+def insert_sllettercontentlocation(apps, schema_editor):
+    """
+    Inserts select list objects for SlLetterContentLocation
+    """
+
+    names = [
+        "opening",
+        "main body",
+        "closing",
+        "throughout (consistent)",
+        "throughout (inconsistent)"
+    ]
+
+    for name in names:
+        models.SlLetterContentLocation(name=name).save()
+
+
+def insert_sllettercontenttype(apps, schema_editor):
+    """
+    Inserts select list objects for SlLetterContentType
+    """
+
+    names = [
+        "reporting",
+        "enquiry",
+        "advising",
+        "response"
+    ]
+
+    for name in names:
+        models.SlLetterContentType(name=name).save()
 
 
 def insert_sllettercontentappearance(apps, schema_editor):
@@ -332,11 +378,17 @@ def insert_sllettercontentappearance(apps, schema_editor):
     """
 
     names = [
-        "size",
+        "large",
+        "small",
         "shape",
         "build",
+        "comportment",
         "complexion",
-        "aesthetics"
+        "aesthetics",
+        "clothing",
+        "active",
+        "smell",
+        "status"
     ]
 
     for name in names:
@@ -390,10 +442,19 @@ def insert_sllettercontentcommentary(apps, schema_editor):
     """
 
     names = [
-        "worried",
         "happy",
         "humorous",
-        "sympathetic"
+        "positive",
+        "negative",
+        "neutral",
+        "concerned",
+        "apologetic",
+        "conflictual",
+        "religious",
+        "moral",
+        "metaphorical",
+        "resigned",
+        "hopeful"
     ]
 
     for name in names:
@@ -494,8 +555,8 @@ class Migration(migrations.Migration):
         # Letter SL tables
         migrations.RunPython(insert_sllettercollection),
         # Letter Content related tables
-        migrations.RunPython(insert_lettercontentlocation),
-        migrations.RunPython(insert_lettercontenttype),
+        migrations.RunPython(insert_sllettercontentlocation),
+        migrations.RunPython(insert_sllettercontenttype),
         # Letter Content SL tables
         migrations.RunPython(insert_sllettercontentbodypart),
         migrations.RunPython(insert_sllettercontentbodilyactivity),

@@ -128,6 +128,20 @@ class SlLetterContentContext(SlGeneric):
     """
 
 
+class SlLetterContentLocation(SlGeneric):
+    """
+    Select List table: letter content - location
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlLetterContentType(SlGeneric):
+    """
+    Select List table: letter content - type
+    Inherits the standard SlGeneric model
+    """
+
+
 class SlLetterContentAppearance(SlGeneric):
     """
     Select List table: letter content - appearance
@@ -226,62 +240,35 @@ class Letter(models.Model):
         return self.title
 
 
-class LetterContentLocation(models.Model):
-    """
-    Where in the letter a letter content item occurs
-    """
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
-
-    def __str__(self):
-        return self.name
-
-
-class LetterContentType(models.Model):
-    """
-    A single letter content item can have multiple types
-    """
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
-
-    def __str__(self):
-        return self.name
-
-
 class LetterContent(models.Model):
     """
     A Letter can have multiple 'contents' aka instances of interest that are worth recording
-    """
+    """    
 
     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
     subject = models.ForeignKey(SlLetterContentSubject, on_delete=models.SET_NULL, blank=True, null=True)
-    body_part = models.ForeignKey(SlLetterContentBodyPart, on_delete=models.SET_NULL, blank=True, null=True)
-    bodily_activity = models.ForeignKey(SlLetterContentBodilyActivity,
-                                        on_delete=models.SET_NULL, blank=True, null=True)
-    appearance = models.ForeignKey(SlLetterContentAppearance, on_delete=models.SET_NULL, blank=True, null=True)
-    condition = models.ForeignKey(SlLetterContentCondition, on_delete=models.SET_NULL, blank=True, null=True)
-    emotion = models.ForeignKey(SlLetterContentEmotion, on_delete=models.SET_NULL, blank=True, null=True)
-    immaterial = models.ForeignKey(SlLetterContentImmaterial, on_delete=models.SET_NULL, blank=True, null=True)
-    sensation = models.ForeignKey(SlLetterContentSensation, on_delete=models.SET_NULL, blank=True, null=True)
-    treatment = models.ForeignKey(SlLetterContentTreatment, on_delete=models.SET_NULL, blank=True, null=True)
-    context = models.ForeignKey(SlLetterContentContext, on_delete=models.SET_NULL, blank=True, null=True)
-    roles = models.ForeignKey(SlLetterContentRole, on_delete=models.SET_NULL, blank=True, null=True)
-    estimated_proportion_of_letter = models.ForeignKey(SlLetterContentEstimatedProportionOfLetter,
-                                                       on_delete=models.SET_NULL, blank=True, null=True)
-    commentary = models.ForeignKey(SlLetterContentCommentary, on_delete=models.SET_NULL, blank=True, null=True)
-    state = models.ForeignKey(SlLetterContentState, on_delete=models.SET_NULL, blank=True, null=True)
-    state_notes = models.TextField(blank=True, null=True)
-
+    
     # Many to many relationship fields
     related_name = "lettercontent"
-    content_type = models.ManyToManyField("LetterContentType",
-                                          related_name=related_name,
-                                          blank=True,
-                                          db_table="{}_m2m_lettercontent_lettercontenttype".format(apps.app_name))
-    location = models.ManyToManyField("LetterContentLocation",
-                                      related_name=related_name,
-                                      blank=True,
-                                      db_table="{}_m2m_lettercontent_lettercontentlocation".format(apps.app_name))
+    
+    body_part = models.ManyToManyField(SlLetterContentBodyPart, related_name=related_name, blank=True)
+    bodily_activity = models.ManyToManyField(SlLetterContentBodilyActivity,
+                                        related_name=related_name, blank=True)
+    appearance = models.ManyToManyField(SlLetterContentAppearance, related_name=related_name, blank=True)
+    condition = models.ManyToManyField(SlLetterContentCondition, related_name=related_name, blank=True)
+    emotion = models.ManyToManyField(SlLetterContentEmotion, related_name=related_name, blank=True)
+    immaterial = models.ManyToManyField(SlLetterContentImmaterial, related_name=related_name, blank=True)
+    sensation = models.ManyToManyField(SlLetterContentSensation, related_name=related_name, blank=True)
+    treatment = models.ManyToManyField(SlLetterContentTreatment, related_name=related_name, blank=True)
+    context = models.ManyToManyField(SlLetterContentContext, related_name=related_name, blank=True)
+    roles = models.ManyToManyField(SlLetterContentRole, related_name=related_name, blank=True)    
+    content_type = models.ManyToManyField(SlLetterContentType, related_name=related_name, blank=True)
+    state = models.ManyToManyField(SlLetterContentState, related_name=related_name, blank=True)
+    commentary = models.ManyToManyField(SlLetterContentCommentary, related_name=related_name, blank=True)    
+    location = models.ManyToManyField(SlLetterContentLocation, related_name=related_name, blank=True)
+
+    estimated_proportion_of_letter = models.ForeignKey(SlLetterContentEstimatedProportionOfLetter,
+                                                       on_delete=models.SET_NULL, blank=True, null=True)
 
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
@@ -294,7 +281,7 @@ class LetterContent(models.Model):
             return "Content from a letter"
 
 
-class LetterImages(models.Model):
+class LetterImage(models.Model):
     """
     A Letter can have multiple images
     """

@@ -7,6 +7,9 @@ admin.site.site_header = 'Material Identities, Social Bodies: Admin Dashboard'
 
 # Inlines
 
+class LetterLetterImageInline(admin.TabularInline):
+    model = models.LetterImage
+
 
 class LetterLetterInline(admin.TabularInline):
     model = models.Letter.letter.through
@@ -39,7 +42,7 @@ class LetterAdminView(admin.ModelAdmin):
     list_filter = ('collection',)
     search_fields = ('title', 'summary')
     ordering = ('-id',)
-    inlines = [LetterLetterInline, LetterPersonInline]
+    inlines = [LetterLetterImageInline, LetterLetterInline, LetterPersonInline]
     readonly_fields = ('created_by', 'created_datetime', 'lastupdated_by', 'lastupdated_datetime')
 
     def save_model(self, request, obj, form, change):
@@ -63,45 +66,11 @@ class LetterContentAdminView(admin.ModelAdmin):
     """
     list_display = ('id',
                     'letter',
-                    'body_part',
-                    'bodily_activity',
-                    'emotion',
-                    'immaterial',
-                    'condition',
-                    'treatment',
-                    'sensation',
-                    'context',
-                    'appearance',
-                    'roles',
-                    'estimated_proportion_of_letter',
-                    'commentary',
-                    'state')
+                    'subject',
+                    'estimated_proportion_of_letter')
     list_filter = ('letter',
-                   'body_part',
-                   'bodily_activity',
-                   'emotion',
-                   'immaterial',
-                   'condition',
-                   'treatment',
-                   'sensation',
-                   'context',
-                   'appearance',
-                   'roles',
-                   'estimated_proportion_of_letter',
-                   'commentary',
-                   'state')
-    ordering = ('-id',)
-
-
-class LetterImageAdminView(admin.ModelAdmin):
-    """
-    Customise the Letter Image section of the Django admin
-    """
-    list_display = ('id',
-                    'letter',
-                    'image',
-                    'description')
-    list_filter = ('letter',)
+                   'subject',
+                   'estimated_proportion_of_letter')
     ordering = ('-id',)
 
 
@@ -150,7 +119,7 @@ class M2MPersonPersonAdminView(admin.ModelAdmin):
 
 # SL models
 # Person
-admin.site.register(models.SlPersonGender, SlGenericAdminView
+admin.site.register(models.SlPersonGender, SlGenericAdminView)
 admin.site.register(models.SlPersonMaritalStatus, SlGenericAdminView)
 admin.site.register(models.SlPersonRank, SlGenericAdminView)
 admin.site.register(models.SlPersonReligion, SlGenericAdminView)
@@ -168,6 +137,8 @@ admin.site.register(models.SlLetterContentCondition, SlGenericAdminView)
 admin.site.register(models.SlLetterContentTreatment, SlGenericAdminView)
 admin.site.register(models.SlLetterContentSensation, SlGenericAdminView)
 admin.site.register(models.SlLetterContentContext, SlGenericAdminView)
+admin.site.register(models.SlLetterContentLocation, SlGenericAdminView)
+admin.site.register(models.SlLetterContentType, SlGenericAdminView)
 admin.site.register(models.SlLetterContentAppearance, SlGenericAdminView)
 admin.site.register(models.SlLetterContentRole, SlGenericAdminView)
 admin.site.register(models.SlLetterContentEstimatedProportionOfLetter, SlGenericAdminView)
