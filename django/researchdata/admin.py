@@ -59,7 +59,7 @@ class LetterAdminView(admin.ModelAdmin):
 
 class LetterContentAdminView(admin.ModelAdmin):
     """
-    Customise the Letter section of the Django admin
+    Customise the Letter Content section of the Django admin
     """
     list_display = ('id',
                     'letter',
@@ -90,6 +90,18 @@ class LetterContentAdminView(admin.ModelAdmin):
                    'estimated_proportion_of_letter',
                    'commentary',
                    'state')
+    ordering = ('-id',)
+
+
+class LetterImageAdminView(admin.ModelAdmin):
+    """
+    Customise the Letter Image section of the Django admin
+    """
+    list_display = ('id',
+                    'letter',
+                    'image',
+                    'description')
+    list_filter = ('letter',)
     ordering = ('-id',)
 
 
@@ -137,11 +149,16 @@ class M2MPersonPersonAdminView(admin.ModelAdmin):
 # Register classes
 
 # SL models
-admin.site.register(models.SlPersonGender, SlGenericAdminView)
+# Person
+admin.site.register(models.SlPersonGender, SlGenericAdminView
+admin.site.register(models.SlPersonMaritalStatus, SlGenericAdminView)
 admin.site.register(models.SlPersonRank, SlGenericAdminView)
 admin.site.register(models.SlPersonReligion, SlGenericAdminView)
 admin.site.register(models.SlPersonTitle, SlGenericAdminView)
+# Letter
 admin.site.register(models.SlLetterCollection, SlGenericAdminView)
+admin.site.register(models.SlLetterRepository, SlGenericAdminView)
+# Letter Content
 admin.site.register(models.SlLetterContentSubject, SlGenericAdminView)
 admin.site.register(models.SlLetterContentBodyPart, SlGenericAdminView)
 admin.site.register(models.SlLetterContentBodilyActivity, SlGenericAdminView)
@@ -156,6 +173,10 @@ admin.site.register(models.SlLetterContentRole, SlGenericAdminView)
 admin.site.register(models.SlLetterContentEstimatedProportionOfLetter, SlGenericAdminView)
 admin.site.register(models.SlLetterContentCommentary, SlGenericAdminView)
 admin.site.register(models.SlLetterContentState, SlGenericAdminView)
+# Sl M2M
+admin.site.register(models.SlM2MLetterLetterRelationshipType, SlGenericAdminView)
+admin.site.register(models.SlM2MLetterPersonRelationshipType, SlGenericAdminView)
+admin.site.register(models.SlM2MPersonPersonRelationshipType, SlGenericAdminView)
 
 # Main models
 admin.site.register(models.Letter, LetterAdminView)

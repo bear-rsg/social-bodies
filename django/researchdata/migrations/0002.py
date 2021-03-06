@@ -8,14 +8,29 @@ def insert_slpersongender(apps, schema_editor):
     """
 
     names = [
-        "Male",
-        "Female",
-        "Other",
-        "Unknown"
+        "male",
+        "female",
+        "other",
+        "unknown"
     ]
 
     for name in names:
         models.SlPersonGender(name=name).save()
+
+
+def insert_slpersonmaritalstatus(apps, schema_editor):
+    """
+    Inserts select list objects for SlPersonMaritalStatus
+    """
+
+    names = [
+        "married",
+        "unmarried",
+        "widowed"
+    ]
+
+    for name in names:
+        models.SlPersonMaritalStatus(name=name).save()
 
 
 def insert_slpersonrank(apps, schema_editor):
@@ -24,13 +39,14 @@ def insert_slpersonrank(apps, schema_editor):
     """
 
     names = [
-        "Aristocracy",
-        "Gentry",
-        "Upper middling",
-        "Established middling",
-        "Lower middling",
-        "Labouring",
-        "Dependent poor"
+        "aristocracy",
+        "gentry",
+        "professional"
+        "upper middling",
+        "established middling",
+        "lower middling",
+        "labouring",
+        "dependent poor"
     ]
 
     for name in names:
@@ -43,13 +59,13 @@ def insert_slpersonreligion(apps, schema_editor):
     """
 
     names = [
-        "Catholic",
-        "Jewish",
-        "Protestant (conforming)",
-        "Protestant (non-conforming)",
-        "Methodist",
-        "Baptist",
-        "Unitarian"
+        "catholic",
+        "jewish",
+        "protestant (conforming)",
+        "protestant (non-conforming)",
+        "methodist",
+        "baptist",
+        "unitarian"
     ]
 
     for name in names:
@@ -114,11 +130,10 @@ def insert_lettercontenttype(apps, schema_editor):
     """
 
     names = [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5"
+        "reporting",
+        "enquiry",
+        "advising",
+        "response"
     ]
 
     for name in names:
@@ -335,7 +350,16 @@ def insert_sllettercontentrole(apps, schema_editor):
 
     names = [
         "motherhood",
+        "fatherhood",
+        "parenthood",
         "widowhood",
+        "courting",
+        "marriage",
+        "family",
+        "siblings",
+        "God",
+        "business",
+        "congregation",
         "apprentice"
     ]
 
@@ -435,13 +459,19 @@ def insert_slm2mpersonpersonrelationshiptype(apps, schema_editor):
 
     names = [
         "parent - child",
+        "step-parent - step-child"
         "grandparent - grandchild",
         "siblings",
         "cousins",
         "aunt/uncle - nephew/neice",
         "extended family",
         "neighbours",
-        "colleagues"
+        "colleagues",
+        "friend",
+        "courting",
+        "landlord - lodger",
+        "master - servant",
+        "employer - employee"
     ]
 
     for name in names:
@@ -457,6 +487,7 @@ class Migration(migrations.Migration):
     operations = [
         # Person SL tables
         migrations.RunPython(insert_slpersongender),
+        migrations.RunPython(insert_slpersonmaritalstatus),
         migrations.RunPython(insert_slpersonrank),
         migrations.RunPython(insert_slpersonreligion),
         migrations.RunPython(insert_slpersontitle),
