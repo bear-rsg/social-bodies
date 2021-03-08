@@ -42,7 +42,7 @@ class LetterAdminView(admin.ModelAdmin):
     list_filter = ('collection',)
     search_fields = ('title', 'summary', 'transcription_plain', 'transcription_normalized')
     ordering = ('-id',)
-    inlines = [LetterLetterImageInline, LetterLetterInline, LetterPersonInline]
+    inlines = [LetterLetterImageInline, LetterLetterInline]
     readonly_fields = ('created_by', 'created_datetime', 'lastupdated_by', 'lastupdated_datetime')
 
     def save_model(self, request, obj, form, change):
@@ -85,7 +85,7 @@ class PersonAdminView(admin.ModelAdmin):
     list_filter = ('title', 'religion', 'gender')
     search_fields = ('first_name', 'middle_name', 'last_name')
     ordering = ('-id',)
-    inlines = [LetterPersonInline, PersonPersonInline]
+    inlines = [PersonPersonInline]
 
 
 class M2MLetterLetterAdminView(admin.ModelAdmin):
