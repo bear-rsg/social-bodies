@@ -40,7 +40,7 @@ class LetterAdminView(admin.ModelAdmin):
     """
     list_display = ('id', 'title', 'summary')
     list_filter = ('collection',)
-    search_fields = ('title', 'summary')
+    search_fields = ('title', 'summary', 'transcription_plain', 'transcription_normalized')
     ordering = ('-id',)
     inlines = [LetterLetterImageInline, LetterLetterInline, LetterPersonInline]
     readonly_fields = ('created_by', 'created_datetime', 'lastupdated_by', 'lastupdated_datetime')
@@ -66,10 +66,13 @@ class LetterContentAdminView(admin.ModelAdmin):
     """
     list_display = ('id',
                     'letter',
-                    'subject',
+                    'person',
+                    'person_other',
+                    'person_letter_relationship',
                     'estimated_proportion_of_letter')
     list_filter = ('letter',
-                   'subject',
+                   'person',
+                   'person_letter_relationship',
                    'estimated_proportion_of_letter')
     ordering = ('-id',)
 
@@ -133,7 +136,9 @@ admin.site.register(models.SlLetterContentBodyPart, SlGenericAdminView)
 admin.site.register(models.SlLetterContentBodilyActivity, SlGenericAdminView)
 admin.site.register(models.SlLetterContentEmotion, SlGenericAdminView)
 admin.site.register(models.SlLetterContentImmaterial, SlGenericAdminView)
-admin.site.register(models.SlLetterContentCondition, SlGenericAdminView)
+admin.site.register(models.SlLetterContentConditionSpecificState, SlGenericAdminView)
+admin.site.register(models.SlLetterContentConditionSpecificLifeStage, SlGenericAdminView)
+admin.site.register(models.SlLetterContentConditionGeneralizedState, SlGenericAdminView)
 admin.site.register(models.SlLetterContentTreatment, SlGenericAdminView)
 admin.site.register(models.SlLetterContentSensation, SlGenericAdminView)
 admin.site.register(models.SlLetterContentContext, SlGenericAdminView)

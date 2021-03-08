@@ -99,9 +99,23 @@ class SlLetterContentImmaterial(SlGeneric):
     """
 
 
-class SlLetterContentCondition(SlGeneric):
+class SlLetterContentConditionSpecificState(SlGeneric):
     """
-    Select List table: letter content - condition
+    Select List table: letter content - condition (specific state)
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlLetterContentConditionSpecificLifeStage(SlGeneric):
+    """
+    Select List table: letter content - condition (specific life stage)
+    Inherits the standard SlGeneric model
+    """
+
+
+class SlLetterContentConditionGeneralizedState(SlGeneric):
+    """
+    Select List table: letter content - condition (generalised state)
     Inherits the standard SlGeneric model
     """
 
@@ -245,7 +259,15 @@ class LetterContent(models.Model):
     """
 
     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
-    subject = models.ForeignKey(SlLetterContentSubject, on_delete=models.SET_NULL, blank=True, null=True)
+
+    person = models.ForeignKey("Person", on_delete=models.CASCADE, blank=True, null=True)
+    person_other = models.CharField(max_length=255, blank=True, null=True, verbose_name='Person (other)')
+    person_form_of_address = models.CharField(max_length=255, blank=True, null=True)
+    person_letter_relationship = models.ForeignKey(SlM2MLetterPersonRelationshipType,
+                                                   on_delete=models.SET_NULL,
+                                                   blank=True, null=True)
+
+    # subject = models.ForeignKey(SlLetterContentSubject, on_delete=models.SET_NULL, blank=True, null=True)
 
     # Many to many relationship fields
     related_name = "lettercontent"
@@ -253,7 +275,12 @@ class LetterContent(models.Model):
     body_part = models.ManyToManyField(SlLetterContentBodyPart, related_name=related_name, blank=True)
     bodily_activity = models.ManyToManyField(SlLetterContentBodilyActivity, related_name=related_name, blank=True)
     appearance = models.ManyToManyField(SlLetterContentAppearance, related_name=related_name, blank=True)
-    condition = models.ManyToManyField(SlLetterContentCondition, related_name=related_name, blank=True)
+    condition_specific_state = models.ManyToManyField(SlLetterContentConditionSpecificState,
+                                                      related_name=related_name, blank=True)
+    condition_specific_life_stage = models.ManyToManyField(SlLetterContentConditionSpecificLifeStage,
+                                                           related_name=related_name, blank=True)
+    condition_generalized_state = models.ManyToManyField(SlLetterContentConditionGeneralizedState,
+                                                         related_name=related_name, blank=True)
     emotion = models.ManyToManyField(SlLetterContentEmotion, related_name=related_name, blank=True)
     immaterial = models.ManyToManyField(SlLetterContentImmaterial, related_name=related_name, blank=True)
     sensation = models.ManyToManyField(SlLetterContentSensation, related_name=related_name, blank=True)
@@ -286,11 +313,7 @@ class LetterImage(models.Model):
 
     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='researchdata/letters')
-    description = models.TextField(blank=True, null=True)
-
-    # Admin fields
-    admin_notes = models.TextField(blank=True, null=True)
-    admin_published = models.BooleanField(default=True)
+    description = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         if self.letter:
@@ -308,6 +331,7 @@ class Person(models.Model):
     first_name = models.CharField(max_length=255, blank=True, null=True)
     middle_name = models.CharField(max_length=255, blank=True, null=True)
     last_name = models.CharField(max_length=255, blank=True, null=True)
+    alternative_spelling_of_name = models.CharField(max_length=255, blank=True, null=True)
     date_of_birth = models.CharField(max_length=255, blank=True, null=True)
     date_of_death = models.CharField(max_length=255, blank=True, null=True)
     date_active = models.CharField(max_length=255, blank=True, null=True)

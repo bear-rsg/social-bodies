@@ -205,21 +205,30 @@ def insert_sllettercontentemotion(apps, schema_editor):
         "feeling",
         "shame",
         "anger",
-        "",
         "resentment",
+        "happy",
+        "pleasure",
         "amused",
         "shock",
+        "distress",
         "sorrow",
-        "cherishing",
-        "lamenting",
         "low",
-        "happy",
-        "peace",
         "regret",
-        "sincere",
-        "dejected",
-        "melancholy",
-        "apprehension"
+        "apprehension",
+        "worried",
+        "grief",
+        "sympathy",
+        "grateful",
+        "love",
+        "love (romantic)",
+        "love (parental)",
+        "love (familial)",
+        "love (neighbourly)",
+        "desire",
+        "spirit (immaterial)",
+        "affection",
+        "unmoved",
+        "lack of feeling"
     ]
 
     for name in names:
@@ -238,32 +247,91 @@ def insert_sllettercontentimmaterial(apps, schema_editor):
         "education",
         "thought",
         "slow of mind",
+        "confused",
+        "memory",
         "soul",
         "sinful",
-        "personal blessings",
+        "virtuous",
         "duty",
-        "virtues"
+        "personal blessings",
+        "faith",
+        "self",
+        "disposition"
     ]
 
     for name in names:
         models.SlLetterContentImmaterial(name=name).save()
 
 
-def insert_sllettercontentcondition(apps, schema_editor):
+def insert_sllettercontentconditionspecificstate(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterContentCondition
+    Inserts select list objects for SlLetterContentConditionSpecificState
     """
 
     names = [
         "pregnancy",
-        "childhood",
         "illness",
-        "health",
-        "death"
+        "sea-sickness",
+        "home-sick",
+        "fatigue",
+        "fever",
+        "scarred",
+        "smallpox",
+        "cough",
+        "gout",
+        "insensible",
+        "a cold",
+        "tired",
+        "melancholy",
+        "separation"
     ]
 
     for name in names:
-        models.SlLetterContentCondition(name=name).save()
+        models.SlLetterContentConditionSpecificState(name=name).save()
+
+
+def insert_sllettercontentconditionspecificlifestage(apps, schema_editor):
+    """
+    Inserts select list objects for SlLetterContentConditionSpecificLifeStage
+    """
+
+    names = [
+        "childhood",
+        "youth",
+        "ageing",
+        "longevity",
+        "old age"
+    ]
+
+    for name in names:
+        models.SlLetterContentConditionSpecificLifeStage(name=name).save()
+
+
+def insert_sllettercontentconditiongeneralizedstate(apps, schema_editor):
+    """
+    Inserts select list objects for SlLetterContentConditionGeneralizedState
+    """
+
+    names = [
+        "well",
+        "unwell",
+        "health",
+        "ill-health",
+        "order",
+        "disorder",
+        "uneasy",
+        "easy",
+        "safe",
+        "fatigue",
+        "strong",
+        "weak",
+        "hurried",
+        "active",
+        "recovery"
+    ]
+
+    for name in names:
+        models.SlLetterContentConditionGeneralizedState(name=name).save()
 
 
 def insert_sllettercontenttreatment(apps, schema_editor):
@@ -562,7 +630,9 @@ class Migration(migrations.Migration):
         migrations.RunPython(insert_sllettercontentbodilyactivity),
         migrations.RunPython(insert_sllettercontentemotion),
         migrations.RunPython(insert_sllettercontentimmaterial),
-        migrations.RunPython(insert_sllettercontentcondition),
+        migrations.RunPython(insert_sllettercontentconditionspecificstate),
+        migrations.RunPython(insert_sllettercontentconditionspecificlifestage),
+        migrations.RunPython(insert_sllettercontentconditiongeneralizedstate),
         migrations.RunPython(insert_sllettercontenttreatment),
         migrations.RunPython(insert_sllettercontentsensation),
         migrations.RunPython(insert_sllettercontentcontext),
