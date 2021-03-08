@@ -241,7 +241,6 @@ class Letter(models.Model):
     estimated_proportion_of_letter = models.ForeignKey(SlLetterContentEstimatedProportionOfLetter,
                                                        on_delete=models.SET_NULL, blank=True, null=True)
 
-
     # Meta
     created_by = models.ForeignKey(User, related_name="letter_created_by",
                                    on_delete=models.PROTECT, blank=True, null=True, verbose_name="Created By")
@@ -254,7 +253,7 @@ class Letter(models.Model):
     letter = models.ManyToManyField("self", related_name=related_name,
                                     blank=True, through='M2MLetterLetter')
     # person = models.ManyToManyField("Person", related_name=related_name,
-                                    # blank=True, through='M2MLetterPerson')
+    # blank=True, through='M2MLetterPerson')
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
     admin_published = models.BooleanField(default=True)
@@ -307,7 +306,7 @@ class LetterContent(models.Model):
             return "Content from letter: {}".format(self.letter.title)
         else:
             return "Content from a letter"
-    
+
     class Meta:
         unique_together = (('letter', 'person'), ('letter', 'person_other'))
 
@@ -351,7 +350,7 @@ class Person(models.Model):
     person = models.ManyToManyField("self", related_name=related_name,
                                     through='M2MPersonPerson', blank=True)
     # letter = models.ManyToManyField("Letter", related_name=related_name,
-                                    # through='M2MLetterPerson', blank=True)
+    # through='M2MLetterPerson', blank=True)
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
     admin_published = models.BooleanField(default=True)
