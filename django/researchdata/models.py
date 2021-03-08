@@ -219,6 +219,8 @@ class Letter(models.Model):
     Letter model
     """
 
+    related_name = "letter"
+
     title = models.CharField(max_length=255)
     summary = models.TextField(blank=True, null=True)
     collection = models.ForeignKey(SlLetterCollection, on_delete=models.SET_NULL, blank=True, null=True)
@@ -232,6 +234,15 @@ class Letter(models.Model):
     sent_time = models.CharField(max_length=255, blank=True, null=True)
     sent_from_location = models.TextField(blank=True, null=True)
     sent_to_location = models.TextField(blank=True, null=True)
+    content_type = models.ManyToManyField(SlLetterContentType, related_name=related_name, blank=True)
+    state = models.ManyToManyField(SlLetterContentState, related_name=related_name, blank=True)
+    commentary = models.ManyToManyField(SlLetterContentCommentary, related_name=related_name, blank=True)
+    location = models.ManyToManyField(SlLetterContentLocation, related_name=related_name, blank=True)
+    estimated_proportion_of_letter = models.ForeignKey(SlLetterContentEstimatedProportionOfLetter,
+                                                       on_delete=models.SET_NULL, blank=True, null=True)
+
+
+    # Meta
     created_by = models.ForeignKey(User, related_name="letter_created_by",
                                    on_delete=models.PROTECT, blank=True, null=True, verbose_name="Created By")
     created_datetime = models.DateTimeField(auto_now_add=True, verbose_name="Created")
@@ -240,11 +251,10 @@ class Letter(models.Model):
     lastupdated_datetime = models.DateTimeField(auto_now=True, verbose_name="Last Updated")
 
     # Many to many relationship fields
-    related_name = "related_letter"
     letter = models.ManyToManyField("self", related_name=related_name,
                                     blank=True, through='M2MLetterLetter')
-    person = models.ManyToManyField("Person", related_name=related_name,
-                                    blank=True, through='M2MLetterPerson')
+    # person = models.ManyToManyField("Person", related_name=related_name,
+                                    # blank=True, through='M2MLetterPerson')
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
     admin_published = models.BooleanField(default=True)
@@ -287,13 +297,6 @@ class LetterContent(models.Model):
     treatment = models.ManyToManyField(SlLetterContentTreatment, related_name=related_name, blank=True)
     context = models.ManyToManyField(SlLetterContentContext, related_name=related_name, blank=True)
     roles = models.ManyToManyField(SlLetterContentRole, related_name=related_name, blank=True)
-    content_type = models.ManyToManyField(SlLetterContentType, related_name=related_name, blank=True)
-    state = models.ManyToManyField(SlLetterContentState, related_name=related_name, blank=True)
-    commentary = models.ManyToManyField(SlLetterContentCommentary, related_name=related_name, blank=True)
-    location = models.ManyToManyField(SlLetterContentLocation, related_name=related_name, blank=True)
-
-    estimated_proportion_of_letter = models.ForeignKey(SlLetterContentEstimatedProportionOfLetter,
-                                                       on_delete=models.SET_NULL, blank=True, null=True)
 
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
@@ -304,6 +307,9 @@ class LetterContent(models.Model):
             return "Content from letter: {}".format(self.letter.title)
         else:
             return "Content from a letter"
+    
+    class Meta:
+        unique_together = (('letter', 'person'), ('letter', 'person_other'))
 
 
 class LetterImage(models.Model):
@@ -344,8 +350,8 @@ class Person(models.Model):
     related_name = "related_person"
     person = models.ManyToManyField("self", related_name=related_name,
                                     through='M2MPersonPerson', blank=True)
-    letter = models.ManyToManyField("Letter", related_name=related_name,
-                                    through='M2MLetterPerson', blank=True)
+    # letter = models.ManyToManyField("Letter", related_name=related_name,
+                                    # through='M2MLetterPerson', blank=True)
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
     admin_published = models.BooleanField(default=True)
@@ -372,11 +378,11 @@ class M2MLetterLetter(models.Model):
     relationship_type = models.ForeignKey(SlM2MLetterLetterRelationshipType, on_delete=models.CASCADE)
 
 
-class M2MLetterPerson(models.Model):
-    letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
-    person = models.ForeignKey(Person, on_delete=models.CASCADE)
-    relationship_type = models.ForeignKey(SlM2MLetterPersonRelationshipType, on_delete=models.CASCADE)
-    person_form_of_address = models.CharField(max_length=255, blank=True, null=True)
+# class M2MLetterPerson(models.Model):
+#     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
+#     person = models.ForeignKey(Person, on_delete=models.CASCADE)
+#     relationship_type = models.ForeignKey(SlM2MLetterPersonRelationshipType, on_delete=models.CASCADE)
+#     person_form_of_address = models.CharField(max_length=255, blank=True, null=True)
 
 
 class M2MPersonPerson(models.Model):

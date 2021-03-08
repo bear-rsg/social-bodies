@@ -16,8 +16,8 @@ class LetterLetterInline(admin.TabularInline):
     fk_name = "letter_1"
 
 
-class LetterPersonInline(admin.TabularInline):
-    model = models.Letter.person.through
+# class LetterPersonInline(admin.TabularInline):
+#     model = models.Letter.person.through
 
 
 class PersonPersonInline(admin.TabularInline):
@@ -68,12 +68,10 @@ class LetterContentAdminView(admin.ModelAdmin):
                     'letter',
                     'person',
                     'person_other',
-                    'person_letter_relationship',
-                    'estimated_proportion_of_letter')
+                    'person_letter_relationship')
     list_filter = ('letter',
                    'person',
-                   'person_letter_relationship',
-                   'estimated_proportion_of_letter')
+                   'person_letter_relationship')
     ordering = ('-id',)
 
 
@@ -98,14 +96,14 @@ class M2MLetterLetterAdminView(admin.ModelAdmin):
     ordering = ('-id',)
 
 
-class M2MLetterPersonAdminView(admin.ModelAdmin):
-    """
-    Customise the M2M Letter <-> Person section of the Django admin
-    """
-    list_display = ('id', 'letter', 'person', 'relationship_type', 'person_form_of_address')
-    list_filter = ('relationship_type',)
-    search_fields = ('letter', 'person', 'relationship_type', 'person_form_of_address')
-    ordering = ('-id',)
+# class M2MLetterPersonAdminView(admin.ModelAdmin):
+#     """
+#     Customise the M2M Letter <-> Person section of the Django admin
+#     """
+#     list_display = ('id', 'letter', 'person', 'relationship_type', 'person_form_of_address')
+#     list_filter = ('relationship_type',)
+#     search_fields = ('letter', 'person', 'relationship_type', 'person_form_of_address')
+#     ordering = ('-id',)
 
 
 class M2MPersonPersonAdminView(admin.ModelAdmin):
@@ -161,5 +159,5 @@ admin.site.register(models.Person, PersonAdminView)
 
 # Many to Many models
 admin.site.register(models.M2MLetterLetter, M2MLetterLetterAdminView)
-admin.site.register(models.M2MLetterPerson, M2MLetterPersonAdminView)
+# admin.site.register(models.M2MLetterPerson, M2MLetterPersonAdminView)
 admin.site.register(models.M2MPersonPerson, M2MPersonPersonAdminView)
