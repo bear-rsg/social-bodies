@@ -106,9 +106,9 @@ def insert_sllettercollection(apps, schema_editor):
         models.SlLetterCollection(name=name).save()
 
 
-def insert_sllettercontentbodypart(apps, schema_editor):
+def insert_slletterpersonbodypart(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterContentBodyPart
+    Inserts select list objects for SlLetterPersonBodyPart
     """
 
     names = [
@@ -137,12 +137,12 @@ def insert_sllettercontentbodypart(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterContentBodyPart(name=name).save()
+        models.SlLetterPersonBodyPart(name=name).save()
 
 
-def insert_sllettercontentbodilyactivity(apps, schema_editor):
+def insert_slletterpersonbodilyactivity(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterContentBodilyActivity
+    Inserts select list objects for SlLetterPersonBodilyActivity
     """
 
     names = [
@@ -193,12 +193,12 @@ def insert_sllettercontentbodilyactivity(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterContentBodilyActivity(name=name).save()
+        models.SlLetterPersonBodilyActivity(name=name).save()
 
 
-def insert_sllettercontentemotion(apps, schema_editor):
+def insert_slletterpersonemotion(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterContentEmotion
+    Inserts select list objects for SlLetterPersonEmotion
     """
 
     names = [
@@ -232,12 +232,12 @@ def insert_sllettercontentemotion(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterContentEmotion(name=name).save()
+        models.SlLetterPersonEmotion(name=name).save()
 
 
-def insert_sllettercontentimmaterial(apps, schema_editor):
+def insert_slletterpersonimmaterial(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterContentImmaterial
+    Inserts select list objects for SlLetterPersonImmaterial
     """
 
     names = [
@@ -260,12 +260,12 @@ def insert_sllettercontentimmaterial(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterContentImmaterial(name=name).save()
+        models.SlLetterPersonImmaterial(name=name).save()
 
 
-def insert_sllettercontentconditionspecificstate(apps, schema_editor):
+def insert_slletterpersonconditionspecificstate(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterContentConditionSpecificState
+    Inserts select list objects for SlLetterPersonConditionSpecificState
     """
 
     names = [
@@ -287,12 +287,12 @@ def insert_sllettercontentconditionspecificstate(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterContentConditionSpecificState(name=name).save()
+        models.SlLetterPersonConditionSpecificState(name=name).save()
 
 
-def insert_sllettercontentconditionspecificlifestage(apps, schema_editor):
+def insert_slletterpersonconditionspecificlifestage(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterContentConditionSpecificLifeStage
+    Inserts select list objects for SlLetterPersonConditionSpecificLifeStage
     """
 
     names = [
@@ -304,12 +304,12 @@ def insert_sllettercontentconditionspecificlifestage(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterContentConditionSpecificLifeStage(name=name).save()
+        models.SlLetterPersonConditionSpecificLifeStage(name=name).save()
 
 
-def insert_sllettercontentconditiongeneralizedstate(apps, schema_editor):
+def insert_slletterpersonconditiongeneralizedstate(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterContentConditionGeneralizedState
+    Inserts select list objects for SlLetterPersonConditionGeneralizedState
     """
 
     names = [
@@ -331,12 +331,12 @@ def insert_sllettercontentconditiongeneralizedstate(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterContentConditionGeneralizedState(name=name).save()
+        models.SlLetterPersonConditionGeneralizedState(name=name).save()
 
 
-def insert_sllettercontenttreatment(apps, schema_editor):
+def insert_slletterpersontreatment(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterContentTreatment
+    Inserts select list objects for SlLetterPersonTreatment
     """
 
     names = [
@@ -357,12 +357,12 @@ def insert_sllettercontenttreatment(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterContentTreatment(name=name).save()
+        models.SlLetterPersonTreatment(name=name).save()
 
 
-def insert_sllettercontentsensation(apps, schema_editor):
+def insert_slletterpersonsensation(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterContentSensation
+    Inserts select list objects for SlLetterPersonSensation
     """
 
     names = [
@@ -377,12 +377,12 @@ def insert_sllettercontentsensation(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterContentSensation(name=name).save()
+        models.SlLetterPersonSensation(name=name).save()
 
 
-def insert_sllettercontentcontext(apps, schema_editor):
+def insert_slletterpersoncontext(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterContentContext
+    Inserts select list objects for SlLetterPersonContext
     """
 
     names = [
@@ -404,12 +404,12 @@ def insert_sllettercontentcontext(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterContentContext(name=name).save()
+        models.SlLetterPersonContext(name=name).save()
 
 
-def insert_sllettercontentlocation(apps, schema_editor):
+def insert_slletterpersonlocation(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterContentLocation
+    Inserts select list objects for SlLetterPersonLocation
     """
 
     names = [
@@ -421,12 +421,12 @@ def insert_sllettercontentlocation(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterContentLocation(name=name).save()
+        models.SlLetterPersonLocation(name=name).save()
 
 
-def insert_sllettercontenttype(apps, schema_editor):
+def insert_slletterpersontype(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterContentType
+    Inserts select list objects for SlLetterPersonType
     """
 
     names = [
@@ -437,12 +437,12 @@ def insert_sllettercontenttype(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterContentType(name=name).save()
+        models.SlLetterPersonType(name=name).save()
 
 
-def insert_sllettercontentappearance(apps, schema_editor):
+def insert_slletterpersonappearance(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterContentAppearance
+    Inserts select list objects for SlLetterPersonAppearance
     """
 
     names = [
@@ -460,12 +460,12 @@ def insert_sllettercontentappearance(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterContentAppearance(name=name).save()
+        models.SlLetterPersonAppearance(name=name).save()
 
 
-def insert_sllettercontentrole(apps, schema_editor):
+def insert_slletterpersonrole(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterContentRole
+    Inserts select list objects for SlLetterPersonRole
     """
 
     names = [
@@ -484,12 +484,12 @@ def insert_sllettercontentrole(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterContentRole(name=name).save()
+        models.SlLetterPersonRole(name=name).save()
 
 
-def insert_sllettercontentestimatedproportionofletter(apps, schema_editor):
+def insert_slletterpersonestimatedproportionofletter(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterContentEstimatedProportionOfLetter
+    Inserts select list objects for SlLetterPersonEstimatedProportionOfLetter
     """
 
     names = [
@@ -501,12 +501,12 @@ def insert_sllettercontentestimatedproportionofletter(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterContentEstimatedProportionOfLetter(name=name).save()
+        models.SlLetterPersonEstimatedProportionOfLetter(name=name).save()
 
 
-def insert_sllettercontentcommentary(apps, schema_editor):
+def insert_slletterpersoncommentary(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterContentCommentary
+    Inserts select list objects for SlLetterPersonCommentary
     """
 
     names = [
@@ -526,12 +526,12 @@ def insert_sllettercontentcommentary(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterContentCommentary(name=name).save()
+        models.SlLetterPersonCommentary(name=name).save()
 
 
-def insert_sllettercontentstate(apps, schema_editor):
+def insert_slletterpersonstate(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterContentState
+    Inserts select list objects for SlLetterPersonState
     """
 
     names = [
@@ -547,7 +547,7 @@ def insert_sllettercontentstate(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterContentState(name=name).save()
+        models.SlLetterPersonState(name=name).save()
 
 
 def insert_slm2mletterletterrelationshiptype(apps, schema_editor):
@@ -565,9 +565,9 @@ def insert_slm2mletterletterrelationshiptype(apps, schema_editor):
         models.SlM2MLetterLetterRelationshipType(name=name).save()
 
 
-def insert_slm2mletterpersonrelationshiptype(apps, schema_editor):
+def insert_slletterpersonrelationshiptype(apps, schema_editor):
     """
-    Inserts select list objects for SlM2MLetterPersonRelationshipType
+    Inserts select list objects for SlLetterPersonRelationshipType
     """
 
     names = [
@@ -578,7 +578,7 @@ def insert_slm2mletterpersonrelationshiptype(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlM2MLetterPersonRelationshipType(name=name).save()
+        models.SlLetterPersonRelationshipType(name=name).save()
 
 
 def insert_slm2mpersonpersonrelationshiptype(apps, schema_editor):
@@ -622,27 +622,27 @@ class Migration(migrations.Migration):
         migrations.RunPython(insert_slpersontitle),
         # Letter SL tables
         migrations.RunPython(insert_sllettercollection),
-        # Letter Content related tables
-        migrations.RunPython(insert_sllettercontentlocation),
-        migrations.RunPython(insert_sllettercontenttype),
-        # Letter Content SL tables
-        migrations.RunPython(insert_sllettercontentbodypart),
-        migrations.RunPython(insert_sllettercontentbodilyactivity),
-        migrations.RunPython(insert_sllettercontentemotion),
-        migrations.RunPython(insert_sllettercontentimmaterial),
-        migrations.RunPython(insert_sllettercontentconditionspecificstate),
-        migrations.RunPython(insert_sllettercontentconditionspecificlifestage),
-        migrations.RunPython(insert_sllettercontentconditiongeneralizedstate),
-        migrations.RunPython(insert_sllettercontenttreatment),
-        migrations.RunPython(insert_sllettercontentsensation),
-        migrations.RunPython(insert_sllettercontentcontext),
-        migrations.RunPython(insert_sllettercontentappearance),
-        migrations.RunPython(insert_sllettercontentrole),
-        migrations.RunPython(insert_sllettercontentestimatedproportionofletter),
-        migrations.RunPython(insert_sllettercontentcommentary),
-        migrations.RunPython(insert_sllettercontentstate),
+        # Letter Person related tables
+        migrations.RunPython(insert_slletterpersonlocation),
+        migrations.RunPython(insert_slletterpersontype),
+        # Letter Person SL tables
+        migrations.RunPython(insert_slletterpersonbodypart),
+        migrations.RunPython(insert_slletterpersonbodilyactivity),
+        migrations.RunPython(insert_slletterpersonemotion),
+        migrations.RunPython(insert_slletterpersonimmaterial),
+        migrations.RunPython(insert_slletterpersonconditionspecificstate),
+        migrations.RunPython(insert_slletterpersonconditionspecificlifestage),
+        migrations.RunPython(insert_slletterpersonconditiongeneralizedstate),
+        migrations.RunPython(insert_slletterpersontreatment),
+        migrations.RunPython(insert_slletterpersonsensation),
+        migrations.RunPython(insert_slletterpersoncontext),
+        migrations.RunPython(insert_slletterpersonappearance),
+        migrations.RunPython(insert_slletterpersonrole),
+        migrations.RunPython(insert_slletterpersonestimatedproportionofletter),
+        migrations.RunPython(insert_slletterpersoncommentary),
+        migrations.RunPython(insert_slletterpersonstate),
         # Many to Many SL tables
         migrations.RunPython(insert_slm2mletterletterrelationshiptype),
-        migrations.RunPython(insert_slm2mletterpersonrelationshiptype),
+        migrations.RunPython(insert_slletterpersonrelationshiptype),
         migrations.RunPython(insert_slm2mpersonpersonrelationshiptype)
     ]

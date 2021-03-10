@@ -64,128 +64,121 @@ class SlLetterRepository(SlGeneric):
     """
 
 
-class SlLetterContentSubject(SlGeneric):
+class SlLetterPersonBodyPart(SlGeneric):
     """
-    Select List table: letter content - subject
+    Select List table: letter person - body part
     Inherits the standard SlGeneric model
     """
 
 
-class SlLetterContentBodyPart(SlGeneric):
+class SlLetterPersonBodilyActivity(SlGeneric):
     """
-    Select List table: letter content - body part
+    Select List table: letter person - bodily activity
     Inherits the standard SlGeneric model
     """
 
 
-class SlLetterContentBodilyActivity(SlGeneric):
+class SlLetterPersonEmotion(SlGeneric):
     """
-    Select List table: letter content - bodily activity
+    Select List table: letter person - emotion
     Inherits the standard SlGeneric model
     """
 
 
-class SlLetterContentEmotion(SlGeneric):
+class SlLetterPersonImmaterial(SlGeneric):
     """
-    Select List table: letter content - emotion
+    Select List table: letter person - immaterial
     Inherits the standard SlGeneric model
     """
 
 
-class SlLetterContentImmaterial(SlGeneric):
+class SlLetterPersonConditionSpecificState(SlGeneric):
     """
-    Select List table: letter content - immaterial
+    Select List table: letter person - condition (specific state)
     Inherits the standard SlGeneric model
     """
 
 
-class SlLetterContentConditionSpecificState(SlGeneric):
+class SlLetterPersonConditionSpecificLifeStage(SlGeneric):
     """
-    Select List table: letter content - condition (specific state)
+    Select List table: letter person - condition (specific life stage)
     Inherits the standard SlGeneric model
     """
 
 
-class SlLetterContentConditionSpecificLifeStage(SlGeneric):
+class SlLetterPersonConditionGeneralizedState(SlGeneric):
     """
-    Select List table: letter content - condition (specific life stage)
+    Select List table: letter person - condition (generalised state)
     Inherits the standard SlGeneric model
     """
 
 
-class SlLetterContentConditionGeneralizedState(SlGeneric):
+class SlLetterPersonTreatment(SlGeneric):
     """
-    Select List table: letter content - condition (generalised state)
+    Select List table: letter person - treatment
     Inherits the standard SlGeneric model
     """
 
 
-class SlLetterContentTreatment(SlGeneric):
+class SlLetterPersonSensation(SlGeneric):
     """
-    Select List table: letter content - treatment
+    Select List table: letter person - sensation
     Inherits the standard SlGeneric model
     """
 
 
-class SlLetterContentSensation(SlGeneric):
+class SlLetterPersonContext(SlGeneric):
     """
-    Select List table: letter content - sensation
+    Select List table: letter person - context
     Inherits the standard SlGeneric model
     """
 
 
-class SlLetterContentContext(SlGeneric):
+class SlLetterPersonLocation(SlGeneric):
     """
-    Select List table: letter content - context
+    Select List table: letter person - location
     Inherits the standard SlGeneric model
     """
 
 
-class SlLetterContentLocation(SlGeneric):
+class SlLetterPersonType(SlGeneric):
     """
-    Select List table: letter content - location
+    Select List table: letter person - type
     Inherits the standard SlGeneric model
     """
 
 
-class SlLetterContentType(SlGeneric):
+class SlLetterPersonAppearance(SlGeneric):
     """
-    Select List table: letter content - type
+    Select List table: letter person - appearance
     Inherits the standard SlGeneric model
     """
 
 
-class SlLetterContentAppearance(SlGeneric):
+class SlLetterPersonRole(SlGeneric):
     """
-    Select List table: letter content - appearance
+    Select List table: letter person - role
     Inherits the standard SlGeneric model
     """
 
 
-class SlLetterContentRole(SlGeneric):
+class SlLetterPersonEstimatedProportionOfLetter(SlGeneric):
     """
-    Select List table: letter content - role
+    Select List table: letter person - estimated proportion of letter
     Inherits the standard SlGeneric model
     """
 
 
-class SlLetterContentEstimatedProportionOfLetter(SlGeneric):
+class SlLetterPersonCommentary(SlGeneric):
     """
-    Select List table: letter content - estimated proportion of letter
+    Select List table: letter person - commentary
     Inherits the standard SlGeneric model
     """
 
 
-class SlLetterContentCommentary(SlGeneric):
+class SlLetterPersonState(SlGeneric):
     """
-    Select List table: letter content - commentary
-    Inherits the standard SlGeneric model
-    """
-
-
-class SlLetterContentState(SlGeneric):
-    """
-    Select List table: letter content - state
+    Select List table: letter person - state
     Inherits the standard SlGeneric model
     """
 
@@ -197,7 +190,7 @@ class SlM2MLetterLetterRelationshipType(SlGeneric):
     """
 
 
-class SlM2MLetterPersonRelationshipType(SlGeneric):
+class SlLetterPersonRelationshipType(SlGeneric):
     """
     Select List table: type of many to many relationship (letter <-> person)
     Inherits the standard SlGeneric model
@@ -234,11 +227,11 @@ class Letter(models.Model):
     sent_time = models.CharField(max_length=255, blank=True, null=True)
     sent_from_location = models.TextField(blank=True, null=True)
     sent_to_location = models.TextField(blank=True, null=True)
-    content_type = models.ManyToManyField(SlLetterContentType, related_name=related_name, blank=True)
-    state = models.ManyToManyField(SlLetterContentState, related_name=related_name, blank=True)
-    commentary = models.ManyToManyField(SlLetterContentCommentary, related_name=related_name, blank=True)
-    location = models.ManyToManyField(SlLetterContentLocation, related_name=related_name, blank=True)
-    estimated_proportion_of_letter = models.ForeignKey(SlLetterContentEstimatedProportionOfLetter,
+    content_type = models.ManyToManyField(SlLetterPersonType, related_name=related_name, blank=True)
+    state = models.ManyToManyField(SlLetterPersonState, related_name=related_name, blank=True)
+    commentary = models.ManyToManyField(SlLetterPersonCommentary, related_name=related_name, blank=True)
+    location = models.ManyToManyField(SlLetterPersonLocation, related_name=related_name, blank=True)
+    estimated_proportion_of_letter = models.ForeignKey(SlLetterPersonEstimatedProportionOfLetter,
                                                        on_delete=models.SET_NULL, blank=True, null=True)
 
     # Meta
@@ -250,10 +243,8 @@ class Letter(models.Model):
     lastupdated_datetime = models.DateTimeField(auto_now=True, verbose_name="Last Updated")
 
     # Many to many relationship fields
-    letter = models.ManyToManyField("self", related_name=related_name,
-                                    blank=True, through='M2MLetterLetter')
-    # person = models.ManyToManyField("Person", related_name=related_name,
-    # blank=True, through='M2MLetterPerson')
+    letter = models.ManyToManyField("self", related_name=related_name, blank=True, through='M2MLetterLetter')
+    # person = models.ManyToManyField("Person", related_name=related_name, blank=True, through='LetterPerson')
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
     admin_published = models.BooleanField(default=True)
@@ -262,40 +253,37 @@ class Letter(models.Model):
         return self.title
 
 
-class LetterContent(models.Model):
+class LetterPerson(models.Model):
     """
     A Letter can have multiple 'contents' aka instances of interest that are worth recording
     """
 
     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
-
     person = models.ForeignKey("Person", on_delete=models.CASCADE, blank=True, null=True)
     person_other = models.CharField(max_length=255, blank=True, null=True, verbose_name='Person (other)')
     person_form_of_address = models.CharField(max_length=255, blank=True, null=True)
-    person_letter_relationship = models.ForeignKey(SlM2MLetterPersonRelationshipType,
+    person_letter_relationship = models.ForeignKey(SlLetterPersonRelationshipType,
                                                    on_delete=models.SET_NULL,
                                                    blank=True, null=True)
 
-    # subject = models.ForeignKey(SlLetterContentSubject, on_delete=models.SET_NULL, blank=True, null=True)
-
     # Many to many relationship fields
-    related_name = "lettercontent"
+    related_name = "letterperson"
 
-    body_part = models.ManyToManyField(SlLetterContentBodyPart, related_name=related_name, blank=True)
-    bodily_activity = models.ManyToManyField(SlLetterContentBodilyActivity, related_name=related_name, blank=True)
-    appearance = models.ManyToManyField(SlLetterContentAppearance, related_name=related_name, blank=True)
-    condition_specific_state = models.ManyToManyField(SlLetterContentConditionSpecificState,
+    body_part = models.ManyToManyField(SlLetterPersonBodyPart, related_name=related_name, blank=True)
+    bodily_activity = models.ManyToManyField(SlLetterPersonBodilyActivity, related_name=related_name, blank=True)
+    appearance = models.ManyToManyField(SlLetterPersonAppearance, related_name=related_name, blank=True)
+    condition_specific_state = models.ManyToManyField(SlLetterPersonConditionSpecificState,
                                                       related_name=related_name, blank=True)
-    condition_specific_life_stage = models.ManyToManyField(SlLetterContentConditionSpecificLifeStage,
+    condition_specific_life_stage = models.ManyToManyField(SlLetterPersonConditionSpecificLifeStage,
                                                            related_name=related_name, blank=True)
-    condition_generalized_state = models.ManyToManyField(SlLetterContentConditionGeneralizedState,
+    condition_generalized_state = models.ManyToManyField(SlLetterPersonConditionGeneralizedState,
                                                          related_name=related_name, blank=True)
-    emotion = models.ManyToManyField(SlLetterContentEmotion, related_name=related_name, blank=True)
-    immaterial = models.ManyToManyField(SlLetterContentImmaterial, related_name=related_name, blank=True)
-    sensation = models.ManyToManyField(SlLetterContentSensation, related_name=related_name, blank=True)
-    treatment = models.ManyToManyField(SlLetterContentTreatment, related_name=related_name, blank=True)
-    context = models.ManyToManyField(SlLetterContentContext, related_name=related_name, blank=True)
-    roles = models.ManyToManyField(SlLetterContentRole, related_name=related_name, blank=True)
+    emotion = models.ManyToManyField(SlLetterPersonEmotion, related_name=related_name, blank=True)
+    immaterial = models.ManyToManyField(SlLetterPersonImmaterial, related_name=related_name, blank=True)
+    sensation = models.ManyToManyField(SlLetterPersonSensation, related_name=related_name, blank=True)
+    treatment = models.ManyToManyField(SlLetterPersonTreatment, related_name=related_name, blank=True)
+    context = models.ManyToManyField(SlLetterPersonContext, related_name=related_name, blank=True)
+    roles = models.ManyToManyField(SlLetterPersonRole, related_name=related_name, blank=True)
 
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
@@ -347,10 +335,7 @@ class Person(models.Model):
     rank = models.ForeignKey(SlPersonRank, on_delete=models.SET_NULL, blank=True, null=True)
     # Many to many relationship fields
     related_name = "related_person"
-    person = models.ManyToManyField("self", related_name=related_name,
-                                    through='M2MPersonPerson', blank=True)
-    # letter = models.ManyToManyField("Letter", related_name=related_name,
-    # through='M2MLetterPerson', blank=True)
+    person = models.ManyToManyField("self", related_name=related_name, through='M2MPersonPerson', blank=True)
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
     admin_published = models.BooleanField(default=True)
@@ -366,22 +351,11 @@ class Person(models.Model):
 
 # Many to Many Relationships
 
-# Letter > Letter (relationship type: conversation, event, familial, ...)
-# Letter > Person (relationship type: primary author, secondary author, addressee)
-# Person > Person
-
 
 class M2MLetterLetter(models.Model):
     letter_1 = models.ForeignKey(Letter, related_name='letter_1', on_delete=models.CASCADE)
     letter_2 = models.ForeignKey(Letter, related_name='letter_2', on_delete=models.CASCADE)
     relationship_type = models.ForeignKey(SlM2MLetterLetterRelationshipType, on_delete=models.CASCADE)
-
-
-# class M2MLetterPerson(models.Model):
-#     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
-#     person = models.ForeignKey(Person, on_delete=models.CASCADE)
-#     relationship_type = models.ForeignKey(SlM2MLetterPersonRelationshipType, on_delete=models.CASCADE)
-#     person_form_of_address = models.CharField(max_length=255, blank=True, null=True)
 
 
 class M2MPersonPerson(models.Model):
