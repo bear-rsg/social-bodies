@@ -237,20 +237,18 @@ class Letter(models.Model):
     location = models.ManyToManyField(SlLetterPersonLocation, related_name=related_name, blank=True)
     estimated_proportion_of_letter = models.ForeignKey(SlLetterPersonEstimatedProportionOfLetter,
                                                        on_delete=models.SET_NULL, blank=True, null=True)
-
-    # Meta
+    # Many to many relationship fields
+    letter = models.ManyToManyField("self", related_name=related_name, blank=True, through='M2MLetterLetter')
+    # Admin fields
+    admin_notes = models.TextField(blank=True, null=True)
+    admin_published = models.BooleanField(default=True)
+    # Meta fields
     created_by = models.ForeignKey(User, related_name="letter_created_by",
                                    on_delete=models.PROTECT, blank=True, null=True, verbose_name="Created By")
     created_datetime = models.DateTimeField(auto_now_add=True, verbose_name="Created")
     lastupdated_by = models.ForeignKey(User, related_name="letter_lastupdated_by",
                                        on_delete=models.PROTECT, blank=True, null=True, verbose_name="Last Updated By")
     lastupdated_datetime = models.DateTimeField(auto_now=True, verbose_name="Last Updated")
-
-    # Many to many relationship fields
-    letter = models.ManyToManyField("self", related_name=related_name, blank=True, through='M2MLetterLetter')
-    # Admin fields
-    admin_notes = models.TextField(blank=True, null=True)
-    admin_published = models.BooleanField(default=True)
 
     def __str__(self):
         return "{} - {}".format(self.id, self.title)
@@ -291,6 +289,13 @@ class LetterPerson(models.Model):
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
     admin_published = models.BooleanField(default=True)
+    # Meta fields
+    created_by = models.ForeignKey(User, related_name="letterperson_created_by",
+                                   on_delete=models.PROTECT, blank=True, null=True, verbose_name="Created By")
+    created_datetime = models.DateTimeField(auto_now_add=True, verbose_name="Created")
+    lastupdated_by = models.ForeignKey(User, related_name="letterperson_lastupdated_by",
+                                       on_delete=models.PROTECT, blank=True, null=True, verbose_name="Last Updated By")
+    lastupdated_datetime = models.DateTimeField(auto_now=True, verbose_name="Last Updated")
 
     def __str__(self):
         if self.letter:
@@ -344,6 +349,13 @@ class Person(models.Model):
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
     admin_published = models.BooleanField(default=True)
+    # Meta fields
+    created_by = models.ForeignKey(User, related_name="person_created_by",
+                                   on_delete=models.PROTECT, blank=True, null=True, verbose_name="Created By")
+    created_datetime = models.DateTimeField(auto_now_add=True, verbose_name="Created")
+    lastupdated_by = models.ForeignKey(User, related_name="person_lastupdated_by",
+                                       on_delete=models.PROTECT, blank=True, null=True, verbose_name="Last Updated By")
+    lastupdated_datetime = models.DateTimeField(auto_now=True, verbose_name="Last Updated")
 
     def __str__(self):
         # Set default value

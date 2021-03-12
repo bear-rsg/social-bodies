@@ -73,6 +73,21 @@ class LetterPersonAdminView(admin.ModelAdmin):
                    'person',
                    'person_letter_relationship')
     ordering = ('-id',)
+    readonly_fields = ('created_by', 'created_datetime', 'lastupdated_by', 'lastupdated_datetime')
+
+    def save_model(self, request, obj, form, change):
+        """
+        Override default save_model, by adding values to automated fields
+        """
+
+        # Created by
+        if getattr(obj, 'created_by', None) is None:
+            obj.created_by = request.user
+            obj.lastupdated_by = request.user
+        # Last updated by
+        else:
+            obj.lastupdated_by = request.user
+        obj.save()
 
 
 class PersonAdminView(admin.ModelAdmin):
@@ -84,6 +99,21 @@ class PersonAdminView(admin.ModelAdmin):
     search_fields = ('first_name', 'middle_name', 'last_name')
     ordering = ('-id',)
     inlines = [PersonPersonInline]
+    readonly_fields = ('created_by', 'created_datetime', 'lastupdated_by', 'lastupdated_datetime')
+
+    def save_model(self, request, obj, form, change):
+        """
+        Override default save_model, by adding values to automated fields
+        """
+
+        # Created by
+        if getattr(obj, 'created_by', None) is None:
+            obj.created_by = request.user
+            obj.lastupdated_by = request.user
+        # Last updated by
+        else:
+            obj.lastupdated_by = request.user
+        obj.save()
 
 
 class M2MLetterLetterAdminView(admin.ModelAdmin):
