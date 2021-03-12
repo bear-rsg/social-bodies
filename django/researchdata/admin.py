@@ -71,9 +71,11 @@ class LetterPersonAdminView(admin.ModelAdmin):
                     'person_letter_relationship')
     list_filter = ('letter',
                    'person',
+                   'body_part',
                    'person_letter_relationship')
     ordering = ('-id',)
     readonly_fields = ('created_by', 'created_datetime', 'lastupdated_by', 'lastupdated_datetime')
+    filter_horizontal = ('body_part',)
 
     def save_model(self, request, obj, form, change):
         """
