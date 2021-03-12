@@ -224,9 +224,12 @@ class Letter(models.Model):
     permission_reproduce_image = models.BooleanField(blank=True, null=True)
     transcription_plain = models.TextField(blank=True, null=True)
     transcription_normalized = models.TextField(blank=True, null=True)
-    sent_date_year = models.IntegerField(blank=True, null=True, validators=[MinValueValidator(1500), MaxValueValidator(2000)])
-    sent_date_month = models.IntegerField(blank=True, null=True, validators=[MinValueValidator(1), MaxValueValidator(12)])
-    sent_date_day = models.IntegerField(blank=True, null=True, validators=[MinValueValidator(1), MaxValueValidator(31)])
+    sent_date_year = models.IntegerField(blank=True, null=True,
+                                         validators=[MinValueValidator(1500), MaxValueValidator(2000)])
+    sent_date_month = models.IntegerField(blank=True, null=True,
+                                          validators=[MinValueValidator(1), MaxValueValidator(12)])
+    sent_date_day = models.IntegerField(blank=True, null=True,
+                                        validators=[MinValueValidator(1), MaxValueValidator(31)])
     sent_date_as_given = models.CharField(max_length=255, blank=True, null=True)
     sent_time = models.CharField(max_length=255, blank=True, null=True)
     sent_from_location = models.TextField(blank=True, null=True)
@@ -262,7 +265,8 @@ class LetterPerson(models.Model):
     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
     person = models.ForeignKey("Person", on_delete=models.CASCADE, blank=True, null=True)
     person_form_of_address = models.CharField(max_length=255, blank=True, null=True)
-    person_other = models.TextField(blank=True, null=True, verbose_name='Person/People (if not specified in Person table)')
+    person_other = models.TextField(blank=True, null=True,
+                                    verbose_name='Person/People (if not specified in Person table)')
     person_letter_relationship = models.ForeignKey(SlLetterPersonRelationshipType,
                                                    on_delete=models.SET_NULL,
                                                    blank=True, null=True)
@@ -367,14 +371,14 @@ class Person(models.Model):
             name = "{} - {} {}".format(self.id, self.first_name, self.last_name)
         elif self.first_name:
             name = "{} - {}".format(self.id, self.first_name)
-        # Append a date to help identify
+        # Append a date to help identify
         if self.year_of_birth:
             name += " (Born: {})".format(self.year_of_birth)
         elif self.year_of_death:
             name += " (Died: {})".format(self.year_of_death)
         elif self.year_active_start:
             name += " (Active: {})".format(self.year_active_start)
-        
+
         return name
 
 
