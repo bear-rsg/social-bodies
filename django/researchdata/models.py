@@ -244,13 +244,12 @@ class Letter(models.Model):
 
     # Many to many relationship fields
     letter = models.ManyToManyField("self", related_name=related_name, blank=True, through='M2MLetterLetter')
-    # person = models.ManyToManyField("Person", related_name=related_name, blank=True, through='LetterPerson')
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
     admin_published = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.title
+        return "{} - {}".format(self.id, self.title)
 
 
 class LetterPerson(models.Model):
@@ -325,9 +324,10 @@ class Person(models.Model):
     middle_name = models.CharField(max_length=255, blank=True, null=True)
     last_name = models.CharField(max_length=255, blank=True, null=True)
     alternative_spelling_of_name = models.CharField(max_length=255, blank=True, null=True)
-    date_of_birth = models.CharField(max_length=255, blank=True, null=True)
-    date_of_death = models.CharField(max_length=255, blank=True, null=True)
-    date_active = models.CharField(max_length=255, blank=True, null=True)
+    year_of_birth = models.IntegerField(blank=True, null=True)
+    year_of_death = models.IntegerField(blank=True, null=True)
+    year_active_start = models.IntegerField(blank=True, null=True)
+    year_active_end = models.IntegerField(blank=True, null=True)
     gender = models.ForeignKey(SlPersonGender, on_delete=models.SET_NULL, blank=True, null=True)
     marital_status = models.ForeignKey(SlPersonMaritalStatus, on_delete=models.SET_NULL, blank=True, null=True)
     religion = models.ForeignKey(SlPersonReligion, on_delete=models.SET_NULL, blank=True, null=True)
@@ -341,12 +341,24 @@ class Person(models.Model):
     admin_published = models.BooleanField(default=True)
 
     def __str__(self):
+        # Set default value
+        name = "Person of id: {}".format(self.id)
+        # Set the name, if available
         if self.first_name and self.middle_name and self.last_name:
-            return "{} {} {}".format(self.first_name, self.middle_name, self.last_name)
+            name = "{} - {} {} {}".format(self.id, self.first_name, self.middle_name, self.last_name)
         elif self.first_name and self.last_name:
-            return "{} {}".format(self.first_name, self.last_name)
+            name = "{} - {} {}".format(self.id, self.first_name, self.last_name)
         elif self.first_name:
-            return "{} ({})".format(self.first_name, self.id)
+            name = "{} - {}".format(self.id, self.first_name)
+        # Append a date to help identify
+        if self.year_of_birth:
+            name += " (Born: {})".format(self.year_of_birth)
+        elif self.year_of_death:
+            name += " (Died: {})".format(self.year_of_death)
+        elif self.year_active_start:
+            name += " (Active: {})".format(self.year_active_start)
+        
+        return name
 
 
 # Many to Many Relationships
