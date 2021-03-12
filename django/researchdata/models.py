@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Select List models
 
@@ -223,7 +224,10 @@ class Letter(models.Model):
     permission_reproduce_image = models.BooleanField(blank=True, null=True)
     transcription_plain = models.TextField(blank=True, null=True)
     transcription_normalized = models.TextField(blank=True, null=True)
-    sent_date = models.CharField(max_length=255, blank=True, null=True)
+    sent_date_year = models.IntegerField(blank=True, null=True, validators=[MinValueValidator(1500), MaxValueValidator(2000)])
+    sent_date_month = models.IntegerField(blank=True, null=True, validators=[MinValueValidator(1), MaxValueValidator(12)])
+    sent_date_day = models.IntegerField(blank=True, null=True, validators=[MinValueValidator(1), MaxValueValidator(31)])
+    sent_date_as_given = models.CharField(max_length=255, blank=True, null=True)
     sent_time = models.CharField(max_length=255, blank=True, null=True)
     sent_from_location = models.TextField(blank=True, null=True)
     sent_to_location = models.TextField(blank=True, null=True)
@@ -259,8 +263,8 @@ class LetterPerson(models.Model):
 
     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
     person = models.ForeignKey("Person", on_delete=models.CASCADE, blank=True, null=True)
-    person_other = models.CharField(max_length=255, blank=True, null=True, verbose_name='Person (other)')
     person_form_of_address = models.CharField(max_length=255, blank=True, null=True)
+    person_other = models.TextField(blank=True, null=True, verbose_name='Person/People (if not specified in Person table)')
     person_letter_relationship = models.ForeignKey(SlLetterPersonRelationshipType,
                                                    on_delete=models.SET_NULL,
                                                    blank=True, null=True)
@@ -324,6 +328,7 @@ class Person(models.Model):
     middle_name = models.CharField(max_length=255, blank=True, null=True)
     last_name = models.CharField(max_length=255, blank=True, null=True)
     alternative_spelling_of_name = models.CharField(max_length=255, blank=True, null=True)
+    alternative_names = models.CharField(max_length=255, blank=True, null=True)
     year_of_birth = models.IntegerField(blank=True, null=True)
     year_of_death = models.IntegerField(blank=True, null=True)
     year_active_start = models.IntegerField(blank=True, null=True)
