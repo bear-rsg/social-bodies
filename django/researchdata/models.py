@@ -349,7 +349,6 @@ class Person(models.Model):
     religion = models.ManyToManyField(SlPersonReligion, related_name=related_name, blank=True)
     rank = models.ManyToManyField(SlPersonRank, related_name=related_name, blank=True)
     occupation = models.TextField(blank=True, null=True)
-    
     person = models.ManyToManyField("self", related_name=related_name, through='M2MPersonPerson', blank=True)
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
