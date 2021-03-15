@@ -96,8 +96,9 @@ class PersonAdminView(admin.ModelAdmin):
     """
     Customise the Person section of the Django admin
     """
-    list_display = ('id', 'title', 'first_name', 'middle_name', 'last_name', 'gender', 'religion')
-    list_filter = ('title', 'religion', 'gender')
+    list_display = ('id', 'first_name', 'middle_name', 'last_name', 'year_of_birth',
+                    'year_of_death', 'year_active_start', 'year_active_end')
+    list_filter = ('title', 'religion', 'gender', 'rank')
     search_fields = ('first_name', 'middle_name', 'last_name')
     ordering = ('-id',)
     inlines = [PersonPersonInline]

@@ -78,11 +78,13 @@ def insert_slpersontitle(apps, schema_editor):
     """
 
     names = [
-        "Dr",
-        "Miss",
-        "Mr",
-        "Mrs",
-        "Ms"
+        "Duke/Duchess",
+        "Marquees/Marchioness",
+        "Earl/Countess",
+        "Viscount/Viscountess",
+        "Baron/Baroness",
+        "Baronets",
+        "Knight/Dame"
     ]
 
     for name in names:

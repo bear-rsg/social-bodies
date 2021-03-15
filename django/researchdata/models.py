@@ -235,7 +235,6 @@ class Letter(models.Model):
     sent_from_location = models.TextField(blank=True, null=True)
     sent_to_location = models.TextField(blank=True, null=True)
     content_type = models.ManyToManyField(SlLetterPersonType, related_name=related_name, blank=True)
-    state = models.ManyToManyField(SlLetterPersonState, related_name=related_name, blank=True)
     commentary = models.ManyToManyField(SlLetterPersonCommentary, related_name=related_name, blank=True)
     location = models.ManyToManyField(SlLetterPersonLocation, related_name=related_name, blank=True)
     estimated_proportion_of_letter = models.ForeignKey(SlLetterPersonEstimatedProportionOfLetter,
@@ -289,6 +288,7 @@ class LetterPerson(models.Model):
     treatment = models.ManyToManyField(SlLetterPersonTreatment, related_name=related_name, blank=True)
     context = models.ManyToManyField(SlLetterPersonContext, related_name=related_name, blank=True)
     roles = models.ManyToManyField(SlLetterPersonRole, related_name=related_name, blank=True)
+    state = models.ManyToManyField(SlLetterPersonState, related_name=related_name, blank=True)
 
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
@@ -332,7 +332,9 @@ class Person(models.Model):
     Person model
     """
 
-    title = models.ForeignKey(SlPersonTitle, on_delete=models.SET_NULL, blank=True, null=True)
+    related_name = "related_person"
+
+    title = models.ManyToManyField(SlPersonTitle, related_name=related_name, blank=True)
     first_name = models.CharField(max_length=255, blank=True, null=True)
     middle_name = models.CharField(max_length=255, blank=True, null=True)
     last_name = models.CharField(max_length=255, blank=True, null=True)
@@ -343,12 +345,11 @@ class Person(models.Model):
     year_active_start = models.IntegerField(blank=True, null=True)
     year_active_end = models.IntegerField(blank=True, null=True)
     gender = models.ForeignKey(SlPersonGender, on_delete=models.SET_NULL, blank=True, null=True)
-    marital_status = models.ForeignKey(SlPersonMaritalStatus, on_delete=models.SET_NULL, blank=True, null=True)
-    religion = models.ForeignKey(SlPersonReligion, on_delete=models.SET_NULL, blank=True, null=True)
-    occupation = models.CharField(max_length=255, blank=True, null=True)
-    rank = models.ForeignKey(SlPersonRank, on_delete=models.SET_NULL, blank=True, null=True)
-    # Many to many relationship fields
-    related_name = "related_person"
+    marital_status = models.ManyToManyField(SlPersonMaritalStatus, related_name=related_name, blank=True)
+    religion = models.ManyToManyField(SlPersonReligion, related_name=related_name, blank=True)
+    rank = models.ManyToManyField(SlPersonRank, related_name=related_name, blank=True)
+    occupation = models.TextField(blank=True, null=True)
+    
     person = models.ManyToManyField("self", related_name=related_name, through='M2MPersonPerson', blank=True)
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
