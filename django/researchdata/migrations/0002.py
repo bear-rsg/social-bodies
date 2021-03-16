@@ -78,13 +78,19 @@ def insert_slpersontitle(apps, schema_editor):
     """
 
     names = [
-        "Duke/Duchess",
-        "Marquees/Marchioness",
-        "Earl/Countess",
-        "Viscount/Viscountess",
-        "Baron/Baroness",
-        "Baronets",
-        "Knight/Dame"
+        "duke",
+        "duchess",
+        "marquees",
+        "marchioness",
+        "earl",
+        "countess",
+        "viscount",
+        "viscountess",
+        "baron",
+        "baroness",
+        "baronets",
+        "knight",
+        "dame"
     ]
 
     for name in names:
@@ -409,9 +415,9 @@ def insert_slletterpersoncontext(apps, schema_editor):
         models.SlLetterPersonContext(name=name).save()
 
 
-def insert_slletterpersonlocation(apps, schema_editor):
+def insert_slletterlocation(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterPersonLocation
+    Inserts select list objects for SlLetterLocation
     """
 
     names = [
@@ -423,12 +429,12 @@ def insert_slletterpersonlocation(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterPersonLocation(name=name).save()
+        models.SlLetterLocation(name=name).save()
 
 
-def insert_slletterpersontype(apps, schema_editor):
+def insert_sllettertype(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterPersonType
+    Inserts select list objects for SlLetterType
     """
 
     names = [
@@ -439,7 +445,7 @@ def insert_slletterpersontype(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterPersonType(name=name).save()
+        models.SlLetterType(name=name).save()
 
 
 def insert_slletterpersonappearance(apps, schema_editor):
@@ -489,9 +495,9 @@ def insert_slletterpersonrole(apps, schema_editor):
         models.SlLetterPersonRole(name=name).save()
 
 
-def insert_slletterpersonestimatedproportionofletter(apps, schema_editor):
+def insert_slletterestimatedproportionofletter(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterPersonEstimatedProportionOfLetter
+    Inserts select list objects for SlLetterEstimatedProportionOfLetter
     """
 
     names = [
@@ -503,12 +509,12 @@ def insert_slletterpersonestimatedproportionofletter(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterPersonEstimatedProportionOfLetter(name=name).save()
+        models.SlLetterEstimatedProportionOfLetter(name=name).save()
 
 
-def insert_slletterpersoncommentary(apps, schema_editor):
+def insert_sllettercommentary(apps, schema_editor):
     """
-    Inserts select list objects for SlLetterPersonCommentary
+    Inserts select list objects for SlLetterCommentary
     """
 
     names = [
@@ -528,7 +534,7 @@ def insert_slletterpersoncommentary(apps, schema_editor):
     ]
 
     for name in names:
-        models.SlLetterPersonCommentary(name=name).save()
+        models.SlLetterCommentary(name=name).save()
 
 
 def insert_slletterpersonstate(apps, schema_editor):
@@ -624,9 +630,10 @@ class Migration(migrations.Migration):
         migrations.RunPython(insert_slpersontitle),
         # Letter SL tables
         migrations.RunPython(insert_sllettercollection),
-        # Letter Person related tables
-        migrations.RunPython(insert_slletterpersonlocation),
-        migrations.RunPython(insert_slletterpersontype),
+        migrations.RunPython(insert_slletterlocation),
+        migrations.RunPython(insert_slletterestimatedproportionofletter),
+        migrations.RunPython(insert_sllettertype),
+        migrations.RunPython(insert_sllettercommentary),
         # Letter Person SL tables
         migrations.RunPython(insert_slletterpersonbodypart),
         migrations.RunPython(insert_slletterpersonbodilyactivity),
@@ -640,8 +647,6 @@ class Migration(migrations.Migration):
         migrations.RunPython(insert_slletterpersoncontext),
         migrations.RunPython(insert_slletterpersonappearance),
         migrations.RunPython(insert_slletterpersonrole),
-        migrations.RunPython(insert_slletterpersonestimatedproportionofletter),
-        migrations.RunPython(insert_slletterpersoncommentary),
         migrations.RunPython(insert_slletterpersonstate),
         # Many to Many SL tables
         migrations.RunPython(insert_slm2mletterletterrelationshiptype),

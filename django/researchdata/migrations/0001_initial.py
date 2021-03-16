@@ -84,7 +84,7 @@ class Migration(migrations.Migration):
             bases=('researchdata.slgeneric',),
         ),
         migrations.CreateModel(
-            name='SlLetterPersonCommentary',
+            name='SlLetterCommentary',
             fields=[
                 ('slgeneric_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='researchdata.slgeneric')),
             ],
@@ -126,7 +126,7 @@ class Migration(migrations.Migration):
             bases=('researchdata.slgeneric',),
         ),
         migrations.CreateModel(
-            name='SlLetterPersonEstimatedProportionOfLetter',
+            name='SlLetterEstimatedProportionOfLetter',
             fields=[
                 ('slgeneric_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='researchdata.slgeneric')),
             ],
@@ -140,7 +140,7 @@ class Migration(migrations.Migration):
             bases=('researchdata.slgeneric',),
         ),
         migrations.CreateModel(
-            name='SlLetterPersonLocation',
+            name='SlLetterLocation',
             fields=[
                 ('slgeneric_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='researchdata.slgeneric')),
             ],
@@ -182,7 +182,7 @@ class Migration(migrations.Migration):
             bases=('researchdata.slgeneric',),
         ),
         migrations.CreateModel(
-            name='SlLetterPersonType',
+            name='SlLetterType',
             fields=[
                 ('slgeneric_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='researchdata.slgeneric')),
             ],
@@ -318,12 +318,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='letter',
             name='commentary',
-            field=models.ManyToManyField(blank=True, related_name='letter', to='researchdata.SlLetterPersonCommentary'),
+            field=models.ManyToManyField(blank=True, related_name='letter', to='researchdata.SlLetterCommentary'),
         ),
         migrations.AddField(
             model_name='letter',
             name='content_type',
-            field=models.ManyToManyField(blank=True, related_name='letter', to='researchdata.SlLetterPersonType'),
+            field=models.ManyToManyField(blank=True, related_name='letter', to='researchdata.SlLetterType'),
         ),
         migrations.AddField(
             model_name='letter',
@@ -333,7 +333,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='letter',
             name='location',
-            field=models.ManyToManyField(blank=True, related_name='letter', to='researchdata.SlLetterPersonLocation'),
+            field=models.ManyToManyField(blank=True, related_name='letter', to='researchdata.SlLetterLocation'),
         ),
         migrations.AddField(
             model_name='letter',

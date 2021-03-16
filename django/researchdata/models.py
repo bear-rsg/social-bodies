@@ -135,14 +135,14 @@ class SlLetterPersonContext(SlGeneric):
     """
 
 
-class SlLetterPersonLocation(SlGeneric):
+class SlLetterLocation(SlGeneric):
     """
     Select List table: letter person - location
     Inherits the standard SlGeneric model
     """
 
 
-class SlLetterPersonType(SlGeneric):
+class SlLetterType(SlGeneric):
     """
     Select List table: letter person - type
     Inherits the standard SlGeneric model
@@ -163,14 +163,14 @@ class SlLetterPersonRole(SlGeneric):
     """
 
 
-class SlLetterPersonEstimatedProportionOfLetter(SlGeneric):
+class SlLetterEstimatedProportionOfLetter(SlGeneric):
     """
     Select List table: letter person - estimated proportion of letter
     Inherits the standard SlGeneric model
     """
 
 
-class SlLetterPersonCommentary(SlGeneric):
+class SlLetterCommentary(SlGeneric):
     """
     Select List table: letter person - commentary
     Inherits the standard SlGeneric model
@@ -234,10 +234,10 @@ class Letter(models.Model):
     sent_time = models.CharField(max_length=255, blank=True, null=True)
     sent_from_location = models.TextField(blank=True, null=True)
     sent_to_location = models.TextField(blank=True, null=True)
-    content_type = models.ManyToManyField(SlLetterPersonType, related_name=related_name, blank=True)
-    commentary = models.ManyToManyField(SlLetterPersonCommentary, related_name=related_name, blank=True)
-    location = models.ManyToManyField(SlLetterPersonLocation, related_name=related_name, blank=True)
-    estimated_proportion_of_letter = models.ForeignKey(SlLetterPersonEstimatedProportionOfLetter,
+    letter_type = models.ManyToManyField(SlLetterType, related_name=related_name, blank=True)
+    commentary = models.ManyToManyField(SlLetterCommentary, related_name=related_name, blank=True)
+    location = models.ManyToManyField(SlLetterLocation, related_name=related_name, blank=True)
+    estimated_proportion_of_letter = models.ForeignKey(SlLetterEstimatedProportionOfLetter,
                                                        on_delete=models.SET_NULL, blank=True, null=True)
     # Many to many relationship fields
     letter = models.ManyToManyField("self", related_name=related_name, blank=True, through='M2MLetterLetter')
