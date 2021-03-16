@@ -261,8 +261,8 @@ class LetterPerson(models.Model):
     A Letter can have multiple 'contents' aka instances of interest that are worth recording
     """
 
-    letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
-    person = models.ForeignKey("Person", on_delete=models.CASCADE, blank=True, null=True)
+    letter = models.ForeignKey("Letter", on_delete=models.RESTRICT)
+    person = models.ForeignKey("Person", on_delete=models.RESTRICT, blank=True, null=True)
     person_form_of_address = models.CharField(max_length=255, blank=True, null=True)
     person_other = models.CharField(max_length=255, blank=True, null=True,
                                     verbose_name='Person/People (if not specified in Person table)')

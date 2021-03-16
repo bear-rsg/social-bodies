@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from . import models
 
 # Set the title of the dashboard
@@ -39,7 +40,12 @@ class LetterAdminView(admin.ModelAdmin):
     Customise the Letter section of the Django admin
     """
     list_display = ('id', 'title', 'summary')
-    list_filter = ('collection',)
+    list_filter = (('collection', RelatedDropdownFilter),
+                   ('repository', RelatedDropdownFilter),
+                   ('letter_type', RelatedDropdownFilter),
+                   ('commentary', RelatedDropdownFilter),
+                   ('location', RelatedDropdownFilter),
+                   ('estimated_proportion_of_letter', RelatedDropdownFilter))
     search_fields = ('title', 'summary', 'transcription_plain', 'transcription_normalized')
     ordering = ('-id',)
     inlines = [LetterLetterImageInline, LetterLetterInline]
@@ -72,20 +78,26 @@ class LetterPersonAdminView(admin.ModelAdmin):
                     'person_letter_relationship')
     list_filter = ('letter',
                    'person',
-                   'person_letter_relationship',
-                   'body_part',
-                   'bodily_activity',
-                   'appearance',
-                   'condition_specific_state',
-                   'condition_specific_life_stage',
-                   'condition_generalized_state',
-                   'emotion',
-                   'immaterial',
-                   'sensation',
-                   'treatment',
-                   'context',
-                   'roles',
-                   'state')
+                   ('person_letter_relationship', RelatedDropdownFilter),
+                   ('body_part', RelatedDropdownFilter),
+                   ('bodily_activity', RelatedDropdownFilter),
+                   ('appearance', RelatedDropdownFilter),
+                   ('condition_specific_state', RelatedDropdownFilter),
+                   ('condition_specific_life_stage', RelatedDropdownFilter),
+                   ('condition_generalized_state', RelatedDropdownFilter),
+                   ('emotion', RelatedDropdownFilter),
+                   ('immaterial', RelatedDropdownFilter),
+                   ('sensation', RelatedDropdownFilter),
+                   ('treatment', RelatedDropdownFilter),
+                   ('context', RelatedDropdownFilter),
+                   ('roles', RelatedDropdownFilter),
+                   ('state', RelatedDropdownFilter))
+    search_fields = ('letter__title',
+                     'person__first_name',
+                     'person__last_name',
+                     'person_form_of_address',
+                     'person_other',
+                     'admin_notes')
     ordering = ('-id',)
     readonly_fields = ('created_by', 'created_datetime', 'lastupdated_by', 'lastupdated_datetime')
     filter_horizontal = ('body_part',
@@ -123,7 +135,11 @@ class PersonAdminView(admin.ModelAdmin):
     """
     list_display = ('id', 'first_name', 'middle_name', 'last_name', 'year_of_birth',
                     'year_of_death', 'year_active_start', 'year_active_end')
-    list_filter = ('gender', 'title', 'marital_status', 'religion', 'rank')
+    list_filter = (('gender', RelatedDropdownFilter),
+                   ('title', RelatedDropdownFilter),
+                   ('marital_status', RelatedDropdownFilter),
+                   ('religion', RelatedDropdownFilter),
+                   ('rank', RelatedDropdownFilter))
     search_fields = ('first_name', 'middle_name', 'last_name')
     ordering = ('-id',)
     inlines = [PersonPersonInline]
