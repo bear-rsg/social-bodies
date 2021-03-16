@@ -7,7 +7,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 class SlGeneric(models.Model):
     """
-    Select List table: person's gender (e.g. Male, Female)
+    A generic Select List table
     """
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)

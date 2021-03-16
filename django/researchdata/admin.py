@@ -17,10 +17,6 @@ class LetterLetterInline(admin.TabularInline):
     fk_name = "letter_1"
 
 
-# class LetterPersonInline(admin.TabularInline):
-#     model = models.Letter.person.through
-
-
 class PersonPersonInline(admin.TabularInline):
     model = models.Person.person.through
     fk_name = "person_1"
@@ -57,13 +53,9 @@ class LetterAdminView(admin.ModelAdmin):
         Override default save_model, by adding values to automated fields
         """
 
-        # Created by
         if getattr(obj, 'created_by', None) is None:
             obj.created_by = request.user
-            obj.lastupdated_by = request.user
-        # Last updated by
-        else:
-            obj.lastupdated_by = request.user
+        obj.lastupdated_by = request.user
         obj.save()
 
 
@@ -119,13 +111,9 @@ class LetterPersonAdminView(admin.ModelAdmin):
         Override default save_model, by adding values to automated fields
         """
 
-        # Created by
         if getattr(obj, 'created_by', None) is None:
             obj.created_by = request.user
-            obj.lastupdated_by = request.user
-        # Last updated by
-        else:
-            obj.lastupdated_by = request.user
+        obj.lastupdated_by = request.user
         obj.save()
 
 
@@ -151,13 +139,9 @@ class PersonAdminView(admin.ModelAdmin):
         Override default save_model, by adding values to automated fields
         """
 
-        # Created by
         if getattr(obj, 'created_by', None) is None:
             obj.created_by = request.user
-            obj.lastupdated_by = request.user
-        # Last updated by
-        else:
-            obj.lastupdated_by = request.user
+        obj.lastupdated_by = request.user
         obj.save()
 
 
