@@ -264,7 +264,7 @@ class LetterPerson(models.Model):
     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
     person = models.ForeignKey("Person", on_delete=models.CASCADE, blank=True, null=True)
     person_form_of_address = models.CharField(max_length=255, blank=True, null=True)
-    person_other = models.TextField(blank=True, null=True,
+    person_other = models.CharField(max_length=255, blank=True, null=True,
                                     verbose_name='Person/People (if not specified in Person table)')
     person_letter_relationship = models.ForeignKey(SlLetterPersonRelationshipType,
                                                    on_delete=models.SET_NULL,
@@ -334,7 +334,6 @@ class Person(models.Model):
 
     related_name = "related_person"
 
-    title = models.ManyToManyField(SlPersonTitle, related_name=related_name, blank=True)
     first_name = models.CharField(max_length=255, blank=True, null=True)
     middle_name = models.CharField(max_length=255, blank=True, null=True)
     last_name = models.CharField(max_length=255, blank=True, null=True)
@@ -345,6 +344,7 @@ class Person(models.Model):
     year_active_start = models.IntegerField(blank=True, null=True)
     year_active_end = models.IntegerField(blank=True, null=True)
     gender = models.ForeignKey(SlPersonGender, on_delete=models.SET_NULL, blank=True, null=True)
+    title = models.ManyToManyField(SlPersonTitle, related_name=related_name, blank=True)
     marital_status = models.ManyToManyField(SlPersonMaritalStatus, related_name=related_name, blank=True)
     religion = models.ManyToManyField(SlPersonReligion, related_name=related_name, blank=True)
     rank = models.ManyToManyField(SlPersonRank, related_name=related_name, blank=True)

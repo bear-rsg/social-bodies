@@ -97,23 +97,6 @@ def insert_slpersontitle(apps, schema_editor):
         models.SlPersonTitle(name=name).save()
 
 
-def insert_sllettercollection(apps, schema_editor):
-    """
-    Inserts select list objects for SlLetterCollection
-    """
-
-    names = [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5"
-    ]
-
-    for name in names:
-        models.SlLetterCollection(name=name).save()
-
-
 def insert_slletterpersonbodypart(apps, schema_editor):
     """
     Inserts select list objects for SlLetterPersonBodyPart
@@ -629,7 +612,6 @@ class Migration(migrations.Migration):
         migrations.RunPython(insert_slpersonreligion),
         migrations.RunPython(insert_slpersontitle),
         # Letter SL tables
-        migrations.RunPython(insert_sllettercollection),
         migrations.RunPython(insert_slletterlocation),
         migrations.RunPython(insert_slletterestimatedproportionofletter),
         migrations.RunPython(insert_sllettertype),

@@ -44,6 +44,7 @@ class LetterAdminView(admin.ModelAdmin):
     ordering = ('-id',)
     inlines = [LetterLetterImageInline, LetterLetterInline]
     readonly_fields = ('created_by', 'created_datetime', 'lastupdated_by', 'lastupdated_datetime')
+    filter_horizontal = ('letter_type', 'commentary', 'location')
 
     def save_model(self, request, obj, form, change):
         """
@@ -71,11 +72,35 @@ class LetterPersonAdminView(admin.ModelAdmin):
                     'person_letter_relationship')
     list_filter = ('letter',
                    'person',
+                   'person_letter_relationship',
                    'body_part',
-                   'person_letter_relationship')
+                   'bodily_activity',
+                   'appearance',
+                   'condition_specific_state',
+                   'condition_specific_life_stage',
+                   'condition_generalized_state',
+                   'emotion',
+                   'immaterial',
+                   'sensation',
+                   'treatment',
+                   'context',
+                   'roles',
+                   'state')
     ordering = ('-id',)
     readonly_fields = ('created_by', 'created_datetime', 'lastupdated_by', 'lastupdated_datetime')
-    filter_horizontal = ('body_part',)
+    filter_horizontal = ('body_part',
+                         'bodily_activity',
+                         'appearance',
+                         'condition_specific_state',
+                         'condition_specific_life_stage',
+                         'condition_generalized_state',
+                         'emotion',
+                         'immaterial',
+                         'sensation',
+                         'treatment',
+                         'context',
+                         'roles',
+                         'state')
 
     def save_model(self, request, obj, form, change):
         """
@@ -98,11 +123,12 @@ class PersonAdminView(admin.ModelAdmin):
     """
     list_display = ('id', 'first_name', 'middle_name', 'last_name', 'year_of_birth',
                     'year_of_death', 'year_active_start', 'year_active_end')
-    list_filter = ('title', 'religion', 'gender', 'rank')
+    list_filter = ('gender', 'title', 'marital_status', 'religion', 'rank')
     search_fields = ('first_name', 'middle_name', 'last_name')
     ordering = ('-id',)
     inlines = [PersonPersonInline]
     readonly_fields = ('created_by', 'created_datetime', 'lastupdated_by', 'lastupdated_datetime')
+    filter_horizontal = ('title', 'marital_status', 'religion', 'rank')
 
     def save_model(self, request, obj, form, change):
         """
