@@ -28,7 +28,7 @@ class PersonPersonInline(admin.TabularInline):
 class SlGenericAdminView(admin.ModelAdmin):
     list_display = ('name', 'description')
     search_fields = ('name', 'description')
-    ordering = ('id',)
+    ordering = ('name',)
 
 
 class LetterAdminView(admin.ModelAdmin):
