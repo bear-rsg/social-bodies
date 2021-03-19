@@ -11,6 +11,9 @@ admin.site.site_header = 'Material Identities, Social Bodies: Admin Dashboard'
 # Functions
 
 def fk_link(link_url, link_label):
+    """
+    Take a URL and a label and generate a link for foreign key fields in admin lists
+    """
     if link_label is not None:
         return mark_safe('<a href="{}">{}</a>'.format(link_url, link_label))
     else:
@@ -128,17 +131,22 @@ class LetterPersonAdminView(admin.ModelAdmin):
                          'state')
 
     def letter_link(self, letterperson):
+        """
+        Make the Letter FK reference in the list_display a clickable link, rather than plain text
+        """
         url = reverse("admin:researchdata_letter_change", args=[letterperson.letter.id])
         return fk_link(url, letterperson.letter)
     letter_link.short_description = 'Letter'
 
     def person_link(self, letterperson):
+        """
+        Make the Person FK reference in the list_display a clickable link, rather than plain text
+        """
         if letterperson.person is None:
             return '-'
         else:
             url = reverse("admin:researchdata_person_change", args=[letterperson.person.id])
             return fk_link(url, letterperson.person)
-
     person_link.short_description = 'Person'
 
     def save_model(self, request, obj, form, change):
@@ -150,7 +158,6 @@ class LetterPersonAdminView(admin.ModelAdmin):
             obj.created_by = request.user
         obj.lastupdated_by = request.user
         obj.save()
-
 
 
 class PersonAdminView(admin.ModelAdmin):
@@ -193,14 +200,21 @@ class M2MLetterLetterAdminView(admin.ModelAdmin):
     ordering = ('-id',)
 
     def letter_1_link(self, letterperson):
+        """
+        Make the Letter 1 FK reference in the list_display a clickable link, rather than plain text
+        """
         url = reverse("admin:researchdata_letter_change", args=[letterperson.letter_1.id])
         return fk_link(url, letterperson.letter_1)
     letter_1_link.short_description = 'Letter (1)'
-    
+
     def letter_2_link(self, letterperson):
+        """
+        Make the Letter 2 FK reference in the list_display a clickable link, rather than plain text
+        """
         url = reverse("admin:researchdata_letter_change", args=[letterperson.letter_2.id])
         return fk_link(url, letterperson.letter_2)
     letter_2_link.short_description = 'Letter (2)'
+
 
 class M2MPersonPersonAdminView(admin.ModelAdmin):
     """
@@ -212,11 +226,17 @@ class M2MPersonPersonAdminView(admin.ModelAdmin):
     ordering = ('-id',)
 
     def person_1_link(self, letterperson):
+        """
+        Make the Person 1 FK reference in the list_display a clickable link, rather than plain text
+        """
         url = reverse("admin:researchdata_person_change", args=[letterperson.person_1.id])
         return fk_link(url, letterperson.person_1)
     person_1_link.short_description = 'Person (1)'
 
     def person_2_link(self, letterperson):
+        """
+        Make the Person 2 FK reference in the list_display a clickable link, rather than plain text
+        """
         url = reverse("admin:researchdata_person_change", args=[letterperson.person_2.id])
         return fk_link(url, letterperson.person_2)
     person_2_link.short_description = 'Person (2)'
