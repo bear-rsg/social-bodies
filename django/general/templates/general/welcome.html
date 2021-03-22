@@ -3,44 +3,11 @@
 
 {% block main %}
 
-    <div id="welcome-banner">
-        <div id="welcome-banner-tagline">
-            Letters
-        </div>
-        <div id="welcome-banner-proceed">
-            <i class="fas fa-angle-down"></i>
-        </div>
-    </div>
-
-    <div id="welcome-content" class="container">
+    <div class="container">
         <h2>Welcome</h2>
         <p>
-            Welcome to the Social Bodies website.
-        </p>
-        <p>
-            You can engage with the Social Bodies project through this website by reading detailed information about the <a href="{% url 'about' %}">project</a>, following our <a href="{% url 'blog' %}">blog</a>, and exploring out <a href="{% url 'welcome' %}"> database of letters</a>
-        </p>
-        <p>
-            If you'd like to get in touch with us about the project or this website, you can email us at <a href="mailto:k.l.harvey@bham.ac.uk?subject=Social Bodies website">k.l.harvey@bham.ac.uk</a>
-        </p>
-
-        <h2>A Message from the PI</h2>
-        <img class="image-circle" src="{% static 'images/about/team/karen-harvey.jpg' %}" alt="Karen Harvey, the project Principal Investigator">
-        <p>
-            Coming soon
+            Content coming soon.
         </p>
     </div>
-
-    {% comment %} JavaScript/jQuery for this page {% endcomment %}
-    <script>
-        $(document).ready(function() {
-
-            // Scroll down to main welcome section when clicking on the proceed button in the welcome banner
-            $('#welcome-banner-proceed').on('click', function(){
-                $('html,body').animate({ scrollTop: $('#welcome-content').offset().top - 50 }, 800); 
-            });
-
-        });
-    </script>
 
 {% endblock %}
