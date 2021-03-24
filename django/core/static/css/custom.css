@@ -6,28 +6,29 @@ body {
     color: white;
     margin: 0;
     font-weight: 300;
-    background: #F3F3F3;
+    background-color: #283747;
 }
 
 a {
-    color: #B50019;
+    color: #E4C418;
     font-weight: 500;
 }
 
 a:hover {
-    color: #705a41;
+    color: #DCC961;
 }
 
 h1 {
     font-size: 1em;
     margin: 0;
     padding: 0;
-    line-height: 1em;;
+    line-height: 1em;
+    color: #E4C418;
 }
 
 h2 {
     padding-top: 2em;
-    color: #FFF;
+    color: #E4C418;
     font-weight: 500;
     text-align: center;
     font-size: 1.7em;
@@ -36,7 +37,7 @@ h2 {
 
 h3 {
     padding: 2em 0 0.5em 0;
-    color: #FFF;
+    color: #E4C418;
     font-weight: 500;
     text-align: left;
     font-size: 1.5em;
@@ -55,7 +56,7 @@ h3 {
 /* ---------- Navigation ---------- */
 
 nav {
-    background: #F3F3F3;
+    background: #283747;
     text-transform: uppercase;
     vertical-align: middle;
 }
@@ -64,7 +65,7 @@ nav {
     display: inline-block;
     text-transform: capitalize;
     font-size: 1.6em;
-    color: #B50019;
+    color: #E4C418;
 }
 
 .navbar-nav {
@@ -74,23 +75,22 @@ nav {
 .nav-link {
     font-weight: 300;
     font-size: 1.1em;
-    color: #283747;
+    color: #fff;
 }
 
 .nav-link.active {
-    color: #B50019;
+    color: #E4C418;
 }
 
 nav a:hover,
 .dropdown-item:hover {
-    color: #B50019;
+    color: #E4C418;
 }
 
 /* ---------- Main ---------- */
 
 main {
     padding-bottom: 4em;
-    background: #283747;
 }
 
 main p,
@@ -146,7 +146,7 @@ main a {
 
 #welcome-banner-proceed:hover {
     background-color: rgba(255,255,255,1);
-    color: #B50019;
+    color: #E4C418;
 }
 
 /* ---------- Footer ---------- */
@@ -154,7 +154,7 @@ main a {
 footer {
     padding: 5em 0;
     text-align: center;
-    color: #283747;
+    font-size: 0.9em;
 }
 
 #footer-content-text {
@@ -162,8 +162,10 @@ footer {
 }
 
 footer a:hover {
-    color: #B50019;
-    opacity: 1;
+    color: #E4C418;
+
+
+
 }
 
 /* ---------- Error Pages ---------- */
