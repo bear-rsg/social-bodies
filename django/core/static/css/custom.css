@@ -44,15 +44,14 @@ h3 {
     font-size: 1.5em;
 }
 
-.image-circle {
-    border: 0.3rem solid rgba(255,255,255,0.6);
-    border-radius: 100%;
-    width: 13em;
-    max-width: 90%;
+.iframe-large {
     display: block;
-    margin: 1em auto;
+    margin: 0 auto;
+    overflow: scroll;
+    width: 100%;
+    height: calc(90vh - 3em);
+    border: none;
 }
-
 
 /* ---------- Navigation ---------- */
 
@@ -97,10 +96,8 @@ main {
 main p,
 main ul,
 main ol {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     line-height: 2rem;
-    letter-spacing: 0.04rem;
-    font-weight: 300;
 }
 
 main a {
@@ -148,6 +145,38 @@ main a {
 #welcome-banner-proceed:hover {
     background-color: rgba(255,255,255,1);
     color: #E4C418;
+}
+
+.twittertimeline-container {
+    display: block;
+    overflow: auto;
+    width: 30em;
+    max-width: 90%;
+    height: 40em;
+    margin: 0 auto;
+}
+
+/* ---------- About ---------- */
+
+.team-member-name {
+    margin-top: 3em;
+    color: #E4C418;
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.team-member-role {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 1em;
+}
+
+.team-member-photo {
+    display: block;
+    margin: 1em auto;
+    width: 13em;
+    border-radius: 100%;
+    border: 0.2rem solid #E4C418;
 }
 
 /* ---------- Footer ---------- */
