@@ -24,15 +24,18 @@
 
     /* ---------- Welcome ---------- */
 
-    #welcome-banner {
-        height: calc(100vh - 3.39em);
+    #welcome-videobanner-text {
+        top: 1em;
     }
-
-    #welcome-banner-tagline {
-        width: 90%;
-        margin-left: 5%;
-        background: rgba(255,255,255,0.8);
-        padding: 0.5em;
+    
+    #welcome-videobanner-text-title {
+        font-size: 1.7em;
+        padding: 0.5rem 0.5rem 0 0.5rem;
+    }
+    
+    #welcome-videobanner-text-tagline {
+        font-size: 1em;
+        padding: 0rem 0.5rem 0.5rem 0.5rem;
     }
     
     /* ---------- Footer ---------- */
