@@ -1,0 +1,194 @@
+
+/* ---------- General ---------- */
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    margin: 0;
+    font-weight: 300;
+    background-color: #283747;
+}
+
+a {
+    color: #E4C418;
+    font-weight: 500;
+}
+
+a:hover {
+    color: #DCC961;
+}
+
+h1 {
+    font-size: 1em;
+    margin: 0;
+    padding: 0;
+    line-height: 1em;
+    color: #E4C418;
+    font-weight: 200;
+}
+
+h2 {
+    padding-top: 2em;
+    color: #E4C418;
+    font-weight: 500;
+    text-align: center;
+    font-size: 1.7em;
+    margin: 1.5em 0 1em 0;
+}
+
+h3 {
+    padding: 2em 0 0.5em 0;
+    color: #E4C418;
+    font-weight: 500;
+    text-align: left;
+    font-size: 1.5em;
+}
+
+.iframe-large {
+    display: block;
+    margin: 0 auto;
+    overflow: scroll;
+    width: 100%;
+    height: calc(90vh - 7em);
+    border: none;
+}
+
+/* ---------- Navigation ---------- */
+
+nav {
+    background: #283747;
+    text-transform: uppercase;
+    vertical-align: middle;
+}
+
+.navbar-brand {
+    display: inline-block;
+    text-transform: capitalize;
+    font-size: 1.6em;
+    color: #E4C418;
+}
+
+.navbar-nav {
+    letter-spacing: 0.15em;
+}
+
+.nav-link {
+    font-weight: 300;
+    font-size: 1.1em;
+    color: #fff;
+}
+
+.nav-link.active {
+    color: #E4C418;
+}
+
+nav a:hover,
+.dropdown-item:hover {
+    color: #E4C418;
+}
+
+/* ---------- Main ---------- */
+
+main {
+    padding-bottom: 4em;
+}
+
+main p,
+main ul,
+main ol {
+    font-size: 1.1rem;
+    line-height: 2rem;
+}
+
+main a {
+    text-decoration: none;
+}
+
+/* ---------- Welcome ---------- */
+
+#welcome-videobanner {
+    max-height: 40em;
+    overflow: hidden;
+}
+
+#welcome-videobanner-text {
+    position: relative;
+    left: 0;
+    width: 100%;
+    height: 5em;
+}
+
+#welcome-videobanner-text-title {
+    background: rgba(40, 55, 71, 0.5);
+    color: #E4C418;
+}
+
+#welcome-videobanner-text-tagline {
+    background: rgba(40, 55, 71, 0.5);
+}
+
+#welcome-videobanner video {
+    margin-top: -5em;
+}
+
+.twittertimeline-container {
+    display: block;
+    overflow: auto;
+    width: 30em;
+    max-width: 90%;
+    height: 40em;
+    margin: 0 auto;
+}
+
+/* ---------- About ---------- */
+
+.team-member-name {
+    margin-top: 3em;
+    color: #E4C418;
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.team-member-role {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 1em;
+}
+
+.team-member-photo {
+    display: block;
+    margin: 1em auto;
+    width: 13em;
+    border-radius: 100%;
+    border: 0.2rem solid #E4C418;
+}
+
+/* ---------- Footer ---------- */
+
+footer {
+    padding: 5em 0;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+#footer-content-text {
+    margin-top: 2em;
+}
+
+footer a:hover {
+    color: #E4C418;
+
+
+
+}
+
+/* ---------- Error Pages ---------- */
+
+.errorpage-path {
+    font-weight: bold;
+}
+
+.errorpage-code {
+    margin-top: 3em;
+    font-size: 0.8em;
+}

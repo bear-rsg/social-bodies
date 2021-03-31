@@ -1,0 +1,50 @@
+@media (max-width: 991px) {
+    /* ---------- Navigation ---------- */
+
+    .nav-item {
+        margin-top: 1em;
+    }
+
+    .nav-item:last-of-type {
+        margin-bottom: 1em;
+    }
+
+    .navbar-toggler {
+        color: #FFF;
+        font-size: 1.7em;
+        padding-right: 0;
+    }
+
+    /* ---------- Main ---------- */
+
+    main {
+        margin-top: 3.39em;
+        min-height: calc(100vh - 3.39em);
+    }
+
+    /* ---------- Welcome ---------- */
+
+    #welcome-videobanner-text {
+        top: 1em;
+    }
+    
+    #welcome-videobanner-text-title {
+        font-size: 1.7em;
+        padding: 0.5rem 0.5rem 0 0.5rem;
+    }
+    
+    #welcome-videobanner-text-tagline {
+        font-size: 1em;
+        padding: 0rem 0.5rem 0.5rem 0.5rem;
+    }
+    
+    /* ---------- Footer ---------- */
+
+    #footer-content img {
+        height: auto;
+        width: 25em;
+        max-width: 100%;
+        margin: 0 auto 2em auto;
+        display: block;
+    }
+}

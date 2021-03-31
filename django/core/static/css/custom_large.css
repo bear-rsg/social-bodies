@@ -1,0 +1,43 @@
+@media (min-width: 992px) {
+    /* ---------- Navigation ---------- */
+
+    .navbar-brand {
+        padding-left: 0.3em;
+    }
+
+    .nav-link {
+        margin-left: 1em;
+        margin-right: 2em;
+    }
+
+    /* ---------- Main ---------- */
+
+    main {
+        margin-top: 3.671em;
+        min-height: calc(100vh - 3.671em);
+    }
+
+    /* ---------- Welcome ---------- */
+
+    #welcome-videobanner-text {
+        top: 6em;
+    }
+    
+    #welcome-videobanner-text-title {
+        font-size: 3.3em;
+        padding: 1rem;
+    }
+    
+    #welcome-videobanner-text-tagline {
+        font-size: 1.7em;
+        padding: 1rem;
+    }
+    
+    /* ---------- Footer ---------- */
+
+    #footer-content img {
+        height: 6em;
+        margin: 0 4em 2em 4em;
+        display: inline-block;
+    }
+}
