@@ -3,11 +3,42 @@
 
 {% block main %}
 
+    <div id="welcome-videobanner">
+        <div class="container">
+            <div id="welcome-videobanner-text">
+                <div id="welcome-videobanner-text-title">
+                    Social<strong>Bodies</strong>
+                </div>
+                <div id="welcome-videobanner-text-tagline">
+                    'Material Identities, Social Bodies: Embodiment in British Letters c.1680-1820' is a Leverhulme Trust funded project based in the School of History and Cultures at the University of Birmingham
+                </div>
+            </div>
+        </div>
+        <video autoplay loop muted width="100%" height="auto" src="{% static 'videos/welcome-banner.mp4' %}"></video>
+    </div>
+
     <div class="container">
         <h2>Welcome</h2>
         <p>
-            Content coming soon.
+            'Material Identities, Social Bodies: Embodiment in British Letters c.1680-1820' is a Leverhulme Trust funded project based in the School of History and Cultures at the University of Birmingham. It runs from February 2021 to February 2025.
         </p>
+        <p>
+            The project uses eighteenth-century letters to explore the relationships between the physical body, self and social identity, and experiences of ‘embodiment’. The project team are transcribing and analysing thousands of letters between correspondents of family and kin, friendship, faith and business. We explore a broad range of letter collections held in archives across Britain and North America, considering the bodily experiences of an array of British men and women, and who were of different age, social status, occupation, life stage, and religion.
+        </p>
+        <p>
+            We use a bespoke database to examine the way that these letter-writers described a broad range of bodily experiences including walking, eating, travel, dancing, sexual contact, childbirth, ill health, ageing, and death. We are developing new understandings of how eighteenth-century letter writers discussed their own and each other’s bodies.
+        </p>
+        <p>
+            We will make hundreds of these letters and transcriptions available open access for the first time (from our ‘Letters’ page).
+        </p>
+        <p>
+            On this website you can find out more about the project’s progress and outputs, and explore some examples of the letters we are working with. You can also follow us on Twitter at <a href="https://twitter.com/SocialBodiesUoB">@SocialBodiesUoB</a> or preview our Twitter timeline below.
+        </p>
+
+        <h2>Social</h2>
+        <div class="twittertimeline-container">
+            <a class="twitter-timeline" data-dnt="true" data-theme="dark" href="https://twitter.com/SocialBodiesUoB?ref_src=twsrc%5Etfw">Tweets by SocialBodiesUoB</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+        </div>
     </div>
 
 {% endblock %}

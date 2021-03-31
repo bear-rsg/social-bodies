@@ -24,6 +24,7 @@ h1 {
     padding: 0;
     line-height: 1em;
     color: #E4C418;
+    font-weight: 200;
 }
 
 h2 {
@@ -43,15 +44,14 @@ h3 {
     font-size: 1.5em;
 }
 
-.image-circle {
-    border: 0.3rem solid rgba(255,255,255,0.6);
-    border-radius: 100%;
-    width: 13em;
-    max-width: 90%;
+.iframe-large {
     display: block;
-    margin: 1em auto;
+    margin: 0 auto;
+    overflow: scroll;
+    width: 100%;
+    height: calc(90vh - 7em);
+    border: none;
 }
-
 
 /* ---------- Navigation ---------- */
 
@@ -96,10 +96,8 @@ main {
 main p,
 main ul,
 main ol {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     line-height: 2rem;
-    letter-spacing: 0.04rem;
-    font-weight: 300;
 }
 
 main a {
@@ -108,45 +106,61 @@ main a {
 
 /* ---------- Welcome ---------- */
 
-#welcome-banner {
+#welcome-videobanner {
+    max-height: 40em;
+    overflow: hidden;
+}
+
+#welcome-videobanner-text {
+    position: relative;
+    left: 0;
     width: 100%;
-    padding-top: 10vh;
-    background-image: url('../images/welcome/banner-bg.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-color: black;
+    height: 5em;
 }
 
-#welcome-banner-tagline {
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: 300;
-    letter-spacing: 0.2em;
-    font-size: 1.5em;
-    line-height: 2.5em;
-    color: white;
-}
-
-#welcome-banner-proceed {
-    font-size: 3em;
-	position: absolute;
-	bottom: 0.8em;
-    left: calc(50% - 40px);
-    border-radius: 100%;
-    width: 80px;
-    height: 80px;
-	text-align: center;
-	background-color: rgba(255,255,255,0.5);
-	color: white;
-	padding-top: 5px;
-    cursor: pointer;
-    line-height: 80px;
-}
-
-#welcome-banner-proceed:hover {
-    background-color: rgba(255,255,255,1);
+#welcome-videobanner-text-title {
+    background: rgba(40, 55, 71, 0.5);
     color: #E4C418;
+}
+
+#welcome-videobanner-text-tagline {
+    background: rgba(40, 55, 71, 0.5);
+}
+
+#welcome-videobanner video {
+    margin-top: -5em;
+}
+
+.twittertimeline-container {
+    display: block;
+    overflow: auto;
+    width: 30em;
+    max-width: 90%;
+    height: 40em;
+    margin: 0 auto;
+}
+
+/* ---------- About ---------- */
+
+.team-member-name {
+    margin-top: 3em;
+    color: #E4C418;
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.team-member-role {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 1em;
+}
+
+.team-member-photo {
+    display: block;
+    margin: 1em auto;
+    width: 13em;
+    border-radius: 100%;
+    border: 0.2rem solid #E4C418;
 }
 
 /* ---------- Footer ---------- */
