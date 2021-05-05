@@ -19,16 +19,16 @@
 
     /* ---------- Welcome ---------- */
 
-    #welcome-videobanner-text {
+    #welcome-banner-text {
         top: 6em;
     }
     
-    #welcome-videobanner-text-title {
+    #welcome-banner-text-title {
         font-size: 3.3em;
         padding: 1rem;
     }
     
-    #welcome-videobanner-text-tagline {
+    #welcome-banner-text-tagline {
         font-size: 1.7em;
         padding: 1rem;
     }
