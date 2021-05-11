@@ -110,9 +110,9 @@ main a {
     min-height: 75vh;
     background-image: url('../images/welcome/main-banner.jpg');
     background-size: cover;
-	background-position: center;
-	background-attachment: fixed;
-	background-color: white;
+    background-position: center;
+    background-attachment: fixed;
+    background-color: white;
 }
 
 #welcome-banner-text {
