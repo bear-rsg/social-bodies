@@ -12,7 +12,7 @@
     .navbar-toggler {
         color: #FFF;
         font-size: 1.7em;
-        padding-right: 0;
+        padding-right: 0.35em;
     }
 
     /* ---------- Main ---------- */
@@ -24,18 +24,22 @@
 
     /* ---------- Welcome ---------- */
 
-    #welcome-videobanner-text {
-        top: 1em;
+    #welcome-banner {
+        height: calc(100vh - 3em);
+    }
+
+    #welcome-banner-text {
+        top: 3em;
     }
     
-    #welcome-videobanner-text-title {
-        font-size: 1.7em;
-        padding: 0.5rem 0.5rem 0 0.5rem;
+    #welcome-banner-text-title {
+        font-size: 2.7em;
+        padding: 1rem 1rem 0 1rem;
     }
     
-    #welcome-videobanner-text-tagline {
-        font-size: 1em;
-        padding: 0rem 0.5rem 0.5rem 0.5rem;
+    #welcome-banner-text-tagline {
+        font-size: 1.3em;
+        padding: 0.5rem 1rem 1rem 1rem;
     }
     
     /* ---------- Footer ---------- */

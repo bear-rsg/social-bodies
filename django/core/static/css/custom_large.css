@@ -19,18 +19,19 @@
 
     /* ---------- Welcome ---------- */
 
-    #welcome-videobanner-text {
+    #welcome-banner-text {
         top: 6em;
     }
     
-    #welcome-videobanner-text-title {
-        font-size: 3.3em;
-        padding: 1rem;
+    #welcome-banner-text-title {
+        font-size: 3.2em;
+        padding: 2rem;
+        padding-bottom: 0;
     }
     
-    #welcome-videobanner-text-tagline {
-        font-size: 1.7em;
-        padding: 1rem;
+    #welcome-banner-text-tagline {
+        font-size: 1.6em;
+        padding: 2rem;
     }
     
     /* ---------- Footer ---------- */
