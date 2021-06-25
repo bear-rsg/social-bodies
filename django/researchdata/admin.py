@@ -172,7 +172,7 @@ class PersonAdminView(admin.ModelAdmin):
                    ('religion', RelatedDropdownFilter),
                    ('rank', RelatedDropdownFilter))
     search_fields = ('first_name', 'middle_name', 'last_name')
-    ordering = ('-id',)
+    ordering = ('last_name', 'first_name', 'middle_name', 'id')
     inlines = [PersonPerson1Inline, PersonPerson2Inline]
     readonly_fields = ('created_by', 'created_datetime', 'lastupdated_by', 'lastupdated_datetime')
     filter_horizontal = ('title', 'marital_status', 'religion', 'rank')

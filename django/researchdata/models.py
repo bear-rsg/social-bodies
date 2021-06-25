@@ -233,7 +233,11 @@ class Letter(models.Model):
     sent_date_as_given = models.CharField(max_length=255, blank=True, null=True)
     sent_time = models.CharField(max_length=255, blank=True, null=True)
     sent_from_location = models.TextField(blank=True, null=True)
+    sent_to_longitude = models.FloatField(blank=True, null=True)
+    sent_to_latitude = models.FloatField(blank=True, null=True)
     sent_to_location = models.TextField(blank=True, null=True)
+    sent_to_longitude = models.FloatField(blank=True, null=True)
+    sent_to_latitude = models.FloatField(blank=True, null=True)
     letter_type = models.ManyToManyField(SlLetterType, related_name=related_name, blank=True)
     commentary = models.ManyToManyField(SlLetterCommentary, related_name=related_name, blank=True)
     location = models.ManyToManyField(SlLetterLocation, related_name=related_name, blank=True)
@@ -378,7 +382,6 @@ class Person(models.Model):
             name += " (Died: {})".format(self.year_of_death)
         elif self.year_active_start:
             name += " (Active: {})".format(self.year_active_start)
-
         return name
 
 
