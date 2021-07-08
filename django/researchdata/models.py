@@ -378,7 +378,6 @@ class Person(models.Model):
             name += " (Died: {})".format(self.year_of_death)
         elif self.year_active_start:
             name += " (Active: {})".format(self.year_active_start)
-
         return name
 
 
