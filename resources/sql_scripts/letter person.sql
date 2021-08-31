@@ -1,31 +1,30 @@
 SELECT 	lp.id,
-		lp.letter_id,
-		letter.title as 'letter_title',
-		lp.person_id,
-		person.first_name as 'person_first_name',
-		person.middle_name as 'person_middle_name',
-		person.last_name as 'person_last_name',
-		lp.person_form_of_address,
-		lp.person_other,
-		slpersonletterrelationship.name as 'person_letter_relationship',
-		--
-		GROUP_CONCAT(DISTINCT slletterpersonbodypart.name) as 'm2m_body_part',
-		GROUP_CONCAT(DISTINCT slletterpersonbodilyactivity.name) as 'm2m_bodily_activity',
-		GROUP_CONCAT(DISTINCT slletterpersonappearance.name) as 'm2m_appearance',
-		GROUP_CONCAT(DISTINCT slletterpersonconditionspecificstate.name) as 'm2m_condition_specific_state',
-		GROUP_CONCAT(DISTINCT slletterpersonconditionspecificlifestage.name) as 'm2m_condition_specific_life_stage',
-		GROUP_CONCAT(DISTINCT slletterpersonconditiongeneralizedstate.name) as 'm2m_condition_generalized_state',
-		GROUP_CONCAT(DISTINCT slletterpersonemotion.name) as 'm2m_emotion',
-		GROUP_CONCAT(DISTINCT slletterpersonimmaterial.name) as 'm2m_immaterial',
-		GROUP_CONCAT(DISTINCT slletterpersonsensation.name) as 'm2m_sensation',
-		GROUP_CONCAT(DISTINCT slletterpersontreatment.name) as 'm2m_treatment',
-		GROUP_CONCAT(DISTINCT slletterpersoncontext.name) as 'm2m_context',
-		GROUP_CONCAT(DISTINCT slletterpersonroles.name) as 'm2m_roles',
-		GROUP_CONCAT(DISTINCT slletterpersonstate.name) as 'm2m_state',
-		--
-		lp.admin_notes
---
+        lp.letter_id,
+        letter.title as 'letter_title',
+        lp.person_id,
+        person.first_name as 'person_first_name',
+        person.middle_name as 'person_middle_name',
+        person.last_name as 'person_last_name',
+        lp.person_form_of_address,
+        lp.person_other,
+        slpersonletterrelationship.name as 'person_letter_relationship',
+        GROUP_CONCAT(DISTINCT slletterpersonbodypart.name) as 'm2m_body_part',
+        GROUP_CONCAT(DISTINCT slletterpersonbodilyactivity.name) as 'm2m_bodily_activity',
+        GROUP_CONCAT(DISTINCT slletterpersonappearance.name) as 'm2m_appearance',
+        GROUP_CONCAT(DISTINCT slletterpersonconditionspecificstate.name) as 'm2m_condition_specific_state',
+        GROUP_CONCAT(DISTINCT slletterpersonconditionspecificlifestage.name) as 'm2m_condition_specific_life_stage',
+        GROUP_CONCAT(DISTINCT slletterpersonconditiongeneralizedstate.name) as 'm2m_condition_generalized_state',
+        GROUP_CONCAT(DISTINCT slletterpersonemotion.name) as 'm2m_emotion',
+        GROUP_CONCAT(DISTINCT slletterpersonimmaterial.name) as 'm2m_immaterial',
+        GROUP_CONCAT(DISTINCT slletterpersonsensation.name) as 'm2m_sensation',
+        GROUP_CONCAT(DISTINCT slletterpersontreatment.name) as 'm2m_treatment',
+        GROUP_CONCAT(DISTINCT slletterpersoncontext.name) as 'm2m_context',
+        GROUP_CONCAT(DISTINCT slletterpersonroles.name) as 'm2m_roles',
+        GROUP_CONCAT(DISTINCT slletterpersonstate.name) as 'm2m_state',
+        lp.admin_notes
+
 FROM researchdata_letterperson lp
+
 -- FK
 LEFT JOIN researchdata_letter letter ON lp.letter_id = letter.id
 LEFT JOIN researchdata_person person ON lp.person_id = person.id
@@ -69,32 +68,6 @@ LEFT JOIN researchdata_slgeneric slletterpersonroles ON letterperson_roles.sllet
 -- M2M - state
 LEFT JOIN researchdata_letterperson_state letterperson_state ON lp.id = letterperson_state.letterperson_id
 LEFT JOIN researchdata_slgeneric slletterpersonstate ON letterperson_state.slletterpersonstate_id = slletterpersonstate.id
---
+
 GROUP BY lp.id
-ORDER BY lp.id
-;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ORDER BY lp.id;
