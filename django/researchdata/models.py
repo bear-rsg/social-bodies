@@ -86,6 +86,13 @@ class SlLetterPersonEmotion(SlGeneric):
     """
 
 
+class SlLetterPersonGender(SlGeneric):
+    """
+    Select List table: letter person - gender
+    Inherits the standard SlGeneric model
+    """
+
+
 class SlLetterPersonImmaterial(SlGeneric):
     """
     Select List table: letter person - immaterial
@@ -266,6 +273,8 @@ class LetterPerson(models.Model):
     person_form_of_address = models.CharField(max_length=255, blank=True, null=True)
     person_other = models.CharField(max_length=255, blank=True, null=True,
                                     verbose_name='Person/People (if not specified in Person table)')
+    person_other_gender = models.ForeignKey(SlLetterPersonGender, on_delete=models.SET_NULL, blank=True, null=True,
+                                            verbose_name='Gender of person/people (if not specified in Person table)')
     person_letter_relationship = models.ForeignKey(SlLetterPersonRelationshipType,
                                                    on_delete=models.SET_NULL,
                                                    blank=True, null=True)
