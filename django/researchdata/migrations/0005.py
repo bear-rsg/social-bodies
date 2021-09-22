@@ -20,7 +20,7 @@ def insert_slletterpersongender(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('researchdata', '0001_initial'),
+        ('researchdata', '0004_auto_20210921_1404'),
     ]
 
     operations = [
