@@ -237,6 +237,7 @@ class Letter(models.Model):
                                           validators=[MinValueValidator(1), MaxValueValidator(12)])
     sent_date_day = models.IntegerField(blank=True, null=True,
                                         validators=[MinValueValidator(1), MaxValueValidator(31)])
+    sent_date_is_approximate = models.BooleanField(default=False)
     sent_date_as_given = models.CharField(max_length=255, blank=True, null=True)
     sent_time = models.CharField(max_length=255, blank=True, null=True)
     sent_from_location = models.TextField(blank=True, null=True)
