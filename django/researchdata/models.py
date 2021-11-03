@@ -232,7 +232,7 @@ class Letter(models.Model):
     transcription_plain = models.TextField(blank=True, null=True)
     transcription_normalized = models.TextField(blank=True, null=True)
     sent_date_year = models.IntegerField(blank=True, null=True,
-                                         validators=[MinValueValidator(1500), MaxValueValidator(2000)])
+                                         validators=[MinValueValidator(99), MaxValueValidator(2000)])
     sent_date_month = models.IntegerField(blank=True, null=True,
                                           validators=[MinValueValidator(1), MaxValueValidator(12)])
     sent_date_day = models.IntegerField(blank=True, null=True,
