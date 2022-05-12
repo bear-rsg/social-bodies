@@ -66,6 +66,16 @@
                     <li class="nav-item">
                         <a class="nav-link{% if request.path == "/about/" %} active{% endif %}" href="{% url 'about' %}">About</a>
                     </li>
+                    <!-- Database -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle{% if "/database/" in request.path %} active{% endif %}" href="#" id="navbarDropdownMenuLinkBrowse" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Database
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkBrowse">
+                            <a class="dropdown-item" href="{% url 'researchdata:letter-list' %}">Letters</a>
+                            <a class="dropdown-item" href="{% url 'researchdata:person-list' %}">People</a>
+                        </div>
+                    </li>
                     <!-- Blog -->
                     <li class="nav-item">
                         <a class="nav-link{% if request.path == "/blog/" %} active{% endif %}" href="{% url 'blog' %}">Blog</a>
