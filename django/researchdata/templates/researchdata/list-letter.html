@@ -1,15 +1,27 @@
-{% extends "base.html" %}
+{% extends "researchdata/list.html" %}
 {% load static %}
 
-{% block main %}
+<!-- Title -->
+{% block list_title %}
+    Letters
+{% endblock %}
 
-<section>
-    <h2>List</h2>
-    <ul>
-        {% for object in object_list %}
-            <li><a href="{% url 'researchdata:letter-detail' object.id %}">{{ object }}</a></li>
-        {% endfor %}
-    </ul>
-</section>
+<!-- Link to detail -->
+{% block list_item_link %}
+    {% url 'researchdata:letter-detail' object.id %}
+{% endblock %}
 
+<!-- Search By -->
+{% block list_options_searchby %}
+    <option value="name">Name</option>
+{% endblock %}
+
+<!-- Order By -->
+{% block list_options_orderby %}
+    <optgroup label="Alphabetical">
+        <option value="name">Name</option>
+    </optgroup>
+    <optgroup label="Numerical">
+        <option value="count_xxx">Number of xxx</option>
+    </optgroup>
 {% endblock %}

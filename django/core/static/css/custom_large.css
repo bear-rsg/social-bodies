@@ -33,7 +33,39 @@
         font-size: 1.6em;
         padding: 2rem;
     }
-    
+
+    /* ---------- Database: List ---------- */
+
+    #list-options-views,
+    #list-options-links {
+        float: right;
+    }
+
+    #list-options-views {
+        margin-left: 3em;
+    }
+
+    .list-body-item {
+        margin: 1em;
+        display: inline-block;
+        width: calc(33% - 2em);
+    }
+
+    .list-body-item.gridview .list-body-item-link {
+        min-height: 10em;
+    }
+
+    #list-pagination {
+        white-space: nowrap;
+    }
+
+    .list-pagination-section {
+        white-space: normal;
+        width: 33%;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
     /* ---------- Footer ---------- */
 
     #footer-content img {

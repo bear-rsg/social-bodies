@@ -1,6 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
+import textwrap
+
+
+def singular_plural(count, word_singular, word_plural=None):
+    """
+    Returns a string of the count and either the singular or plural version of the word
+    Used a lot in the model in list_details() methods, for correctly displaying counts
+    E.g. 1 script instead of 1 scripts
+    """
+    if word_plural is None:
+        # Add 's' to singular, unless singular ends in 'y' (then replace 'y' with 'ies') e.g. entity -> entities
+        word_plural = f'{word_singular}s' if word_singular[-1] != 'y' else f'{word_singular[0:-1]}ies'
+    return f'{count} {word_singular}' if count == 1 else f'{count} {word_plural}'
+
 
 # Select List models
 
@@ -260,6 +274,18 @@ class Letter(models.Model):
                                        on_delete=models.PROTECT, blank=True, null=True, verbose_name="Last Updated By")
     lastupdated_datetime = models.DateTimeField(auto_now=True, verbose_name="Last Updated")
 
+    @property
+    def list_image(self):
+        return self.letterimage_set.first()
+
+    @property
+    def list_title(self):
+        return textwrap.shorten(self.title, width=90, placeholder="...")
+
+    @property
+    def list_details(self):
+        return f"Details."
+
     def __str__(self):
         return "{} - {}".format(self.id, self.title)
 
@@ -370,6 +396,18 @@ class Person(models.Model):
     lastupdated_by = models.ForeignKey(User, related_name="person_lastupdated_by",
                                        on_delete=models.PROTECT, blank=True, null=True, verbose_name="Last Updated By")
     lastupdated_datetime = models.DateTimeField(auto_now=True, verbose_name="Last Updated")
+
+    @property
+    def full_name(self):
+        return ' '.join(n for n in [self.first_name, self.middle_name, self.last_name] if n)
+
+    @property
+    def list_title(self):
+        return textwrap.shorten(self.full_name, width=90, placeholder="...")
+
+    @property
+    def list_details(self):
+        return f"Details."
 
     def __str__(self):
         # Set default value
