@@ -284,7 +284,7 @@ class Letter(models.Model):
 
     @property
     def list_details(self):
-        return f"Details."
+        return "Details."
 
     def __str__(self):
         return "{} - {}".format(self.id, self.title)
@@ -407,7 +407,7 @@ class Person(models.Model):
 
     @property
     def list_details(self):
-        return f"Details."
+        return "Details."
 
     def __str__(self):
         # Set default value

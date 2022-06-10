@@ -1,16 +1,17 @@
 from django.urls import path
-from . import views
+from .views.letter import LetterListView, LetterDetailView
+from .views.person import PersonListView, PersonDetailView
 
 app_name = 'researchdata'
 
 urlpatterns = [
 
     # Letters
-    path('letters/', views.LetterListView.as_view(), name='letter-list'),
-    path('letters/<pk>/', views.LetterDetailView.as_view(), name='letter-detail'),
+    path('letters/', LetterListView.as_view(), name='letter-list'),
+    path('letters/<pk>/', LetterDetailView.as_view(), name='letter-detail'),
 
     # People
-    path('people/', views.PersonListView.as_view(), name='person-list'),
-    path('people/<pk>/', views.PersonDetailView.as_view(), name='person-detail'),
+    path('people/', PersonListView.as_view(), name='person-list'),
+    path('people/<pk>/', PersonDetailView.as_view(), name='person-detail'),
 
 ]

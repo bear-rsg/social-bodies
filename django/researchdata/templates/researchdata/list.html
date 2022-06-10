@@ -36,6 +36,22 @@
                 </div>
             </div>
 
+            <!-- Filters -->
+            <div id="list-options-filters">
+                <div>Filters:</div>
+                {% for f in filters %}
+                    <div class="list-options-filters-filter">
+                        <label for="{{ f.filter_id }}">{{ f.filter_name }}</label>
+                        <select id="{{ f.filter_id }}" title="{{ f.filter_id }}" name="{{ f.filter_id }}">
+                            {% include 'researchdata/snippets/select-default.html' %}
+                            {% for o in f.filter_options %}
+                                <option value="{% if o.html_select_value_field %}{{ o.html_select_value_field }}{% else %}{{ o.id }}{% endif %}"{% if o.data_hierarchy_parents_ids %} data-hierarchy-parents-ids="{{ o.data_hierarchy_parents_ids }}"{% endif %}>{{ o }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endfor %}
+            </div>
+
             <!-- Order -->
             <div id="list-options-order">
                 <label>Order by:</label>

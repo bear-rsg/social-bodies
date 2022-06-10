@@ -209,11 +209,11 @@ main a {
 #list-options-search-input {
     background: rgba(255, 255, 255, 0.1);
     border: 0;
-    color: #AAA;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 #list-options-search-input::placeholder {
-    color: #898989;
+    color: rgba(255, 255, 255, 0.5);
 }
 
 #list-options-search-input:hover,
@@ -236,9 +236,34 @@ main a {
     background: #f9d301;
 }
 
+#list-options-filters {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0.5em;
+    margin-bottom: 1em;
+}
+
+.list-options-filters-filter {
+    display: inline-block;
+    margin: 0.3em 1em;
+    width: calc(20% - 2.27em);
+}
+
+.list-options-filters-filter label {
+    display: block;
+    margin: 0;
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.list-options-filters-filter select {
+    width: 100%;
+}
+
 #list-options-order {
     display: inline-block;
 }
+
+.list-options-filters-filter select,
 #list-options-order-by,
 #list-options-order-direction {
     appearance: none;
@@ -248,7 +273,7 @@ main a {
     border: none;
     padding: 0.3em 1.3em 0.2em 0.3em;
     margin: 0;
-    color: #AAA;
+    color: rgba(255, 255, 255, 0.7);
     background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
     background-repeat: no-repeat;
     background-position-x: 100%;
