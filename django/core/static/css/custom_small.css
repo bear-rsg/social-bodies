@@ -53,9 +53,9 @@
     }
 
     #list-options-searchby,
-    #list-options-order,
-    #list-options-order-by,
-    #list-options-order-direction {
+    #list-options-sort,
+    #list-options-sort-by,
+    #list-options-sort-direction {
         display: block;
         width: 100%;
         margin-bottom: 0.5em;

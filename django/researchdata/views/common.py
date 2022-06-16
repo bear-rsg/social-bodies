@@ -3,13 +3,7 @@ This script is for common resources (e.g. functions) used throughout the main vi
 """
 
 from django.db.models.functions import Lower
-from django.db.models import (Count, Q, CharField, TextField)
-from functools import reduce
-from operator import (or_, and_)
-import json
-
-
-PAGINATE_COUNT = 100  # specified here to establish same pagination count throughout all views
+from django.db.models import (Count, CharField, TextField)
 
 
 def get_field_type(field_name, queryset):
@@ -24,36 +18,6 @@ def get_field_type(field_name, queryset):
         return queryset.model._meta.get_field(stripped_field_name)
     except Exception:
         return CharField  # If it fails, assume it's a CharField by default
-
-
-def search(request, queryset, field_names_to_search):
-    """
-    request = http request object, e.g. self.request
-    queryset = the Django queryset to be searched
-    field_names_to_search = list of names of the fields to include in search
-
-    Returns a filtered/searched Django queryset, allowing for multiple search criteria and operator (or_ / and_)
-    """
-
-    # Search
-    searches = json.loads(request.GET.get('search', '[]'))
-
-    # Set list of search options
-    if searches not in [[''], []]:
-        operator = or_ if request.GET.get('search_operator', '') == 'or' else and_
-        queries = []
-        for search in searches:
-            # Uses 'or_' as the search term could appear in any field, so 'and_' wouldn't be suitable
-            queries.append(
-                reduce(or_, (Q((f'{field_name}__icontains', search)) for field_name in field_names_to_search))
-            )
-        # Connect the individual search queries via the user-defined operator (or_ / and_)
-        queries = reduce(operator, queries)
-        # Filter the queryset using the completed search query
-        return queryset.filter(queries)
-
-    # If no search criteria provided, simply return the unfiltered queryset
-    return queryset
 
 
 # Special starts to the values & labels of options in 'filter' select lists
@@ -112,7 +76,7 @@ def sort(request, queryset, sort_by_default='id'):
     """
     request = http request object, e.g. self.request
     queryset = the Django queryset to be sorted
-    sort_by_default = default field to sort by, e.g. name, id, ...
+    sort_by_default = default field to sort by, e.g. id, ...
 
     Returns a sorted Django queryset
     """

@@ -259,13 +259,13 @@ main a {
     width: 100%;
 }
 
-#list-options-order {
+#list-options-sort {
     display: inline-block;
 }
 
 .list-options-filters-filter select,
-#list-options-order-by,
-#list-options-order-direction {
+#list-options-sort-by,
+#list-options-sort-direction {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;

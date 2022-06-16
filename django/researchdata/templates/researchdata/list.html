@@ -52,15 +52,15 @@
                 {% endfor %}
             </div>
 
-            <!-- Order -->
-            <div id="list-options-order">
-                <label>Order by:</label>
-                <!-- Order by -->
-                <select id="list-options-order-by" name="order_by">
-                    {% block list_options_orderby %}{% endblock %}
+            <!-- Sort -->
+            <div id="list-options-sort">
+                <label>Sort by:</label>
+                <!-- Sort by -->
+                <select id="list-options-sort-by" name="sort_by">
+                    {% block list_options_sortby %}{% endblock %}
                 </select>
-                <!-- Order direction -->
-                <select id="list-options-order-direction" name="order_direction">
+                <!-- Sort direction -->
+                <select id="list-options-sort-direction" name="sort_direction">
                     <option value="">Asc (A-Z, 0-9)</option>
                     <option value="-">Desc (Z-A, 9-0)</option>
                 </select>
@@ -210,8 +210,8 @@ $(document).ready(function() {
         window.location.replace(window.location.href.split('?')[0]);
     });
 
-    // Submit list options form (search, order, etc.) on change of certain inputs
-    $('#list-options-order-by, #list-options-order-direction').on('change', function(){
+    // Submit list options form (search, sort, etc.) on change of certain inputs
+    $('#list-options-sort-by, #list-options-sort-direction').on('change', function(){
         $('#list-options-form').submit();
     });
 
@@ -231,9 +231,9 @@ $(document).ready(function() {
     // Search
     setFormItemValueFromUrlParameter("list-options-search-input", "search");
     setFormItemValueFromUrlParameter("list-options-searchby", "search_by");
-    // Order
-    setFormItemValueFromUrlParameter("list-options-order-by", "order_by");
-    setFormItemValueFromUrlParameter("list-options-order-direction", "order_direction");
+    // Sort
+    setFormItemValueFromUrlParameter("list-options-sort-by", "sort_by");
+    setFormItemValueFromUrlParameter("list-options-sort-direction", "sort_direction");
 });
 </script>
 

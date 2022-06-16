@@ -17,7 +17,7 @@ class PersonListView(ListView):
     """
     template_name = 'researchdata/list-person.html'
     model = models.Person
-    paginate_by = common.PAGINATE_COUNT
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
