@@ -18,39 +18,29 @@ class LetterListView(ListView):
     """
     template_name = 'researchdata/list-letter.html'
     model = models.Letter
-    paginate_by = 100
+    paginate_by = 20
 
     def get_queryset(self):
         # Start with all published objects
         queryset = self.model.objects.filter(admin_published=True)
-
-        #
         # Search
-        #
-
         search = self.request.GET.get('search', '')
-        search_by = self.request.GET.get('search_by', '')
-
-        # Search all fields and related data in a single search
-        if search_by == '' and search != '':
+        if search != '':
             queryset = queryset.filter(
                 Q(title__icontains=search) |
                 Q(collection__name__icontains=search)
             )
-
-        # Search by specific fields, if search_by is specified
-        
-
-        #
-        # Order
-        #
-
+        # Filters
+        queryset = common.filter(self.request, queryset)
+        # Sort
         queryset = common.sort(self.request, queryset, 'title')
-
-        return queryset.distinct()
+        # Return result, showing only distinct and use prefetch for improved performance
+        return queryset.distinct().prefetch_related('letterimage_set')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        context['filter_pre'] = common.filter_pre
 
         # Options: Filters
         context['filters'] = [
@@ -78,6 +68,11 @@ class LetterListView(ListView):
                 'filter_id': f'{common.filter_pre_mm}location',
                 'filter_name': 'Location',
                 'filter_options': models.SlLetterLocation.objects.all()
+            },
+            {
+                'filter_id': f'{common.filter_pre_mm}letterperson__bodily_activity',
+                'filter_name': 'Bodily Activity',
+                'filter_options': models.SlLetterPersonBodilyActivity.objects.all()
             },
         ]
 

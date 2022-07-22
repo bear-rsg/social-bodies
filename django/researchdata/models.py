@@ -276,7 +276,7 @@ class Letter(models.Model):
 
     @property
     def list_image(self):
-        return self.letterimage_set.first()
+        return self.letterimage_set.all()
 
     @property
     def list_title(self):

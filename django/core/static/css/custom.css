@@ -244,8 +244,8 @@ main a {
 
 .list-options-filters-filter {
     display: inline-block;
-    margin: 0.3em 1em;
-    width: calc(20% - 2.27em);
+    margin: 0.4em 1em 0.7em 1em;
+    width: calc(25% - 2.27em);
 }
 
 .list-options-filters-filter label {
