@@ -284,7 +284,14 @@ class Letter(models.Model):
 
     @property
     def list_details(self):
-        return "Details."
+        details = f"<strong>People featured:</strong> {self.letterperson_set.count()}<br>"
+        details += f"<strong>Collection:</strong> {self.collection.name}<br>" if self.collection else ''
+        details += f"<strong>Item Number:</strong> {self.item_number}<br>" if self.item_number else ''
+        details += f"<strong>Repository:</strong> {self.repository.name}<br>" if self.repository else ''
+        details += f"<strong>Summary:</strong> {textwrap.shorten(self.summary, width=690, placeholder='...')}" if self.summary else ''
+        return details.strip()
+
+        return 
 
     def __str__(self):
         return "{} - {}".format(self.id, self.title)
@@ -407,7 +414,14 @@ class Person(models.Model):
 
     @property
     def list_details(self):
-        return "Details."
+        details = f"<strong>Featured in letters:</strong> {self.letterperson_set.count()}<br>"
+        details += f"<strong>Gender:</strong> {self.gender.name.capitalize()}.<br>" if self.gender else ''
+        details += f"<strong>Alternative Name:</strong> {self.alternative_names}.<br>" if self.alternative_names else ''
+        details += f"<strong>Born:</strong> {self.year_of_birth}.<br>" if self.year_of_birth else ''
+        details += f"<strong>Died:</strong> {self.year_of_death}.<br>" if self.year_of_death else ''
+        details += f"<strong>Active from:</strong> {self.year_active_start}.<br>" if self.year_active_start else ''
+        details += f"<strong>Active until:</strong> {self.year_active_end}.<br>" if self.year_active_end else ''
+        return details.strip()
 
     def __str__(self):
         # Set default value

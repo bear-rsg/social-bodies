@@ -11,17 +11,12 @@
     {% url 'researchdata:letter-detail' object.id %}
 {% endblock %}
 
-<!-- Search By -->
-{% block list_options_searchby %}
-    <option value="title">Title</option>
-{% endblock %}
-
 <!-- Order By -->
 {% block list_options_sortby %}
-    <optgroup label="Alphabetical">
-        <option value="title">Title</option>
-    </optgroup>
-    <optgroup label="Numerical">
-        <option value="count_xxx">Number of xxx</option>
-    </optgroup>
+    <option value="title">Title</option>
+    <option value="summary">Summary</option>
+    <option value="collection__name">Collection</option>
+    <option value="item_number">Item Number</option>
+    <option value="repository__name">Repository</option>
+    <option value="count_letterperson">Number of People</option>
 {% endblock %}

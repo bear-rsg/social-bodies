@@ -87,7 +87,7 @@
                 {% if object.list_image %}
                     <img src="{{ object.list_image.0.image.url }}" alt="letter preview">
                 {% endif %}
-                <div class="list-body-item-details">{{ object.list_details }}</div>
+                <div class="list-body-item-details">{{ object.list_details | safe }}</div>
             </a>
             <!-- Search Meta -->
             {% if search_meta %}

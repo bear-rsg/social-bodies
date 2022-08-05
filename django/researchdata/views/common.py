@@ -97,15 +97,15 @@ def sort(request, queryset, sort_by_default='id'):
         # Sort descending (Z-A)
         if sort_dir == '-':
             # Convert CharField and TextField values to lowercase, for case insensitivity
-            if isinstance(get_field_type(sort, queryset), (CharField, TextField)):
-                return queryset.order_by(Lower(sort[1:]).desc())
+            if isinstance(get_field_type(sort_by, queryset), (CharField, TextField)):
+                return queryset.order_by(Lower(sort_by).desc())
             else:
-                return queryset.order_by(sort[1:].desc())
+                return queryset.order_by(sort)
 
         # Sort ascending (A-Z)
         else:
             # Convert CharField and TextField values to lowercase, for case insensitivity
-            if isinstance(get_field_type(sort, queryset), (CharField, TextField)):
-                return queryset.order_by(Lower(sort))
+            if isinstance(get_field_type(sort_by, queryset), (CharField, TextField)):
+                return queryset.order_by(Lower(sort_by))
             else:
-                return queryset.order_by(sort)
+                return queryset.order_by(sort_by)
