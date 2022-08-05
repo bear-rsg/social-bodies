@@ -26,9 +26,32 @@ class LetterListView(ListView):
         # Search
         search = self.request.GET.get('search', '')
         if search != '':
-            queryset = queryset.filter(
+            queryset = queryset.prefetch_related('letterperson_set', 'letter_type', 'collection', 'location').filter(
                 Q(title__icontains=search) |
-                Q(collection__name__icontains=search)
+                Q(summary__icontains=search) |
+                Q(transcription_plain__icontains=search) |
+                Q(transcription_normalized__icontains=search) |
+                Q(sent_date_year__icontains=search) |
+                Q(sent_date_month__icontains=search) |
+                Q(sent_date_day__icontains=search) |
+                Q(sent_date_as_given__icontains=search) |
+                Q(sent_time__icontains=search) |
+                Q(sent_from_location__icontains=search) |
+                Q(sent_to_location__icontains=search) |
+
+                # FK
+                Q(collection__name__icontains=search) |
+                Q(repository__name__icontains=search) |
+                Q(estimated_proportion_of_letter__name__icontains=search) |
+
+                # M2M
+                Q(letter_type__name__icontains=search) |
+                Q(commentary__name__icontains=search) |
+                Q(location__name__icontains=search) |
+
+                # M2M via LetterPerson (limited fields, as this slows it down considerably)
+                Q(letterperson__body_part__name__icontains=search) |
+                Q(letterperson__bodily_activity__name__icontains=search)
             )
         # Filters
         queryset = common.filter(self.request, queryset)

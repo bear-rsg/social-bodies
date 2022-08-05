@@ -28,7 +28,28 @@ class PersonListView(ListView):
         if search != '':
             queryset = queryset.filter(
                 Q(first_name__icontains=search) |
-                Q(gender__name__icontains=search)
+                Q(middle_name__icontains=search) |
+                Q(last_name__icontains=search) |
+                Q(alternative_spelling_of_name__icontains=search) |
+                Q(alternative_names__icontains=search) |
+                Q(year_of_birth__icontains=search) |
+                Q(year_of_death__icontains=search) |
+                Q(year_active_start__icontains=search) |
+                Q(year_active_end__icontains=search) |
+                Q(occupation__icontains=search) |
+
+                # FK
+                Q(gender__name__icontains=search) |
+
+                # M2M
+                Q(title__name__icontains=search) |
+                Q(marital_status__name__icontains=search) |
+                Q(religion__name__icontains=search) |
+                Q(rank__name__icontains=search) |
+
+                # M2M via LetterPerson (limited fields, as this slows it down considerably)
+                Q(letterperson__body_part__name__icontains=search) |
+                Q(letterperson__bodily_activity__name__icontains=search)
             )
         # Filters
         queryset = common.filter(self.request, queryset)
