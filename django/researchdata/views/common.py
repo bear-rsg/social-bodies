@@ -57,7 +57,6 @@ def html_details_list_items(object_list):
 def letterperson_details(object):
     """
     Return a list of lists of details for each letterperson relationship the specified object has
-    'title' param to be 'person' if 
     """
 
     related_model = "Person" if object._meta.model.__name__ == "Letter" else "Letter"
@@ -73,7 +72,10 @@ def letterperson_details(object):
             # Title (this is different from rest of the objects as it just features the title of this Person/Letter)
             {
                 'title': f"{related_model}: {related_object_name}",
-                'url': reverse(f'researchdata:{related_model_field}-detail', args=[related_object.id]) if related_object else None
+                'url': reverse(
+                    f'researchdata:{related_model_field}-detail',
+                    args=[related_object.id]
+                ) if related_object else None
             },
 
             # Details

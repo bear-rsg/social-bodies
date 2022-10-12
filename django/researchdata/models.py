@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
+from PIL import Image, ImageOps
+from django.core.files import File
+from io import BytesIO
+import os
 import textwrap
 
 
@@ -279,8 +283,9 @@ class Letter(models.Model):
     lastupdated_datetime = models.DateTimeField(auto_now=True, verbose_name="Last Updated")
 
     @property
-    def list_image(self):
-        return self.letterimage_set.all()
+    def list_image_url(self):
+        if self.letterimage_set.all():
+            return self.letterimage_set.all()[0].image_thumbnail.url
 
     @property
     def list_title(self):
@@ -292,10 +297,9 @@ class Letter(models.Model):
         details += f"<strong>Collection:</strong> {self.collection.name}<br>" if self.collection else ''
         details += f"<strong>Item Number:</strong> {self.item_number}<br>" if self.item_number else ''
         details += f"<strong>Repository:</strong> {self.repository.name}<br>" if self.repository else ''
-        details += f"<strong>Summary:</strong> {textwrap.shorten(self.summary, width=690, placeholder='...')}" if self.summary else ''
+        if self.summary:
+            details += f"<strong>Summary:</strong> {textwrap.shorten(self.summary, width=690, placeholder='...')}"
         return details.strip()
-
-        return 
 
     def __str__(self):
         return "{} - {}".format(self.id, self.title)
@@ -380,8 +384,12 @@ class LetterImage(models.Model):
     A Letter can have multiple images
     """
 
+    media_dir_letterimage = 'researchdata/letters'
+    media_dir_letterimage_thumbnails = media_dir_letterimage + '-thumbnails'
+
     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='researchdata/letters')
+    image = models.ImageField(upload_to=media_dir_letterimage)
+    image_thumbnail = models.ImageField(upload_to=media_dir_letterimage_thumbnails, blank=True, null=True)
     description = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
@@ -389,6 +397,35 @@ class LetterImage(models.Model):
             return "Image of letter: {}".format(self.letter.title)
         else:
             return "An image of a letter"
+
+    def save(self, *args, **kwargs):
+        # Must save now, so image is saved before working with it
+        super().save(*args, **kwargs)
+
+        try:
+            file_extension = self.image.name.split('.')[-1].lower()
+            file_format = 'PNG' if file_extension == 'png' else 'JPEG'
+
+            # Create a thumbnail image file of original image (e.g. for use in list views)
+            if self.image_thumbnail:
+                self.image_thumbnail.delete(save=False)
+            img_thumbnail = Image.open(self.image.path)
+            img_thumbnail.thumbnail((890, 890))
+            img_thumbnail = ImageOps.exif_transpose(img_thumbnail)  # Rotate to correct orientation
+            blob_thumbnail = BytesIO()
+            img_thumbnail.save(blob_thumbnail, file_format, optimize=True, quality=80)
+            name = os.path.basename(self.image.name).rsplit('.', 1)[0]  # removes extension from main image name
+            self.image_thumbnail.save(f'{name}_thumbnail.{file_extension}', File(blob_thumbnail), save=False)
+
+            # Update the object in db - must use update() not save() to avoid unique ID error
+            LetterImage.objects.filter(id=self.id).update(
+                image=f'{self.media_dir_letterimage}/{name}.{file_extension}',
+                image_thumbnail=f'{self.media_dir_letterimage_thumbnails}/{name}_thumbnail.{file_extension}'
+            )
+        except FileNotFoundError:
+            pass
+        except Exception:
+            pass
 
 
 class Person(models.Model):
@@ -436,12 +473,12 @@ class Person(models.Model):
     @property
     def list_details(self):
         details = f"<strong>Featured in letters:</strong> {self.letterperson_set.count()}<br>"
-        details += f"<strong>Gender:</strong> {self.gender.name.capitalize()}.<br>" if self.gender else ''
-        details += f"<strong>Alternative Name:</strong> {self.alternative_names}.<br>" if self.alternative_names else ''
-        details += f"<strong>Born:</strong> {self.year_of_birth}.<br>" if self.year_of_birth else ''
-        details += f"<strong>Died:</strong> {self.year_of_death}.<br>" if self.year_of_death else ''
-        details += f"<strong>Active from:</strong> {self.year_active_start}.<br>" if self.year_active_start else ''
-        details += f"<strong>Active until:</strong> {self.year_active_end}.<br>" if self.year_active_end else ''
+        details += f"<strong>Gender:</strong> {self.gender.name.capitalize()}<br>" if self.gender else ''
+        details += f"<strong>Alternative Name:</strong> {self.alternative_names}<br>" if self.alternative_names else ''
+        details += f"<strong>Born:</strong> {self.year_of_birth}<br>" if self.year_of_birth else ''
+        details += f"<strong>Died:</strong> {self.year_of_death}<br>" if self.year_of_death else ''
+        details += f"<strong>Active from:</strong> {self.year_active_start}<br>" if self.year_active_start else ''
+        details += f"<strong>Active until:</strong> {self.year_active_end}<br>" if self.year_active_end else ''
         return details.strip()
 
     def __str__(self):

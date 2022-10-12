@@ -80,12 +80,11 @@
 <!-- List Body -->
 <section id="list-body" class="container compact">
     {% for object in object_list %}
-        <!-- Set the URL based on the main model supplied to this page -->
         <div class="list-body-item">
             <a href="{% block list_item_link %}{% endblock %}" class="list-body-item-link">
                 <div class="list-body-item-title">{{ object.list_title }}</div>
-                {% if object.list_image %}
-                    <img src="{{ object.list_image.0.image.url }}" alt="letter preview">
+                {% if object.list_image_url %}
+                    <img src="{{ object.list_image_url }}" alt="letter preview">
                 {% endif %}
                 <div class="list-body-item-details">{{ object.list_details | safe }}</div>
             </a>

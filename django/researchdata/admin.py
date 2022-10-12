@@ -59,7 +59,7 @@ class LetterAdminView(admin.ModelAdmin):
     """
     Customise the Letter section of the Django admin
     """
-    list_display = ('id', 'title', 'summary')
+    list_display = ('id', 'title', 'summary', 'admin_published')
     list_filter = (('collection', RelatedDropdownFilter),
                    ('repository', RelatedDropdownFilter),
                    ('letter_type', RelatedDropdownFilter),
@@ -91,7 +91,8 @@ class LetterPersonAdminView(admin.ModelAdmin):
                     'letter_link',
                     'person_link',
                     'person_other',
-                    'person_letter_relationship')
+                    'person_letter_relationship',
+                    'admin_published')
     list_filter = (('person_letter_relationship', RelatedDropdownFilter),
                    ('body_part', RelatedDropdownFilter),
                    ('bodily_activity', RelatedDropdownFilter),
@@ -165,7 +166,7 @@ class PersonAdminView(admin.ModelAdmin):
     Customise the Person section of the Django admin
     """
     list_display = ('id', 'first_name', 'middle_name', 'last_name', 'year_of_birth',
-                    'year_of_death', 'year_active_start', 'year_active_end')
+                    'year_of_death', 'year_active_start', 'year_active_end', 'admin_published')
     list_filter = (('gender', RelatedDropdownFilter),
                    ('title', RelatedDropdownFilter),
                    ('marital_status', RelatedDropdownFilter),
