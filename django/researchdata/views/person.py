@@ -12,7 +12,6 @@ class PersonDetailView(DetailView):
     template_name = 'researchdata/detail-person.html'
     queryset = models.Person.objects.filter(admin_published=True)\
         .prefetch_related('person', 'letterperson_set',)
-        # .select_related('collection', 'repository')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
