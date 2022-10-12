@@ -10,7 +10,9 @@ class LetterDetailView(DetailView):
     Class-based view for letter detail template
     """
     template_name = 'researchdata/detail-letter.html'
-    queryset = models.Letter.objects.filter(admin_published=True)
+    queryset = models.Letter.objects.filter(admin_published=True)\
+        .prefetch_related('letter', 'letterimage_set', 'letterperson_set')\
+        .select_related('collection', 'repository')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -52,7 +54,7 @@ class LetterListView(ListView):
     """
     template_name = 'researchdata/list-letter.html'
     model = models.Letter
-    paginate_by = 30
+    paginate_by = 60
 
     def get_queryset(self):
         # Start with all published objects
@@ -92,7 +94,9 @@ class LetterListView(ListView):
         # Sort
         queryset = common.sort(self.request, queryset, 'title')
         # Return result, showing only distinct and use prefetch for improved performance
-        return queryset.distinct().prefetch_related('letterimage_set')
+        return queryset.distinct()\
+            .prefetch_related('letterimage_set', 'letterperson_set')\
+            .select_related('collection', 'repository')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

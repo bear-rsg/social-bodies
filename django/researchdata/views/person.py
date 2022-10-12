@@ -50,7 +50,7 @@ class PersonListView(ListView):
     """
     template_name = 'researchdata/list-person.html'
     model = models.Person
-    paginate_by = 30
+    paginate_by = 60
 
     def get_queryset(self):
         # Start with all published objects
@@ -88,7 +88,8 @@ class PersonListView(ListView):
         # Sort
         queryset = common.sort(self.request, queryset, 'first_name')
         # Return result, showing only distinct
-        return queryset.distinct()
+        return queryset.distinct()\
+            .prefetch_related('letterperson_set').select_related('gender')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
