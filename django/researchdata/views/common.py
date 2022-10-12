@@ -5,6 +5,7 @@ This script is for common resources (e.g. functions) used throughout the main vi
 from django.db.models.functions import Lower
 from django.db.models import (Count, CharField, TextField)
 from django.urls import reverse
+from researchdata import models
 
 
 def get_field_type(field_name, queryset):
@@ -63,7 +64,23 @@ def letterperson_details(object):
     related_model_field = related_model.lower()
     data = []
 
-    for letterperson in object.letterperson_set.all():
+    for letterperson in object.letterperson_set.all()\
+        .prefetch_related('body_part',
+                          'bodily_activity',
+                          'appearance',
+                          'condition_specific_state',
+                          'condition_specific_life_stage',
+                          'condition_generalized_state',
+                          'emotion',
+                          'immaterial',
+                          'sensation',
+                          'treatment',
+                          'context',
+                          'roles',
+                          'state',)\
+        .select_related('person', 'letter', 'person_letter_relationship'):
+
+        # models.M2MPersonPerson.objects
 
         related_object = getattr(letterperson, related_model_field)
         related_object_name = getattr(letterperson, f"{related_model_field}_name")
