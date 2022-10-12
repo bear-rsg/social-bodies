@@ -2,9 +2,83 @@
 {% load static %}
 
 {% block main %}
+<div class="container-fluid">
 
-<section>
-    <h2>{{ object }}</h2>
-</section>
+    <section>
+        {% include "researchdata/snippets/viewinadmindashboard.html" with admin_url=admin_url %}
+
+        <h2>{{ object }}</h2>
+
+        <ul class="tabs">
+            <li id="transcription">Transcription</li>
+            <li id="details">Letter Details</li>
+            <li id="people">People</li>
+            {% if object.letter.all %}
+                <li id="relatedletters">Related Letters</li>
+            {% endif %}
+        </ul>
+    </section>
+
+    <section class="tabbed" id="tabbed-transcription">
+        <div class="tabbed-title">Transcription</div>
+
+        <div id="transcription-images" class="transcription-section">
+            {% for image in object.letterimage_set.all %}
+                <h3>Image {{ forloop.counter }} of {{ object.letterimage_set.all | length }}</h3>
+                {% if image.description %}
+                    <p>{{ image.description }}</p>
+                {% endif %}
+                <div id="transcription-images-image-container-{{ forloop.counter }}" class="transcription-images-image-container">
+                    <img src="{{ image.image.url }}" id="main-img-{{ forloop.counter }}" class="main-img" alt="{{ image }}">
+                    <div id="zoomed-img-{{ forloop.counter }}" class="zoomed-img" style="background: url('{{ image.image.url }}') no-repeat #050505;"></div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Transcription Text -->
+        <div id="transcription-texts" class="transcription-section">
+            <!-- Switch between texts -->
+            <div id="transcription-texts-switch">
+                <div data-textid="plain">Plain</div><div data-textid="normalized">Normalized</div>
+            </div>
+            <!-- Transcription Text: Plain -->
+            <div id="transcription-texts-text-plain" class="transcription-texts-text">
+                {{ letter.transcription_plain | safe | linebreaks }}
+            </div>
+            <!-- Transcription Text: Normalized -->
+            <div id="transcription-texts-text-normalized" class="transcription-texts-text">
+                {{ letter.transcription_normalized | safe | linebreaks }}
+            </div>
+        </div>
+
+    </section>
+
+    <section class="tabbed container" id="tabbed-details">
+        <div class="tabbed-title">Details</div>
+        {% include "researchdata/snippets/details-detail.html" with details=details %}
+    </section>
+
+    <section class="tabbed container" id="tabbed-people">
+        <div class="tabbed-title">People</div>
+        {% include "researchdata/snippets/letterpersons.html" %}
+    </section>
+
+    {% if object.letter.all %}
+        <section class="tabbed container" id="tabbed-relatedletters">
+            <div class="tabbed-title">Related Letters</div>
+
+            <div class="detail-relateditems">
+                {% for related_letter in object.letter.all %}
+                    <a class="detail-relateditems-item" href="{% url 'researchdata:letter-detail' related_letter.id %}">{{ related_letter }}</a>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
+</div>
+
+<!-- Load JS -->
+<script src="{% static 'js/tabs.js' %}"></script>
+<script src="{% static 'js/transcription.js' %}"></script>
 
 {% endblock %}

@@ -26,6 +26,10 @@ class SlGeneric(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
 
+    @property
+    def html_details_list_item_text(self):
+        return str(self)
+
     def __str__(self):
         return self.name
 
@@ -343,6 +347,23 @@ class LetterPerson(models.Model):
     lastupdated_by = models.ForeignKey(User, related_name="letterperson_lastupdated_by",
                                        on_delete=models.PROTECT, blank=True, null=True, verbose_name="Last Updated By")
     lastupdated_datetime = models.DateTimeField(auto_now=True, verbose_name="Last Updated")
+
+    @property
+    def letter_name(self):
+        return self.letter.title
+
+    @property
+    def person_name(self):
+        if self.person:
+            return self.person.full_name
+        elif self.person_other:
+            return self.person_other
+        elif self.person_form_of_address:
+            return self.person_form_of_address
+        elif self.person_letter_relationship:
+            return f"Unnamed person ({self.person_form_of_address})"
+        else:
+            return "Unnamed person"
 
     def __str__(self):
         if self.letter:

@@ -167,7 +167,7 @@ main a {
     border: 0.2rem solid #f9d301;
 }
 
-/* ---------- Database: List ---------- */
+/* ---------- List ---------- */
 
 #list-head h2,
 #detail-head h2 {
@@ -489,9 +489,177 @@ main a {
     padding-top: 1.3em;
 }
 
-/* ---------- Detail: Letter ---------- */
+/* ---------- Tabs ---------- */
 
-/* ---------- Detail: Person ---------- */
+.tabs {
+    display: block;
+    padding-left: 0;
+    list-style: none;
+    text-align: center;
+}
+
+.tabbed-title {
+    display: none;
+}
+
+.tabs li {
+    background: rgba(0, 0, 0, 0.27);
+    color: white;
+    cursor: pointer;
+}
+
+.tabs li:not(.active):hover {
+    background: rgba(0, 0, 0, 0.47);
+}
+
+.tabs li.active {
+    background: #f9d301;
+    color: #283747;
+}
+
+section.tabbed {
+    display: none;
+}
+
+/* ---------- Detail ---------- */
+
+.viewinadmindashboard-link {
+    display: inline-block;
+    padding: 0.3em 1em;
+    background: #DDD;
+    color: #303030;
+    border-radius: 1em;
+}
+
+.viewinadmindashboard-link:hover {
+    background: #CCC;
+    color: #202020;
+}
+
+.details-detail label {
+    font-weight: bold;
+    margin: 1.3rem 0 0.2rem 0;
+}
+
+.transcription-section {
+    padding: 1em;
+    overflow: scroll;
+    display: inline-block;
+    height: 80vh;
+}
+
+#transcription-images {
+    width: 59%;
+}
+
+.transcription-images-image-container .zoomed-img {
+    width: 250px;
+    height: 250px;
+    box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    position: absolute;
+    border: 5px solid #505050;
+    z-index: 99;
+    border-radius: 100%;
+    display: block;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.transcription-images-image-container:hover .zoomed-img,
+.transcription-images-image-container:active .zoomed-img {
+    opacity: 1;
+}
+
+#transcription-images img {
+    width: 100%;
+    display: block;
+    margin: 2em auto;
+}
+
+#transcription-texts {
+    width: 40%;
+}
+
+.transcription-texts-text {
+    display: none;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1em;
+}
+
+#transcription-texts p {
+    font-size: 1em;
+}
+
+#transcription-texts-switch {
+    margin-bottom: 2em;
+}
+
+#transcription-texts-switch div {
+    display: inline-block;
+    width: 50%;
+    background: rgba(0, 0, 0, 0.27);
+    text-align: center;
+    font-size: 1em;
+    padding: 0.5em;
+    cursor: pointer;
+}
+
+#transcription-texts-switch div.active {
+    background: #f9d301;
+    color: #283747;
+}
+
+.detail-letterperson {
+    background: rgba(0, 0, 0, 0.2);
+    margin-bottom: 5em;
+}
+
+.detail-letterperson-title {
+    font-size: 1.6em;
+    background:rgba(0, 0, 0, 0.4);
+    padding: 0.3em 0.6em;
+    font-weight: bold;
+}
+
+.detail-letterperson-link {
+    display: block;
+    background: #f9d301;
+    color: #202020;
+    padding: 0.2em;
+    text-align: center;
+    font-size: 0.9rem;
+    margin-bottom: 1.3em;
+}
+
+.detail-letterperson-link:hover {
+    color: #202020;
+    text-decoration: none;
+}
+
+.detail-letterperson-dataitem {
+    padding: 0.5em 1em;
+    font-size: 1rem;
+}
+
+.detail-letterperson-dataitem label {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.detail-relateditems a {
+    display: block;
+    padding: 1em;
+    margin: 1em auto;
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+.detail-relateditems a:hover {
+    background: rgba(0, 0, 0, 0.4);
+    text-decoration: none;
+    color: #f9d301;
+}
 
 /* ---------- Footer ---------- */
 

@@ -5,7 +5,7 @@ from django.utils.safestring import mark_safe
 from . import models
 
 # Set the title of the dashboard
-admin.site.site_header = 'Material Identities, Social Bodies: Admin Dashboard'
+admin.site.site_header = 'Social Bodies: Admin Dashboard'
 
 
 # Functions

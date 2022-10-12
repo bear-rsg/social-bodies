@@ -1,4 +1,5 @@
 from django.views.generic import (DetailView, ListView)
+from django.urls import reverse
 from django.db.models import Q
 from .. import models
 from . import common
@@ -9,7 +10,38 @@ class PersonDetailView(DetailView):
     Class-based view for person detail template
     """
     template_name = 'researchdata/detail-person.html'
-    model = models.Person
+    queryset = models.Person.objects.filter(admin_published=True)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Admin URL
+        context['admin_url'] = reverse('admin:researchdata_person_change', args=[self.object.id])
+
+        # Details
+        context['details'] = common.details_section_visibility([
+            [
+                {'label': 'First Name', 'value': self.object.first_name},
+                {'label': 'Middle Name', 'value': self.object.middle_name},
+                {'label': 'Last Name', 'value': self.object.last_name},
+                {'label': 'Alternative Spelling of Name Number', 'value': self.object.alternative_spelling_of_name},
+                {'label': 'Alternative Names', 'value': self.object.alternative_names},
+                {'label': 'Year of Birth', 'value': self.object.year_of_birth},
+                {'label': 'Year of Death', 'value': self.object.year_of_death},
+                {'label': 'Years Active (from)', 'value': self.object.year_active_start},
+                {'label': 'Years Active (to)', 'value': self.object.year_active_end},
+                {'label': 'Gender', 'value': self.object.gender},
+                {'label': 'Titles', 'value': common.html_details_list_items(self.object.title.all())},
+                {'label': 'Marital Statuses', 'value': common.html_details_list_items(self.object.marital_status.all())},
+                {'label': 'Religions', 'value': common.html_details_list_items(self.object.religion.all())},
+                {'label': 'Ranks', 'value': common.html_details_list_items(self.object.rank.all())},
+                {'label': 'Occupation', 'value': self.object.occupation},
+            ],
+        ])
+
+        context['letterperson_details'] = common.letterperson_details(self.object)
+
+        return context
 
 
 class PersonListView(ListView):
@@ -18,7 +50,7 @@ class PersonListView(ListView):
     """
     template_name = 'researchdata/list-person.html'
     model = models.Person
-    paginate_by = 100
+    paginate_by = 30
 
     def get_queryset(self):
         # Start with all published objects

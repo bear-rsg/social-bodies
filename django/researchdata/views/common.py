@@ -4,6 +4,7 @@ This script is for common resources (e.g. functions) used throughout the main vi
 
 from django.db.models.functions import Lower
 from django.db.models import (Count, CharField, TextField)
+from django.urls import reverse
 
 
 def get_field_type(field_name, queryset):
@@ -18,6 +19,136 @@ def get_field_type(field_name, queryset):
         return queryset.model._meta.get_field(stripped_field_name)
     except Exception:
         return CharField  # If it fails, assume it's a CharField by default
+
+
+def details_section_visibility(details_list):
+    """
+    Show the detail section if at least one value exists
+    """
+    for section in details_list:
+        if len(section):
+            for detail in section:
+                if 'value' in detail and detail['value']:
+                    section[0]['section_visible'] = True
+                    break
+    return details_list
+
+
+def html_details_list_items(object_list):
+    """
+    Return a HTML string of a list of objects (i.e. a queryset) for use in the 'Details' tab of an item page.
+    E.g. showing ManyToMany and reverse FK objects
+
+    The model of the object_list must have a dynamic property 'html_details_list_item_text'
+    """
+
+    # Multiple objects
+    if len(object_list) > 1:
+        list_items = '</li><li>'.join(str(item.html_details_list_item_text) for item in object_list)
+        return f'<ul><li>{list_items}</li></ul>'
+    # 1 object
+    elif len(object_list) == 1:
+        return str(object_list[0].html_details_list_item_text)
+    # No objects (will be ignored)
+    else:
+        return ""
+
+
+def letterperson_details(object):
+    """
+    Return a list of lists of details for each letterperson relationship the specified object has
+    'title' param to be 'person' if 
+    """
+
+    related_model = "Person" if object._meta.model.__name__ == "Letter" else "Letter"
+    related_model_field = related_model.lower()
+    data = []
+
+    for letterperson in object.letterperson_set.all():
+
+        related_object = getattr(letterperson, related_model_field)
+        related_object_name = getattr(letterperson, f"{related_model_field}_name")
+
+        data.append([
+            # Title (this is different from rest of the objects as it just features the title of this Person/Letter)
+            {
+                'title': f"{related_model}: {related_object_name}",
+                'url': reverse(f'researchdata:{related_model_field}-detail', args=[related_object.id]) if related_object else None
+            },
+
+            # Details
+            {
+                'label': 'Person Form of Address',
+                'value': letterperson.person_form_of_address
+            },
+            {
+                'label': 'Person (Other)',
+                'value': letterperson.person_other
+            },
+            {
+                'label': 'Person (Other): Gender',
+                'value': letterperson.person_other_gender
+            },
+            {
+                'label': 'Person Letter Relationship',
+                'value': letterperson.person_letter_relationship
+            },
+            {
+                'label': 'Body Part',
+                'value': html_details_list_items(letterperson.body_part.all())
+            },
+            {
+                'label': 'Bodily Activity',
+                'value': html_details_list_items(letterperson.bodily_activity.all())
+            },
+            {
+                'label': 'Appearance',
+                'value': html_details_list_items(letterperson.appearance.all())
+            },
+            {
+                'label': 'Condition: Specific State',
+                'value': html_details_list_items(letterperson.condition_specific_state.all())
+            },
+            {
+                'label': 'Condition: Specific Life Stage',
+                'value': html_details_list_items(letterperson.condition_specific_life_stage.all())
+            },
+            {
+                'label': 'Condition: Generalized State',
+                'value': html_details_list_items(letterperson.condition_generalized_state.all())
+            },
+            {
+                'label': 'Emotion',
+                'value': html_details_list_items(letterperson.emotion.all())
+            },
+            {
+                'label': 'Immaterial',
+                'value': html_details_list_items(letterperson.immaterial.all())
+            },
+            {
+                'label': 'Sensation',
+                'value': html_details_list_items(letterperson.sensation.all())
+            },
+            {
+                'label': 'Treatment',
+                'value': html_details_list_items(letterperson.treatment.all())
+            },
+            {
+                'label': 'Context',
+                'value': html_details_list_items(letterperson.context.all())
+            },
+            {
+                'label': 'Role',
+                'value': html_details_list_items(letterperson.roles.all())
+            },
+            {
+                'label': 'State',
+                'value': html_details_list_items(letterperson.state.all())
+            },
+
+        ])
+
+    return data
 
 
 # Special starts to the values & labels of options in 'filter' select lists

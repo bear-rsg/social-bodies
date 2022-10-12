@@ -42,7 +42,7 @@
         padding: 0.5rem 1rem 1rem 1rem;
     }
 
-    /* ---------- Database: List ---------- */
+    /* ---------- List ---------- */
 
     #list-options-views,
     #list-options-links {
@@ -75,6 +75,25 @@
     .list-pagination-section {
         width: 100%;
         display: block;
+    }
+
+    /* ---------- Tabs ---------- */
+
+    .tabs {
+        margin: 2em 0;
+    }
+
+    .tabs li {
+        display: block;
+        width: 100%;
+        padding: 0.5em;
+    }
+
+    /* ---------- Detail ---------- */
+
+    .viewinadmindashboard-link-container {
+        text-align: center;
+        padding-bottom: 2em;
     }
 
     /* ---------- Footer ---------- */
