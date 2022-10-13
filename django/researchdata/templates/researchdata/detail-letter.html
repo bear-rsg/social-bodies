@@ -29,8 +29,7 @@
                     <p>{{ image.description }}</p>
                 {% endif %}
                 <div id="transcription-images-image-container-{{ forloop.counter }}" class="transcription-images-image-container">
-                    <img src="{{ image.image.url }}" id="main-img-{{ forloop.counter }}" class="main-img" alt="{{ image }}">
-                    <div id="zoomed-img-{{ forloop.counter }}" class="zoomed-img" style="background: url('{{ image.image.url }}') no-repeat #050505;"></div>
+                    <img src="{{ image.image.url }}" alt="{{ image }}">
                 </div>
             {% endfor %}
         </div>

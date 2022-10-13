@@ -552,25 +552,6 @@ section.tabbed {
     width: 59%;
 }
 
-.transcription-images-image-container .zoomed-img {
-    width: 250px;
-    height: 250px;
-    box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.3);
-    pointer-events: none;
-    position: absolute;
-    border: 5px solid #505050;
-    z-index: 99;
-    border-radius: 100%;
-    display: block;
-    opacity: 0;
-    transition: opacity 0.2s;
-}
-
-.transcription-images-image-container:hover .zoomed-img,
-.transcription-images-image-container:active .zoomed-img {
-    opacity: 1;
-}
-
 #transcription-images img {
     width: 100%;
     display: block;
