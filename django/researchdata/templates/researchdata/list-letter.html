@@ -1,0 +1,22 @@
+{% extends "researchdata/list.html" %}
+{% load static %}
+
+<!-- Title -->
+{% block list_title %}
+    Letters
+{% endblock %}
+
+<!-- Link to detail -->
+{% block list_item_link %}
+    {% url 'researchdata:letter-detail' object.id %}
+{% endblock %}
+
+<!-- Order By -->
+{% block list_options_sortby %}
+    <option value="title">Title</option>
+    <option value="summary">Summary</option>
+    <option value="collection__name">Collection</option>
+    <option value="item_number">Item Number</option>
+    <option value="repository__name">Repository</option>
+    <option value="count_letterperson">Number of People</option>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main %}
+<div class="container-fluid">
+
+    <section>
+        {% include "researchdata/snippets/viewinadmindashboard.html" with admin_url=admin_url %}
+
+        <h2>{{ object }}</h2>
+
+        <ul class="tabs">
+            <li id="details">Person Details</li>
+            <li id="letters">Letters</li>
+            {% if object.person.all %}
+                <li id="relatedpeople">Related People</li>
+            {% endif %}
+        </ul>
+    </section>
+
+    <section class="tabbed container" id="tabbed-details">
+        <div class="tabbed-title">Details</div>
+        {% include "researchdata/snippets/details-detail.html" with details=details %}
+    </section>
+
+    <section class="tabbed container" id="tabbed-letters">
+        <div class="tabbed-title">Letters</div>
+        {% include "researchdata/snippets/letterpersons.html" %}
+    </section>
+
+    {% if object.person.all %}
+        <section class="tabbed container" id="tabbed-relatedpeople">
+            <div class="tabbed-title">Related People</div>
+
+            <div class="detail-relateditems">
+                {% for related_person in object.person.all %}
+                    <a class="detail-relateditems-item" href="{% url 'researchdata:person-detail' related_person.id %}">{{ related_person }}</a>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
+</div>
+
+<!-- Load JS -->
+<script src="{% static 'js/tabs.js' %}"></script>
+<script src="{% static 'js/transcription.js' %}"></script>
+
+{% endblock %}

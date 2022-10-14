@@ -1,0 +1,28 @@
+{% comment %}
+    Adds metadata details for an object
+    Inputs:
+    - object (a Django model object)
+{% endcomment %}
+
+<div class="details-detail-metadata">
+    {% if object.meta_firstpublished_datetime %}
+        <div>
+            <label>Published:</label> 
+            <span>{{ object.meta_firstpublished_datetime }}</span>
+        </div>
+    {% endif %}
+
+    {% if object.meta_lastupdated_datetime %}
+        <div>
+            <label>Last Updated:</label> 
+            <span>{{ object.meta_lastupdated_datetime }}</span>
+        </div>
+    {% endif %}
+
+    {% if object.meta_lastupdated_by.name %}
+        <div>
+            <label>Last Updated By:</label> 
+            <span>{{ object.meta_lastupdated_by.name }}</span>
+        </div>
+    {% endif %}
+</div>

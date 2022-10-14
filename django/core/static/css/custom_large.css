@@ -6,8 +6,7 @@
     }
 
     .nav-link {
-        margin-left: 1em;
-        margin-right: 2em;
+        margin: 0 0.64em;
     }
 
     /* ---------- Main ---------- */
@@ -33,7 +32,65 @@
         font-size: 1.6em;
         padding: 2rem;
     }
-    
+
+    /* ---------- List ---------- */
+
+    #list-options-views,
+    #list-options-links {
+        float: right;
+    }
+
+    #list-options-views {
+        margin-left: 3em;
+    }
+
+    .list-body-item {
+        margin: 1em;
+        display: inline-block;
+        width: calc(33% - 2em);
+    }
+
+    .list-body-item.gridview .list-body-item-link {
+        min-height: 10em;
+    }
+
+    #list-pagination {
+        white-space: nowrap;
+    }
+
+    .list-pagination-section {
+        white-space: normal;
+        width: 33%;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    /* ---------- Tabs ---------- */
+
+    .tabs {
+        border-bottom: 0.3em solid #f9d301;
+        margin: 1em 0 2em 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+    }
+
+    .tabs li {
+        display: inline-block;
+        vertical-align: bottom;
+        width: auto;
+        margin-right: -5px;
+        padding: 1em 2em;
+    }
+
+    /* ---------- Detail ---------- */
+
+    .viewinadmindashboard-link-container {
+        float: right;
+        width: fit-content;
+        padding-left: 2em;
+    }
+
     /* ---------- Footer ---------- */
 
     #footer-content img {
