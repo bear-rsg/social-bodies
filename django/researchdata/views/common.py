@@ -3,13 +3,8 @@ This script is for common resources (e.g. functions) used throughout the main vi
 """
 
 from django.db.models.functions import Lower
-from django.db.models import (Count, Q, CharField, TextField)
-from functools import reduce
-from operator import (or_, and_)
-import json
-
-
-PAGINATE_COUNT = 100  # specified here to establish same pagination count throughout all views
+from django.db.models import (Count, CharField, TextField)
+from django.urls import reverse
 
 
 def get_field_type(field_name, queryset):
@@ -26,34 +21,151 @@ def get_field_type(field_name, queryset):
         return CharField  # If it fails, assume it's a CharField by default
 
 
-def search(request, queryset, field_names_to_search):
+def details_section_visibility(details_list):
     """
-    request = http request object, e.g. self.request
-    queryset = the Django queryset to be searched
-    field_names_to_search = list of names of the fields to include in search
+    Show the detail section if at least one value exists
+    """
+    for section in details_list:
+        if len(section):
+            for detail in section:
+                if 'value' in detail and detail['value']:
+                    section[0]['section_visible'] = True
+                    break
+    return details_list
 
-    Returns a filtered/searched Django queryset, allowing for multiple search criteria and operator (or_ / and_)
+
+def html_details_list_items(object_list):
+    """
+    Return a HTML string of a list of objects (i.e. a queryset) for use in the 'Details' tab of an item page.
+    E.g. showing ManyToMany and reverse FK objects
+
+    The model of the object_list must have a dynamic property 'html_details_list_item_text'
     """
 
-    # Search
-    searches = json.loads(request.GET.get('search', '[]'))
+    # Multiple objects
+    if len(object_list) > 1:
+        list_items = '</li><li>'.join(str(item.html_details_list_item_text) for item in object_list)
+        return f'<ul><li>{list_items}</li></ul>'
+    # 1 object
+    elif len(object_list) == 1:
+        return str(object_list[0].html_details_list_item_text)
+    # No objects (will be ignored)
+    else:
+        return ""
 
-    # Set list of search options
-    if searches not in [[''], []]:
-        operator = or_ if request.GET.get('search_operator', '') == 'or' else and_
-        queries = []
-        for search in searches:
-            # Uses 'or_' as the search term could appear in any field, so 'and_' wouldn't be suitable
-            queries.append(
-                reduce(or_, (Q((f'{field_name}__icontains', search)) for field_name in field_names_to_search))
-            )
-        # Connect the individual search queries via the user-defined operator (or_ / and_)
-        queries = reduce(operator, queries)
-        # Filter the queryset using the completed search query
-        return queryset.filter(queries)
 
-    # If no search criteria provided, simply return the unfiltered queryset
-    return queryset
+def letterperson_details(object):
+    """
+    Return a list of lists of details for each letterperson relationship the specified object has
+    """
+
+    related_model = "Person" if object._meta.model.__name__ == "Letter" else "Letter"
+    related_model_field = related_model.lower()
+    data = []
+
+    for letterperson in object.letterperson_set.all()\
+        .prefetch_related('body_part',
+                          'bodily_activity',
+                          'appearance',
+                          'condition_specific_state',
+                          'condition_specific_life_stage',
+                          'condition_generalized_state',
+                          'emotion',
+                          'immaterial',
+                          'sensation',
+                          'treatment',
+                          'context',
+                          'roles',
+                          'state',).select_related('person', 'letter', 'person_letter_relationship'):
+
+        # models.M2MPersonPerson.objects
+
+        related_object = getattr(letterperson, related_model_field)
+        related_object_name = getattr(letterperson, f"{related_model_field}_name")
+
+        data.append([
+            # Title (this is different from rest of the objects as it just features the title of this Person/Letter)
+            {
+                'title': f"{related_model}: {related_object_name}",
+                'url': reverse(
+                    f'researchdata:{related_model_field}-detail',
+                    args=[related_object.id]
+                ) if related_object else None
+            },
+
+            # Details
+            {
+                'label': 'Person Form of Address',
+                'value': letterperson.person_form_of_address
+            },
+            {
+                'label': 'Person (Other)',
+                'value': letterperson.person_other
+            },
+            {
+                'label': 'Person (Other): Gender',
+                'value': letterperson.person_other_gender
+            },
+            {
+                'label': 'Person Letter Relationship',
+                'value': letterperson.person_letter_relationship
+            },
+            {
+                'label': 'Body Part',
+                'value': html_details_list_items(letterperson.body_part.all())
+            },
+            {
+                'label': 'Bodily Activity',
+                'value': html_details_list_items(letterperson.bodily_activity.all())
+            },
+            {
+                'label': 'Appearance',
+                'value': html_details_list_items(letterperson.appearance.all())
+            },
+            {
+                'label': 'Condition: Specific State',
+                'value': html_details_list_items(letterperson.condition_specific_state.all())
+            },
+            {
+                'label': 'Condition: Specific Life Stage',
+                'value': html_details_list_items(letterperson.condition_specific_life_stage.all())
+            },
+            {
+                'label': 'Condition: Generalized State',
+                'value': html_details_list_items(letterperson.condition_generalized_state.all())
+            },
+            {
+                'label': 'Emotion',
+                'value': html_details_list_items(letterperson.emotion.all())
+            },
+            {
+                'label': 'Immaterial',
+                'value': html_details_list_items(letterperson.immaterial.all())
+            },
+            {
+                'label': 'Sensation',
+                'value': html_details_list_items(letterperson.sensation.all())
+            },
+            {
+                'label': 'Treatment',
+                'value': html_details_list_items(letterperson.treatment.all())
+            },
+            {
+                'label': 'Context',
+                'value': html_details_list_items(letterperson.context.all())
+            },
+            {
+                'label': 'Role',
+                'value': html_details_list_items(letterperson.roles.all())
+            },
+            {
+                'label': 'State',
+                'value': html_details_list_items(letterperson.state.all())
+            },
+
+        ])
+
+    return data
 
 
 # Special starts to the values & labels of options in 'filter' select lists
@@ -112,7 +224,7 @@ def sort(request, queryset, sort_by_default='id'):
     """
     request = http request object, e.g. self.request
     queryset = the Django queryset to be sorted
-    sort_by_default = default field to sort by, e.g. name, id, ...
+    sort_by_default = default field to sort by, e.g. id, ...
 
     Returns a sorted Django queryset
     """
@@ -133,15 +245,15 @@ def sort(request, queryset, sort_by_default='id'):
         # Sort descending (Z-A)
         if sort_dir == '-':
             # Convert CharField and TextField values to lowercase, for case insensitivity
-            if isinstance(get_field_type(sort, queryset), (CharField, TextField)):
-                return queryset.order_by(Lower(sort[1:]).desc())
+            if isinstance(get_field_type(sort_by, queryset), (CharField, TextField)):
+                return queryset.order_by(Lower(sort_by).desc())
             else:
-                return queryset.order_by(sort[1:].desc())
+                return queryset.order_by(sort)
 
         # Sort ascending (A-Z)
         else:
             # Convert CharField and TextField values to lowercase, for case insensitivity
-            if isinstance(get_field_type(sort, queryset), (CharField, TextField)):
-                return queryset.order_by(Lower(sort))
+            if isinstance(get_field_type(sort_by, queryset), (CharField, TextField)):
+                return queryset.order_by(Lower(sort_by))
             else:
-                return queryset.order_by(sort)
+                return queryset.order_by(sort_by)

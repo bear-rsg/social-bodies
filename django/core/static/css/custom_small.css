@@ -42,7 +42,7 @@
         padding: 0.5rem 1rem 1rem 1rem;
     }
 
-    /* ---------- Database: List ---------- */
+    /* ---------- List ---------- */
 
     #list-options-views,
     #list-options-links {
@@ -53,9 +53,9 @@
     }
 
     #list-options-searchby,
-    #list-options-order,
-    #list-options-order-by,
-    #list-options-order-direction {
+    #list-options-sort,
+    #list-options-sort-by,
+    #list-options-sort-direction {
         display: block;
         width: 100%;
         margin-bottom: 0.5em;
@@ -75,6 +75,25 @@
     .list-pagination-section {
         width: 100%;
         display: block;
+    }
+
+    /* ---------- Tabs ---------- */
+
+    .tabs {
+        margin: 2em 0;
+    }
+
+    .tabs li {
+        display: block;
+        width: 100%;
+        padding: 0.5em;
+    }
+
+    /* ---------- Detail ---------- */
+
+    .viewinadmindashboard-link-container {
+        text-align: center;
+        padding-bottom: 2em;
     }
 
     /* ---------- Footer ---------- */

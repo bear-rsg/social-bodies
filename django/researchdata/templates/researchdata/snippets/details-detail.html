@@ -1,0 +1,22 @@
+{% comment %}
+    Adds an object's details (a list of key value pairs)
+    Inputs:
+    - detail (a dict with 'label' and 'value' properties)
+{% endcomment %}
+
+{% for section in details %}
+    {% if section.0.section_visible %}
+        <div class="detail-section{% if section.0.section_class_subtle %} subtle{% endif %}">
+            <h3>{{ section.0.section_title }}</h3>
+
+            {% for detail in section %}
+                {% if detail.value %}
+                    <div class="details-detail">
+                        <label>{{ detail.label }}</label>
+                        <div>{{ detail.value | safe | linebreaks }}</div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endfor %}

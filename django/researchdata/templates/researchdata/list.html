@@ -19,11 +19,6 @@
             <div class="list-options-search row">
                 <div class="col-12">
                     <div class="input-group">
-                        <!-- Search By -->
-                        <select id="list-options-searchby" name="search_by" title="search by">
-                            <option value="">Full search</option>
-                            {% block list_options_searchby %}{% endblock %}
-                        </select>
                         <!-- Search textbox -->
                         <input type="text" class="form-control" name="search" title="search" id="list-options-search-input" placeholder="Search text">
                         <!-- Search button -->
@@ -42,7 +37,7 @@
                 {% for f in filters %}
                     <div class="list-options-filters-filter">
                         <label for="{{ f.filter_id }}">{{ f.filter_name }}</label>
-                        <select id="{{ f.filter_id }}" title="{{ f.filter_id }}" name="{{ f.filter_id }}">
+                        <select id="{{ f.filter_id }}" title="{{ f.filter_name }}" name="{{ f.filter_id }}">
                             {% include 'researchdata/snippets/select-default.html' %}
                             {% for o in f.filter_options %}
                                 <option value="{% if o.html_select_value_field %}{{ o.html_select_value_field }}{% else %}{{ o.id }}{% endif %}"{% if o.data_hierarchy_parents_ids %} data-hierarchy-parents-ids="{{ o.data_hierarchy_parents_ids }}"{% endif %}>{{ o }}</option>
@@ -52,15 +47,15 @@
                 {% endfor %}
             </div>
 
-            <!-- Order -->
-            <div id="list-options-order">
-                <label>Order by:</label>
-                <!-- Order by -->
-                <select id="list-options-order-by" name="order_by">
-                    {% block list_options_orderby %}{% endblock %}
+            <!-- Sort -->
+            <div id="list-options-sort">
+                <label>Sort by:</label>
+                <!-- Sort by -->
+                <select id="list-options-sort-by" name="sort_by">
+                    {% block list_options_sortby %}{% endblock %}
                 </select>
-                <!-- Order direction -->
-                <select id="list-options-order-direction" name="order_direction">
+                <!-- Sort direction -->
+                <select id="list-options-sort-direction" name="sort_direction">
                     <option value="">Asc (A-Z, 0-9)</option>
                     <option value="-">Desc (Z-A, 9-0)</option>
                 </select>
@@ -85,14 +80,13 @@
 <!-- List Body -->
 <section id="list-body" class="container compact">
     {% for object in object_list %}
-        <!-- Set the URL based on the main model supplied to this page -->
         <div class="list-body-item">
             <a href="{% block list_item_link %}{% endblock %}" class="list-body-item-link">
                 <div class="list-body-item-title">{{ object.list_title }}</div>
-                {% if object.list_image.image %}
-                    <img src="{{ object.list_image.image.url }}" alt="letter preview">
+                {% if object.list_image_url %}
+                    <img src="{{ object.list_image_url }}" alt="letter preview">
                 {% endif %}
-                <div class="list-body-item-details">{{ object.list_details }}</div>
+                <div class="list-body-item-details">{{ object.list_details | safe }}</div>
             </a>
             <!-- Search Meta -->
             {% if search_meta %}
@@ -210,30 +204,27 @@ $(document).ready(function() {
         window.location.replace(window.location.href.split('?')[0]);
     });
 
-    // Submit list options form (search, order, etc.) on change of certain inputs
-    $('#list-options-order-by, #list-options-order-direction').on('change', function(){
+    // Submit list options form on change of certain inputs
+    $('#list-options-sort-by, #list-options-sort-direction, #list-options-filters select').on('change', function(){
         $('#list-options-form').submit();
     });
 
-    // Auto-submit form on change of 'search by' if text is already in search field
-    $('#list-options-searchby').on('change', function(){
-        if ($('#list-options-search-input').val() !== '') {
-            $('#list-options-form').submit();
-        }
-    });
-
     // Fill form values from URL parameters
-    function setFormItemValueFromUrlParameter(formItemID, urlParameter) {
+    function setFieldValueFromUrl(formItemID, urlParameter) {
         var value = new URL(window.location.href).searchParams.get(urlParameter);
-        if(value) document.getElementById(formItemID).value = value;
+        if (value) $('#' + formItemID).val(value);
     }
     // Apply above function to all form fields:
     // Search
-    setFormItemValueFromUrlParameter("list-options-search-input", "search");
-    setFormItemValueFromUrlParameter("list-options-searchby", "search_by");
-    // Order
-    setFormItemValueFromUrlParameter("list-options-order-by", "order_by");
-    setFormItemValueFromUrlParameter("list-options-order-direction", "order_direction");
+    setFieldValueFromUrl("list-options-search-input", "search");
+    // Sort
+    setFieldValueFromUrl("list-options-sort-by", "sort_by");
+    setFieldValueFromUrl("list-options-sort-direction", "sort_direction");
+    new URL(window.location.href).searchParams.forEach(function(value, key){
+        console.log(1)
+        // If key starts with 'filter_pre' (as defined in view get_context_data()) then it's a filter
+        if (key.startsWith('{{ filter_pre }}')) setFieldValueFromUrl(key, key);
+    });
 });
 </script>
 

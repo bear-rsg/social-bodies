@@ -11,17 +11,13 @@
     {% url 'researchdata:person-detail' object.id %}
 {% endblock %}
 
-<!-- Search By -->
-{% block list_options_searchby %}
-    <option value="name">Name</option>
-{% endblock %}
-
 <!-- Order By -->
-{% block list_options_orderby %}
-    <optgroup label="Alphabetical">
-        <option value="name">Name</option>
-    </optgroup>
-    <optgroup label="Numerical">
-        <option value="count_xxx">Number of xxx</option>
-    </optgroup>
+{% block list_options_sortby %}
+    <option value="first_name">First Name</option>
+    <option value="last_name">Last Name</option>
+    <option value="year_of_birth">Year of Birth</option>
+    <option value="year_of_death">Year of Death</option>
+    <option value="year_active_start">Year Active Start</option>
+    <option value="year_active_end">Year Active End</option>
+    <option value="count_letterperson">Number of Letters</option>
 {% endblock %}

@@ -8,9 +8,6 @@ are used that will simply skip ones that aren't suitable.
 {# Search #}
 {% if request.GET.search %}&search={{ request.GET.search }}{% endif %}
 
-{# Search #}
-{% if request.GET.search_by %}&search_by={{ request.GET.search_by }}{% endif %}
-
 {# Order #}
 {% if request.GET.order_by %}&order_by={{ request.GET.order_by }}{% endif %}
 {% if request.GET.order_direction %}&order_direction={{ request.GET.order_direction }}{% endif %}

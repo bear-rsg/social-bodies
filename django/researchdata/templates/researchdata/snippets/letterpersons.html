@@ -1,0 +1,26 @@
+{% for letterperson in letterperson_details %}
+    <div class="detail-letterperson">
+        {% for lp_detail in letterperson %}
+
+                <!-- Heading -->
+                {% if lp_detail.title %}
+                    <div class="detail-letterperson-title">
+                        {{ lp_detail.title }}
+                    </div>
+
+                    <!-- URL to related object, if provided -->
+                    {% if lp_detail.url %}
+                        <a class="detail-letterperson-link" href="{{ lp_detail.url }}">View full details of {{ lp_detail.title }}</a>
+                    {% endif %}
+
+                <!-- Data -->
+                {% elif lp_detail.value %}
+                    <div class="detail-letterperson-dataitem">
+                        <label>{{ lp_detail.label }}</label>
+                        <div>{{ lp_detail.value | safe | linebreaks }}</div>
+                    </div>
+                {% endif %}
+
+        {% endfor %}
+    </div>
+{% endfor %}
