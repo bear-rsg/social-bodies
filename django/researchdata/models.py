@@ -251,7 +251,7 @@ class Letter(models.Model):
     repository = models.ForeignKey(SlLetterRepository, on_delete=models.SET_NULL, blank=True, null=True)
     permission_reproduce_text = models.BooleanField(blank=True, null=True)
     permission_reproduce_image = models.BooleanField(blank=True, null=True)
-    transcription_is_public = models.BooleanField(default=False, help_text='Tick to make this letter available for the public to transcribe through the website')
+    transcription_is_public = models.BooleanField(default=False, help_text='Tick to make this letter available for the public to transcribe through the website')  # NOQA
     transcription_plain = models.TextField(blank=True, null=True)
     transcription_normalized = models.TextField(blank=True, null=True)
     sent_date_year = models.IntegerField(blank=True, null=True,
