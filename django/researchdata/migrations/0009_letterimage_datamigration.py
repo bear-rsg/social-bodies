@@ -17,7 +17,7 @@ def trigger_save_letterimage(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('researchdata', '0008_letterimage_image_thumbnail'),
+        ('researchdata', '0008_auto_20221014_1006'),
     ]
 
     operations = [

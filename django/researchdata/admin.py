@@ -59,7 +59,7 @@ class LetterAdminView(admin.ModelAdmin):
     """
     Customise the Letter section of the Django admin
     """
-    list_display = ('id', 'title', 'summary', 'admin_published')
+    list_display = ('id', 'title', 'summary', 'admin_published', 'transcription_is_public')
     list_filter = (('collection', RelatedDropdownFilter),
                    ('repository', RelatedDropdownFilter),
                    ('letter_type', RelatedDropdownFilter),
