@@ -286,7 +286,9 @@ class Letter(models.Model):
     @property
     def list_image_url(self):
         if self.letterimage_set.all():
-            return self.letterimage_set.all()[0].image_thumbnail.url
+            thumbnail = self.letterimage_set.all()[0].image_thumbnail
+            if thumbnail:
+                return thumbnail.url
 
     @property
     def list_title(self):
