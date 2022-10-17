@@ -20,6 +20,14 @@ def singular_plural(count, word_singular, word_plural=None):
     return f'{count} {word_singular}' if count == 1 else f'{count} {word_plural}'
 
 
+def process_transcription(transcription):
+        """
+        Processes provided transcription to appear on the public interface
+        """
+        # Add <br> for linebreaks instead of the <p> that the linebreaks template filter adds
+        return transcription.replace('\n', '<br>')
+
+
 # Select List models
 
 
@@ -284,9 +292,21 @@ class Letter(models.Model):
     lastupdated_datetime = models.DateTimeField(auto_now=True, verbose_name="Last Updated")
 
     @property
+    def transcription_plain_processed(self):
+        return process_transcription(self.transcription_plain)
+
+    @property
+    def transcription_normalized_processed(self):
+        return process_transcription(self.transcription_normalized)
+
+    @property
     def list_image_url(self):
         if self.letterimage_set.all():
-            return self.letterimage_set.all()[0].image_thumbnail.url
+            thumbnail = self.letterimage_set.all()[0].image_thumbnail
+            if thumbnail:
+                return thumbnail.url
+
+        return None
 
     @property
     def list_title(self):
