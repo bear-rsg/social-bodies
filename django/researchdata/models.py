@@ -21,11 +21,11 @@ def singular_plural(count, word_singular, word_plural=None):
 
 
 def process_transcription(transcription):
-        """
-        Processes provided transcription to appear on the public interface
-        """
-        # Add <br> for linebreaks instead of the <p> that the linebreaks template filter adds
-        return transcription.replace('\n', '<br>')
+    """
+    Processes provided transcription to appear on the public interface
+    """
+    # Add <br> for linebreaks instead of the <p> that the linebreaks template filter adds
+    return transcription.replace('\n', '<br>')
 
 
 # Select List models
