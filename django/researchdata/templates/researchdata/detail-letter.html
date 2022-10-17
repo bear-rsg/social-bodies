@@ -42,11 +42,11 @@
             </div>
             <!-- Transcription Text: Plain -->
             <div id="transcription-texts-text-plain" class="transcription-texts-text">
-                {{ letter.transcription_plain_processed | safe }}
+                {{ letter.transcription_plain | safe | linebreaksbr }}
             </div>
             <!-- Transcription Text: Normalized -->
             <div id="transcription-texts-text-normalized" class="transcription-texts-text">
-                {{ letter.transcription_normalized_processed | safe }}
+                {{ letter.transcription_normalized | safe | linebreaksbr }}
             </div>
         </div>
 
