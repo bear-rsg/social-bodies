@@ -290,8 +290,6 @@ class Letter(models.Model):
             if thumbnail:
                 return thumbnail.url
 
-        return None
-
     @property
     def list_title(self):
         return textwrap.shorten(self.title, width=90, placeholder="...")
