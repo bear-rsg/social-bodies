@@ -63,6 +63,7 @@ class LetterListView(ListView):
         search = self.request.GET.get('search', '')
         if search != '':
             queryset = queryset.prefetch_related('letterperson_set', 'letter_type', 'collection', 'location').filter(
+                Q(id=search) |
                 Q(title__icontains=search) |
                 Q(summary__icontains=search) |
                 Q(transcription_plain__icontains=search) |

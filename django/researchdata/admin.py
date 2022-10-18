@@ -29,21 +29,25 @@ class LetterLetterImageInline(admin.TabularInline):
 class LetterLetter1Inline(admin.TabularInline):
     model = models.Letter.letter.through
     fk_name = "letter_2"
+    autocomplete_fields = ('letter_1', 'relationship_type')
 
 
 class LetterLetter2Inline(admin.TabularInline):
     model = models.Letter.letter.through
     fk_name = "letter_1"
+    autocomplete_fields = ('letter_2', 'relationship_type')
 
 
 class PersonPerson1Inline(admin.TabularInline):
     model = models.Person.person.through
     fk_name = "person_2"
+    autocomplete_fields = ('person_1', 'relationship_type')
 
 
 class PersonPerson2Inline(admin.TabularInline):
     model = models.Person.person.through
     fk_name = "person_1"
+    autocomplete_fields = ('person_2', 'relationship_type')
 
 
 # Admin views
@@ -59,8 +63,18 @@ class LetterAdminView(admin.ModelAdmin):
     """
     Customise the Letter section of the Django admin
     """
-    list_display = ('id', 'title', 'summary', 'admin_published', 'transcription_is_public')
-    list_filter = (('collection', RelatedDropdownFilter),
+    list_display = ('id',
+                    'title',
+                    'summary',
+                    'permission_reproduce_text',
+                    'permission_reproduce_image',
+                    'admin_published',
+                    'transcription_is_public')
+    list_filter = ('permission_reproduce_text',
+                   'permission_reproduce_image',
+                   'admin_published',
+                   'transcription_is_public',
+                   ('collection', RelatedDropdownFilter),
                    ('repository', RelatedDropdownFilter),
                    ('letter_type', RelatedDropdownFilter),
                    ('commentary', RelatedDropdownFilter),
@@ -71,6 +85,12 @@ class LetterAdminView(admin.ModelAdmin):
     inlines = [LetterLetterImageInline, LetterLetter1Inline, LetterLetter2Inline]
     readonly_fields = ('created_by', 'created_datetime', 'lastupdated_by', 'lastupdated_datetime')
     filter_horizontal = ('letter_type', 'commentary', 'location')
+    autocomplete_fields = ('collection', 'repository')
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        queryset = queryset.select_related('created_by', 'lastupdated_by')
+        return queryset
 
     def save_model(self, request, obj, form, change):
         """
@@ -107,8 +127,9 @@ class LetterPersonAdminView(admin.ModelAdmin):
                    ('context', RelatedDropdownFilter),
                    ('roles', RelatedDropdownFilter),
                    ('state', RelatedDropdownFilter),
-                   'letter',
-                   'person')
+                   ('letter', RelatedDropdownFilter),
+                   ('person', RelatedDropdownFilter))
+    autocomplete_fields = ('person', 'letter')
     search_fields = ('letter__title',
                      'person__first_name',
                      'person__last_name',
@@ -117,6 +138,7 @@ class LetterPersonAdminView(admin.ModelAdmin):
                      'admin_notes')
     ordering = ('-id',)
     readonly_fields = ('created_by', 'created_datetime', 'lastupdated_by', 'lastupdated_datetime')
+    list_select_related = ('person_letter_relationship',)
     filter_horizontal = ('body_part',
                          'bodily_activity',
                          'appearance',
@@ -150,6 +172,15 @@ class LetterPersonAdminView(admin.ModelAdmin):
             return fk_link(url, letterperson.person)
     person_link.short_description = 'Person'
 
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        queryset = queryset.select_related('created_by',
+                                           'lastupdated_by',
+                                           'person_letter_relationship',
+                                           'person',
+                                           'letter')
+        return queryset
+
     def save_model(self, request, obj, form, change):
         """
         Override default save_model, by adding values to automated fields
@@ -177,6 +208,11 @@ class PersonAdminView(admin.ModelAdmin):
     inlines = [PersonPerson1Inline, PersonPerson2Inline]
     readonly_fields = ('created_by', 'created_datetime', 'lastupdated_by', 'lastupdated_datetime')
     filter_horizontal = ('title', 'marital_status', 'religion', 'rank')
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        queryset = queryset.select_related('created_by', 'lastupdated_by')
+        return queryset
 
     def save_model(self, request, obj, form, change):
         """
