@@ -24,7 +24,7 @@ def fk_link(link_url, link_label):
 
 class LetterLetterImageInline(admin.TabularInline):
     model = models.LetterImage
-
+    readonly_fields = ('image_thumbnail',)
 
 class LetterLetter1Inline(admin.TabularInline):
     model = models.Letter.letter.through
