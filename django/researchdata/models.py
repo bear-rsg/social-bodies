@@ -249,8 +249,8 @@ class Letter(models.Model):
     collection = models.ForeignKey(SlLetterCollection, on_delete=models.SET_NULL, blank=True, null=True)
     item_number = models.CharField(max_length=255, blank=True, null=True)
     repository = models.ForeignKey(SlLetterRepository, on_delete=models.SET_NULL, blank=True, null=True)
-    permission_reproduce_text = models.BooleanField(blank=True, null=True)
-    permission_reproduce_image = models.BooleanField(blank=True, null=True)
+    permission_reproduce_text = models.BooleanField(default=True)
+    permission_reproduce_image = models.BooleanField(default=True)
     transcription_is_public = models.BooleanField(default=False, help_text='Tick to make this letter available for the public to transcribe through the website')  # NOQA
     transcription_plain = models.TextField(blank=True, null=True)
     transcription_normalized = models.TextField(blank=True, null=True)
@@ -285,7 +285,7 @@ class Letter(models.Model):
 
     @property
     def list_image_url(self):
-        if self.letterimage_set.all():
+        if self.permission_reproduce_image and self.letterimage_set.all():
             thumbnail = self.letterimage_set.all()[0].image_thumbnail
             if thumbnail:
                 return thumbnail.url
@@ -406,8 +406,8 @@ class LetterImage(models.Model):
         super().save(*args, **kwargs)
 
         try:
-            file_extension = self.image.name.split('.')[-1].lower()
-            file_format = 'PNG' if file_extension == 'png' else 'JPEG'
+            file_extension = self.image.name.split('.')[-1]
+            file_format = 'PNG' if file_extension.lower() == 'png' else 'JPEG'
 
             # Create a thumbnail image file of original image (e.g. for use in list views)
             if self.image_thumbnail:
@@ -418,11 +418,10 @@ class LetterImage(models.Model):
             blob_thumbnail = BytesIO()
             img_thumbnail.save(blob_thumbnail, file_format, optimize=True, quality=80)
             name = os.path.basename(self.image.name).rsplit('.', 1)[0]  # removes extension from main image name
+            # Save thumbnail image file
             self.image_thumbnail.save(f'{name}_thumbnail.{file_extension}', File(blob_thumbnail), save=False)
-
             # Update the object in db - must use update() not save() to avoid unique ID error
             LetterImage.objects.filter(id=self.id).update(
-                image=f'{self.media_dir_letterimage}/{name}.{file_extension}',
                 image_thumbnail=f'{self.media_dir_letterimage_thumbnails}/{name}_thumbnail.{file_extension}'
             )
         except FileNotFoundError:

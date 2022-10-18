@@ -60,6 +60,7 @@ class PersonListView(ListView):
         search = self.request.GET.get('search', '')
         if search != '':
             queryset = queryset.filter(
+                Q(id=search) |
                 Q(first_name__icontains=search) |
                 Q(middle_name__icontains=search) |
                 Q(last_name__icontains=search) |

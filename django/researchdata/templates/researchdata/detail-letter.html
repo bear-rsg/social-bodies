@@ -22,33 +22,37 @@
     <section class="tabbed" id="tabbed-transcription">
         <div class="tabbed-title">Transcription</div>
 
-        <div id="transcription-images" class="transcription-section">
-            {% for image in object.letterimage_set.all %}
-                <h3>Image {{ forloop.counter }} of {{ object.letterimage_set.all | length }}</h3>
-                {% if image.description %}
-                    <p>{{ image.description }}</p>
-                {% endif %}
-                <div id="transcription-images-image-container-{{ forloop.counter }}" class="transcription-images-image-container">
-                    <img src="{{ image.image.url }}" alt="{{ image }}">
-                </div>
-            {% endfor %}
-        </div>
+        {% if object.permission_reproduce_image %}
+            <div id="transcription-images" class="transcription-section {% if not object.permission_reproduce_text %}sole-section{% endif %}">
+                {% for image in object.letterimage_set.all %}
+                    <h3>Image {{ forloop.counter }} of {{ object.letterimage_set.all | length }}</h3>
+                    {% if image.description %}
+                        <p>{{ image.description }}</p>
+                    {% endif %}
+                    <div id="transcription-images-image-container-{{ forloop.counter }}" class="transcription-images-image-container">
+                        <img src="{{ image.image.url }}" alt="{{ image }}">
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
 
-        <!-- Transcription Text -->
-        <div id="transcription-texts" class="transcription-section">
-            <!-- Switch between texts -->
-            <div id="transcription-texts-switch">
-                <div data-textid="plain">Plain</div><div data-textid="normalized">Normalized</div>
+        {% if object.permission_reproduce_text %}
+            <!-- Transcription Text -->
+            <div id="transcription-texts" class="transcription-section {% if not object.permission_reproduce_image %}sole-section{% endif %}">
+                <!-- Switch between texts -->
+                <div id="transcription-texts-switch">
+                    <div data-textid="plain">Plain</div><div data-textid="normalized">Normalized</div>
+                </div>
+                <!-- Transcription Text: Plain -->
+                <div id="transcription-texts-text-plain" class="transcription-texts-text">
+                    {{ letter.transcription_plain | safe | linebreaksbr }}
+                </div>
+                <!-- Transcription Text: Normalized -->
+                <div id="transcription-texts-text-normalized" class="transcription-texts-text">
+                    {{ letter.transcription_normalized | safe | linebreaksbr }}
+                </div>
             </div>
-            <!-- Transcription Text: Plain -->
-            <div id="transcription-texts-text-plain" class="transcription-texts-text">
-                {{ letter.transcription_plain | safe | linebreaksbr }}
-            </div>
-            <!-- Transcription Text: Normalized -->
-            <div id="transcription-texts-text-normalized" class="transcription-texts-text">
-                {{ letter.transcription_normalized | safe | linebreaksbr }}
-            </div>
-        </div>
+        {% endif %}
 
     </section>
 
