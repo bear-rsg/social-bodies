@@ -26,6 +26,7 @@ class LetterLetterImageInline(admin.TabularInline):
     model = models.LetterImage
     readonly_fields = ('image_thumbnail',)
 
+
 class LetterLetter1Inline(admin.TabularInline):
     model = models.Letter.letter.through
     fk_name = "letter_2"
