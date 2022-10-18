@@ -552,6 +552,15 @@ section.tabbed {
     width: 59%;
 }
 
+#transcription-images.sole-section,
+#transcription-texts.sole-section {
+    width: 64em;
+    display: block;
+    max-width: 90%;
+    margin: 0 auto;
+    height: fit-content;
+}
+
 #transcription-images img {
     width: 100%;
     display: block;
