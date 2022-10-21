@@ -8,6 +8,61 @@ from . import models
 admin.site.site_header = 'Social Bodies: Admin Dashboard'
 
 
+# Actions
+
+admin.site.disable_action('delete_selected')
+
+
+def admin_published_true(modeladmin, request, queryset):
+    # Sets all objects in queryset to: admin_published = True
+    queryset.update(admin_published=True)
+
+
+def admin_published_false(modeladmin, request, queryset):
+    # Sets all objects in queryset to: admin_published = False
+    queryset.update(admin_published=False)
+
+
+def permission_reproduce_text_none(modeladmin, request, queryset):
+    # Sets all objects in queryset to: permission_reproduce_text = None
+    queryset.update(permission_reproduce_text=None)
+
+
+def permission_reproduce_text_true(modeladmin, request, queryset):
+    # Sets all objects in queryset to: permission_reproduce_text = True
+    queryset.update(permission_reproduce_text=True)
+
+
+def permission_reproduce_text_false(modeladmin, request, queryset):
+    # Sets all objects in queryset to: permission_reproduce_text = False
+    queryset.update(permission_reproduce_text=False)
+
+
+def permission_reproduce_image_none(modeladmin, request, queryset):
+    # Sets all objects in queryset to: permission_reproduce_image = None
+    queryset.update(permission_reproduce_image=None)
+
+
+def permission_reproduce_image_true(modeladmin, request, queryset):
+    # Sets all objects in queryset to: permission_reproduce_image = True
+    queryset.update(permission_reproduce_image=True)
+
+
+def permission_reproduce_image_false(modeladmin, request, queryset):
+    # Sets all objects in queryset to: permission_reproduce_image = False
+    queryset.update(permission_reproduce_image=False)
+
+
+admin_published_true.short_description = "Admin published: Yes"
+admin_published_false.short_description = "Admin published: No"
+permission_reproduce_text_none.short_description = "Permission to reproduce text: Unknown"
+permission_reproduce_text_true.short_description = "Permission to reproduce text: Yes"
+permission_reproduce_text_false.short_description = "Permission to reproduce text: No"
+permission_reproduce_image_none.short_description = "Permission to reproduce image: Unknown"
+permission_reproduce_image_true.short_description = "Permission to reproduce image: Yes"
+permission_reproduce_image_false.short_description = "Permission to reproduce image: No"
+
+
 # Functions
 
 def fk_link(link_url, link_label):
@@ -87,6 +142,14 @@ class LetterAdminView(admin.ModelAdmin):
     readonly_fields = ('created_by', 'created_datetime', 'lastupdated_by', 'lastupdated_datetime')
     filter_horizontal = ('letter_type', 'commentary', 'location')
     autocomplete_fields = ('collection', 'repository')
+    actions = (admin_published_true,
+               admin_published_false,
+               permission_reproduce_text_none,
+               permission_reproduce_text_true,
+               permission_reproduce_text_false,
+               permission_reproduce_image_none,
+               permission_reproduce_image_true,
+               permission_reproduce_image_false)
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
@@ -153,6 +216,8 @@ class LetterPersonAdminView(admin.ModelAdmin):
                          'context',
                          'roles',
                          'state')
+    actions = (admin_published_true,
+               admin_published_false)
 
     def letter_link(self, letterperson):
         """
@@ -209,6 +274,8 @@ class PersonAdminView(admin.ModelAdmin):
     inlines = [PersonPerson1Inline, PersonPerson2Inline]
     readonly_fields = ('created_by', 'created_datetime', 'lastupdated_by', 'lastupdated_datetime')
     filter_horizontal = ('title', 'marital_status', 'religion', 'rank')
+    actions = (admin_published_true,
+               admin_published_false)
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
