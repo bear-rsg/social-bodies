@@ -63,7 +63,7 @@ def letterperson_details(object):
     related_model_field = related_model.lower()
     data = []
 
-    for letterperson in object.letterperson_set.all()\
+    for letterperson in object.letterperson_set.filter(admin_published=True)\
         .prefetch_related('body_part',
                           'bodily_activity',
                           'appearance',
@@ -77,8 +77,6 @@ def letterperson_details(object):
                           'context',
                           'roles',
                           'state',).select_related('person', 'letter', 'person_letter_relationship'):
-
-        # models.M2MPersonPerson.objects
 
         related_object = getattr(letterperson, related_model_field)
         related_object_name = getattr(letterperson, f"{related_model_field}_name")
