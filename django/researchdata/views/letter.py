@@ -10,9 +10,7 @@ class LetterDetailView(DetailView):
     Class-based view for letter detail template
     """
     template_name = 'researchdata/detail-letter.html'
-    queryset = models.Letter.objects.filter(admin_published=True,
-                                            permission_reproduce_text=True,
-                                            permission_reproduce_image=True)\
+    queryset = models.Letter.objects.filter(admin_published=True)\
         .prefetch_related('letter', 'letterimage_set', 'letterperson_set')\
         .select_related('collection', 'repository')
 
@@ -61,13 +59,10 @@ class LetterListView(ListView):
     def get_queryset(self):
         # Start with all published objects
         queryset = self.model.objects.filter(admin_published=True)
-        # Hide all letter that don't have permission to share text/images
-        queryset = queryset.filter(permission_reproduce_text=True, permission_reproduce_image=True)
         # Search
         search = self.request.GET.get('search', '')
         if search != '':
             queryset = queryset.prefetch_related('letterperson_set', 'letter_type', 'collection', 'location').filter(
-                Q(id=search) |
                 Q(title__icontains=search) |
                 Q(summary__icontains=search) |
                 Q(transcription_plain__icontains=search) |

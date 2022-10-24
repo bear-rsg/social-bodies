@@ -249,8 +249,8 @@ class Letter(models.Model):
     collection = models.ForeignKey(SlLetterCollection, on_delete=models.SET_NULL, blank=True, null=True)
     item_number = models.CharField(max_length=255, blank=True, null=True)
     repository = models.ForeignKey(SlLetterRepository, on_delete=models.SET_NULL, blank=True, null=True)
-    permission_reproduce_text = models.BooleanField(default=True)
-    permission_reproduce_image = models.BooleanField(default=True)
+    permission_reproduce_text = models.BooleanField(blank=True, null=True)
+    permission_reproduce_image = models.BooleanField(blank=True, null=True)
     transcription_is_public = models.BooleanField(default=False, help_text='Tick to make this letter available for the public to transcribe through the website')  # NOQA
     transcription_plain = models.TextField(blank=True, null=True)
     transcription_normalized = models.TextField(blank=True, null=True)
@@ -274,7 +274,7 @@ class Letter(models.Model):
     letter = models.ManyToManyField("self", related_name=related_name, blank=True, through='M2MLetterLetter')
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
-    admin_published = models.BooleanField(default=True)
+    admin_published = models.BooleanField(default=False)
     # Meta fields
     created_by = models.ForeignKey(User, related_name="letter_created_by",
                                    on_delete=models.PROTECT, blank=True, null=True, verbose_name="Created By")
