@@ -85,9 +85,27 @@ class LetterListView(ListView):
                 Q(commentary__name__icontains=search) |
                 Q(location__name__icontains=search) |
 
-                # M2M via LetterPerson (limited fields, as this slows it Down considerably)
+                # M2M via LetterPerson
                 Q(letterperson__body_part__name__icontains=search) |
-                Q(letterperson__bodily_activity__name__icontains=search)
+                Q(letterperson__bodily_activity__name__icontains=search) |
+                Q(letterperson__appearance__name__icontains=search) |
+                Q(letterperson__emotion__name__icontains=search) |
+                Q(letterperson__sensation__name__icontains=search) |
+                # Following are commented out for performance reasons (too many = too slow)
+                # Q(letterperson__condition_specific_state__name__icontains=search) |
+                # Q(letterperson__immaterial__name__icontains=search) |
+                # Q(letterperson__condition_specific_life_stage__name__icontains=search) |
+                # Q(letterperson__condition_generalized_state__name__icontains=search) |
+                # Q(letterperson__treatment__name__icontains=search) |
+                # Q(letterperson__roles__name__icontains=search) |
+                # Q(letterperson__context__name__icontains=search) |
+                # Q(letterperson__state__name__icontains=search) |
+
+                # M2M via LetterPerson > Person
+                Q(letterperson__person__title__name__icontains=search) |
+                Q(letterperson__person__marital_status__name__icontains=search) |
+                Q(letterperson__person__religion__name__icontains=search) |
+                Q(letterperson__person__rank__name__icontains=search)
             )
         # Filters
         queryset = common.filter(self.request, queryset)
@@ -116,25 +134,40 @@ class LetterListView(ListView):
                 'filter_options': models.SlLetterRepository.objects.all()
             },
             {
-                'filter_id': f'{common.filter_pre_mm}letter_type',
-                'filter_name': 'Letter Type',
-                'filter_options': models.SlLetterType.objects.all()
+                'filter_id': f'{common.filter_pre_mm}letterperson__condition_specific_state',
+                'filter_name': 'Specific State',
+                'filter_options': models.SlLetterPersonConditionSpecificState.objects.all()
             },
             {
-                'filter_id': f'{common.filter_pre_mm}commentary',
-                'filter_name': 'Commentary',
-                'filter_options': models.SlLetterCommentary.objects.all()
+                'filter_id': f'{common.filter_pre_mm}letterperson__emotion',
+                'filter_name': 'Emotion',
+                'filter_options': models.SlLetterPersonEmotion.objects.all()
             },
             {
-                'filter_id': f'{common.filter_pre_mm}location',
-                'filter_name': 'Location',
-                'filter_options': models.SlLetterLocation.objects.all()
+                'filter_id': f'{common.filter_pre_mm}letterperson__body_part',
+                'filter_name': 'Body Part',
+                'filter_options': models.SlLetterPersonBodyPart.objects.all()
             },
             {
                 'filter_id': f'{common.filter_pre_mm}letterperson__bodily_activity',
                 'filter_name': 'Bodily Activity',
                 'filter_options': models.SlLetterPersonBodilyActivity.objects.all()
             },
+            # Year
+            {
+                'filter_id': f'{common.filter_pre_gt}sent_date_year',
+                'filter_classes': common.filter_pre_gt,
+                'filter_name': 'Year Sent (from)',
+                'filter_options': models.Letter.objects.filter(sent_date_year__gt=1000).exclude(sent_date_year__isnull=True).distinct().order_by('sent_date_year').values_list('sent_date_year', flat=True),  # NOQA
+                'valueSameAsText': True
+            },
+            {
+                'filter_id': f'{common.filter_pre_lt}sent_date_year',
+                'filter_classes': common.filter_pre_lt,
+                'filter_name': 'Year Sent (to)',
+                'filter_options': models.Letter.objects.filter(sent_date_year__gt=1000).exclude(sent_date_year__isnull=True).distinct().order_by('sent_date_year').values_list('sent_date_year', flat=True),  # NOQA
+                'valueSameAsText': True
+            }
         ]
 
         return context

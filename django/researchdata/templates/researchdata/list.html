@@ -40,7 +40,7 @@
                         <select id="{{ f.filter_id }}" title="{{ f.filter_name }}" name="{{ f.filter_id }}">
                             {% include 'researchdata/snippets/select-default.html' %}
                             {% for o in f.filter_options %}
-                                <option value="{% if o.html_select_value_field %}{{ o.html_select_value_field }}{% else %}{{ o.id }}{% endif %}"{% if o.data_hierarchy_parents_ids %} data-hierarchy-parents-ids="{{ o.data_hierarchy_parents_ids }}"{% endif %}>{{ o }}</option>
+                                <option value="{% if f.valueSameAsText %}{{ o }}{% else %}{{ o.id }}{% endif %}">{{ o }}</option>
                             {% endfor %}
                         </select>
                     </div>

@@ -281,6 +281,11 @@ main a {
     background-color: rgba(255, 255, 255, 0.05);
 }
 
+select option,
+.list-options-filters-filter select option {
+    color: black;
+}
+
 #list-options-views,
 #list-options-links {
     display: inline-block;
