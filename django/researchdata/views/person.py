@@ -59,9 +59,13 @@ class PersonListView(ListView):
         queryset = self.model.objects.filter(admin_published=True)
         # Add annotations for improved searching
         # name_first_last
-        queryset = queryset.annotate(name_first_last=Concat('first_name', Value(' '), 'last_name', output_field=CharField()))
+        queryset = queryset.annotate(
+            name_first_last=Concat('first_name', Value(' '), 'last_name',
+                                   output_field=CharField()))
         # name_full
-        queryset = queryset.annotate(name_full=Concat('first_name', Value(' '), 'middle_name', Value(' '), 'last_name', output_field=CharField()))
+        queryset = queryset.annotate(
+            name_full=Concat('first_name', Value(' '), 'middle_name', Value(' '), 'last_name',
+                             output_field=CharField()))
 
         # Search
         search = self.request.GET.get('search', '')
@@ -149,28 +153,28 @@ class PersonListView(ListView):
                 'filter_id': f'{common.filter_pre_gt}year_active_start',
                 'filter_classes': common.filter_pre_gt,
                 'filter_name': 'Year Active Start (from)',
-                'filter_options': models.Person.objects.filter(year_active_start__gt=1000).exclude(year_active_start__isnull=True).distinct().order_by('year_active_start').values_list('year_active_start', flat=True),
+                'filter_options': models.Person.objects.filter(year_active_start__gt=1000).exclude(year_active_start__isnull=True).distinct().order_by('year_active_start').values_list('year_active_start', flat=True),  # NOQA
                 'valueSameAsText': True
             },
             {
                 'filter_id': f'{common.filter_pre_lt}year_active_start',
                 'filter_classes': common.filter_pre_lt,
                 'filter_name': 'Year Active Start (to)',
-                'filter_options': models.Person.objects.filter(year_active_start__gt=1000).exclude(year_active_start__isnull=True).distinct().order_by('year_active_start').values_list('year_active_start', flat=True),
+                'filter_options': models.Person.objects.filter(year_active_start__gt=1000).exclude(year_active_start__isnull=True).distinct().order_by('year_active_start').values_list('year_active_start', flat=True),  # NOQA
                 'valueSameAsText': True
             },
             {
                 'filter_id': f'{common.filter_pre_gt}year_active_end',
                 'filter_classes': common.filter_pre_gt,
                 'filter_name': 'Year Active End (from)',
-                'filter_options': models.Person.objects.filter(year_active_end__gt=1000).exclude(year_active_end__isnull=True).distinct().order_by('year_active_end').values_list('year_active_end', flat=True),
+                'filter_options': models.Person.objects.filter(year_active_end__gt=1000).exclude(year_active_end__isnull=True).distinct().order_by('year_active_end').values_list('year_active_end', flat=True),  # NOQA
                 'valueSameAsText': True
             },
             {
                 'filter_id': f'{common.filter_pre_lt}year_active_end',
                 'filter_classes': common.filter_pre_lt,
                 'filter_name': 'Year Active End (to)',
-                'filter_options': models.Person.objects.filter(year_active_end__gt=1000).exclude(year_active_end__isnull=True).distinct().order_by('year_active_end').values_list('year_active_end', flat=True),
+                'filter_options': models.Person.objects.filter(year_active_end__gt=1000).exclude(year_active_end__isnull=True).distinct().order_by('year_active_end').values_list('year_active_end', flat=True),  # NOQA
                 'valueSameAsText': True
             }
         ]

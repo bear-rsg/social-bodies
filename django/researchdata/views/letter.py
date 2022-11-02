@@ -158,14 +158,14 @@ class LetterListView(ListView):
                 'filter_id': f'{common.filter_pre_gt}sent_date_year',
                 'filter_classes': common.filter_pre_gt,
                 'filter_name': 'Year Sent (from)',
-                'filter_options': models.Letter.objects.filter(sent_date_year__gt=1000).exclude(sent_date_year__isnull=True).distinct().order_by('sent_date_year').values_list('sent_date_year', flat=True),
+                'filter_options': models.Letter.objects.filter(sent_date_year__gt=1000).exclude(sent_date_year__isnull=True).distinct().order_by('sent_date_year').values_list('sent_date_year', flat=True),  # NOQA
                 'valueSameAsText': True
             },
             {
                 'filter_id': f'{common.filter_pre_lt}sent_date_year',
                 'filter_classes': common.filter_pre_lt,
                 'filter_name': 'Year Sent (to)',
-                'filter_options': models.Letter.objects.filter(sent_date_year__gt=1000).exclude(sent_date_year__isnull=True).distinct().order_by('sent_date_year').values_list('sent_date_year', flat=True),
+                'filter_options': models.Letter.objects.filter(sent_date_year__gt=1000).exclude(sent_date_year__isnull=True).distinct().order_by('sent_date_year').values_list('sent_date_year', flat=True),  # NOQA
                 'valueSameAsText': True
             }
         ]
