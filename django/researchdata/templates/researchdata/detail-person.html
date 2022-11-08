@@ -11,9 +11,11 @@
 
         <ul class="tabs">
             <li id="details">Person Details</li>
-            <li id="letters">Letters</li>
-            {% if object.person.all %}
-                <li id="relatedpeople">Related People</li>
+            {% if letterperson_details %}
+                <li id="letters">Letters ({{ letterperson_details | length }})</li>
+            {% endif %}
+            {% if related_people %}
+                <li id="relatedpeople">Related People ({{ related_people | length }})</li>
             {% endif %}
         </ul>
     </section>
@@ -28,12 +30,12 @@
         {% include "researchdata/snippets/letterpersons.html" %}
     </section>
 
-    {% if object.person.all %}
+    {% if related_people %}
         <section class="tabbed container" id="tabbed-relatedpeople">
             <div class="tabbed-title">Related People</div>
 
             <div class="detail-relateditems">
-                {% for related_person in object.person.all %}
+                {% for related_person in related_people %}
                     <a class="detail-relateditems-item" href="{% url 'researchdata:person-detail' related_person.id %}">{{ related_person }}</a>
                 {% endfor %}
             </div>

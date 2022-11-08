@@ -317,6 +317,8 @@ select option,
 }
 
 #list-options-links span {
+    outline: none;
+    border: none;
     display: inline-block;
     padding: 0.25em 0.6em 0.2em 0.7em;
     color: #f9d301;
@@ -326,8 +328,7 @@ select option,
 
 #list-options-links span:hover {
     cursor: pointer;
-    background: #f9d301;
-    color: black;
+    background: rgba(255, 255, 255, 0.2);
 }
 
 /* List content */
