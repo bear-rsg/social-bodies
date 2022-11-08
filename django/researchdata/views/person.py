@@ -149,7 +149,9 @@ class PersonListView(ListView):
             {
                 'filter_id': f'{common.filter_pre_mm}marital_status',
                 'filter_name': 'Marital Status',
-                'filter_options': filter_options_limit_to_published_related_people(models.SlPersonMaritalStatus.objects)
+                'filter_options': filter_options_limit_to_published_related_people(
+                    models.SlPersonMaritalStatus.objects
+                )
             },
             {
                 'filter_id': f'{common.filter_pre_mm}religion',

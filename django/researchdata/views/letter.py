@@ -151,32 +151,44 @@ class LetterListView(ListView):
             {
                 'filter_id': f'{common.filter_pre_mm}collection',
                 'filter_name': 'Collection',
-                'filter_options': filter_options_limit_to_published_related_letters(models.SlLetterCollection.objects)
+                'filter_options': filter_options_limit_to_published_related_letters(
+                    models.SlLetterCollection.objects
+                )
             },
             {
                 'filter_id': f'{common.filter_pre_mm}repository',
                 'filter_name': 'Repository',
-                'filter_options': filter_options_limit_to_published_related_letters(models.SlLetterRepository.objects)
+                'filter_options': filter_options_limit_to_published_related_letters(
+                    models.SlLetterRepository.objects
+                )
             },
             {
                 'filter_id': f'{common.filter_pre_mm}letterperson__condition_specific_state',
                 'filter_name': 'Specific State',
-                'filter_options': filter_options_limit_to_published_related_letters(models.SlLetterPersonConditionSpecificState.objects)
+                'filter_options': filter_options_limit_to_published_related_letters(
+                    models.SlLetterPersonConditionSpecificState.objects
+                )
             },
             {
                 'filter_id': f'{common.filter_pre_mm}letterperson__emotion',
                 'filter_name': 'Emotion',
-                'filter_options': filter_options_limit_to_published_related_letters(models.SlLetterPersonEmotion.objects)
+                'filter_options': filter_options_limit_to_published_related_letters(
+                    models.SlLetterPersonEmotion.objects
+                )
             },
             {
                 'filter_id': f'{common.filter_pre_mm}letterperson__body_part',
                 'filter_name': 'Body Part',
-                'filter_options': filter_options_limit_to_published_related_letters(models.SlLetterPersonBodyPart.objects)
+                'filter_options': filter_options_limit_to_published_related_letters(
+                    models.SlLetterPersonBodyPart.objects
+                )
             },
             {
                 'filter_id': f'{common.filter_pre_mm}letterperson__bodily_activity',
                 'filter_name': 'Bodily Activity',
-                'filter_options': filter_options_limit_to_published_related_letters(models.SlLetterPersonBodilyActivity.objects)
+                'filter_options': filter_options_limit_to_published_related_letters(
+                    models.SlLetterPersonBodilyActivity.objects
+                )
             },
             # Year
             {

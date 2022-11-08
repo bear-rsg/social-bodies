@@ -76,16 +76,15 @@ def letterperson_details(object):
                           'treatment',
                           'context',
                           'roles',
-                          'state',)\
-        .select_related('person', 'letter', 'person_letter_relationship'):
+                          'state',).select_related('person', 'letter', 'person_letter_relationship'):
 
         related_object = getattr(letterperson, related_model_field)
         related_object_name = getattr(letterperson, f"{related_model_field}_name")
 
-        if related_object and related_object.admin_published == True:
+        if related_object and related_object.admin_published:
 
             data.append([
-                # Title (this is different from rest of the objects as it just features the title of this Person/Letter)
+                # Title (different from rest of objects as just features the title of this Person/Letter)
                 {
                     'title': f"{related_model}: {related_object_name}",
                     'url': reverse(
