@@ -66,6 +66,8 @@
                 <span id="list-options-links-reset" class="reset-form"><i class="fas fa-redo"></i> Reset</span>
             </div>
 
+            {% block list_options_transcribe %}{% endblock %}
+
             <!-- Views -->
             <div id="list-options-views">
                 <label>View:</label>
@@ -220,13 +222,14 @@ $(document).ready(function() {
     // Sort
     setFieldValueFromUrl("list-options-sort-by", "sort_by");
     setFieldValueFromUrl("list-options-sort-direction", "sort_direction");
+    // Filters
     new URL(window.location.href).searchParams.forEach(function(value, key){
-        console.log(1)
         // If key starts with 'filter_pre' (as defined in view get_context_data()) then it's a filter
         if (key.startsWith('{{ filter_pre }}')) setFieldValueFromUrl(key, key);
     });
+    // Transcribe
+    setFieldValueFromUrl("list-options-transcribe-value", "transcribe");
 });
 </script>
-
 
 {% endblock %}

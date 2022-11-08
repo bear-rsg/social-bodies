@@ -76,92 +76,95 @@ def letterperson_details(object):
                           'treatment',
                           'context',
                           'roles',
-                          'state',).select_related('person', 'letter', 'person_letter_relationship'):
+                          'state',)\
+        .select_related('person', 'letter', 'person_letter_relationship'):
 
         related_object = getattr(letterperson, related_model_field)
         related_object_name = getattr(letterperson, f"{related_model_field}_name")
 
-        data.append([
-            # Title (this is different from rest of the objects as it just features the title of this Person/Letter)
-            {
-                'title': f"{related_model}: {related_object_name}",
-                'url': reverse(
-                    f'researchdata:{related_model_field}-detail',
-                    args=[related_object.id]
-                ) if related_object else None
-            },
+        if related_object and related_object.admin_published == True:
 
-            # Details
-            {
-                'label': 'Person Form of Address',
-                'value': letterperson.person_form_of_address
-            },
-            {
-                'label': 'Person (Other)',
-                'value': letterperson.person_other
-            },
-            {
-                'label': 'Person (Other): Gender',
-                'value': letterperson.person_other_gender
-            },
-            {
-                'label': 'Person Letter Relationship',
-                'value': letterperson.person_letter_relationship
-            },
-            {
-                'label': 'Body Part',
-                'value': html_details_list_items(letterperson.body_part.all())
-            },
-            {
-                'label': 'Bodily Activity',
-                'value': html_details_list_items(letterperson.bodily_activity.all())
-            },
-            {
-                'label': 'Appearance',
-                'value': html_details_list_items(letterperson.appearance.all())
-            },
-            {
-                'label': 'Condition: Specific State',
-                'value': html_details_list_items(letterperson.condition_specific_state.all())
-            },
-            {
-                'label': 'Condition: Specific Life Stage',
-                'value': html_details_list_items(letterperson.condition_specific_life_stage.all())
-            },
-            {
-                'label': 'Condition: Generalized State',
-                'value': html_details_list_items(letterperson.condition_generalized_state.all())
-            },
-            {
-                'label': 'Emotion',
-                'value': html_details_list_items(letterperson.emotion.all())
-            },
-            {
-                'label': 'Immaterial',
-                'value': html_details_list_items(letterperson.immaterial.all())
-            },
-            {
-                'label': 'Sensation',
-                'value': html_details_list_items(letterperson.sensation.all())
-            },
-            {
-                'label': 'Treatment',
-                'value': html_details_list_items(letterperson.treatment.all())
-            },
-            {
-                'label': 'Context',
-                'value': html_details_list_items(letterperson.context.all())
-            },
-            {
-                'label': 'Role',
-                'value': html_details_list_items(letterperson.roles.all())
-            },
-            {
-                'label': 'State',
-                'value': html_details_list_items(letterperson.state.all())
-            },
+            data.append([
+                # Title (this is different from rest of the objects as it just features the title of this Person/Letter)
+                {
+                    'title': f"{related_model}: {related_object_name}",
+                    'url': reverse(
+                        f'researchdata:{related_model_field}-detail',
+                        args=[related_object.id]
+                    ) if related_object else None
+                },
 
-        ])
+                # Details
+                {
+                    'label': 'Person Form of Address',
+                    'value': letterperson.person_form_of_address
+                },
+                {
+                    'label': 'Person (Other)',
+                    'value': letterperson.person_other
+                },
+                {
+                    'label': 'Person (Other): Gender',
+                    'value': letterperson.person_other_gender
+                },
+                {
+                    'label': 'Person Letter Relationship',
+                    'value': letterperson.person_letter_relationship
+                },
+                {
+                    'label': 'Body Part',
+                    'value': html_details_list_items(letterperson.body_part.all())
+                },
+                {
+                    'label': 'Bodily Activity',
+                    'value': html_details_list_items(letterperson.bodily_activity.all())
+                },
+                {
+                    'label': 'Appearance',
+                    'value': html_details_list_items(letterperson.appearance.all())
+                },
+                {
+                    'label': 'Condition: Specific State',
+                    'value': html_details_list_items(letterperson.condition_specific_state.all())
+                },
+                {
+                    'label': 'Condition: Specific Life Stage',
+                    'value': html_details_list_items(letterperson.condition_specific_life_stage.all())
+                },
+                {
+                    'label': 'Condition: Generalized State',
+                    'value': html_details_list_items(letterperson.condition_generalized_state.all())
+                },
+                {
+                    'label': 'Emotion',
+                    'value': html_details_list_items(letterperson.emotion.all())
+                },
+                {
+                    'label': 'Immaterial',
+                    'value': html_details_list_items(letterperson.immaterial.all())
+                },
+                {
+                    'label': 'Sensation',
+                    'value': html_details_list_items(letterperson.sensation.all())
+                },
+                {
+                    'label': 'Treatment',
+                    'value': html_details_list_items(letterperson.treatment.all())
+                },
+                {
+                    'label': 'Context',
+                    'value': html_details_list_items(letterperson.context.all())
+                },
+                {
+                    'label': 'Role',
+                    'value': html_details_list_items(letterperson.roles.all())
+                },
+                {
+                    'label': 'State',
+                    'value': html_details_list_items(letterperson.state.all())
+                },
+
+            ])
 
     return data
 

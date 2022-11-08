@@ -1,9 +1,19 @@
 from django.views.generic import (DetailView, ListView)
 from django.db.models.functions import Concat
-from django.db.models import CharField, Value, Q
+from django.db.models import CharField, Value, Q, Count
 from django.urls import reverse
 from .. import models
 from . import common
+
+
+def filter_options_limit_to_published_related_people(objects):
+    """
+    Only include filter options in select lists if selecting them will show items
+    E.g. if there are published people that belong to each filter
+    """
+    return objects.annotate(
+        published_people_count=Count('related_person', filter=Q(related_person__admin_published=True))
+    ).filter(published_people_count__gt=0)
 
 
 class PersonDetailView(DetailView):
@@ -30,8 +40,8 @@ class PersonDetailView(DetailView):
                 {'label': 'Alternative Names', 'value': self.object.alternative_names},
                 {'label': 'Year of Birth', 'value': self.object.year_of_birth},
                 {'label': 'Year of Death', 'value': self.object.year_of_death},
-                {'label': 'Years Active (from)', 'value': self.object.year_active_start},
-                {'label': 'Years Active (to)', 'value': self.object.year_active_end},
+                {'label': 'Years Active (from)', 'value': self.object.year_of_birth},
+                {'label': 'Years Active (to)', 'value': self.object.year_of_death},
                 {'label': 'Gender', 'value': self.object.gender},
                 {'label': 'Title', 'value': common.html_details_list_items(self.object.title.all())},
                 {'label': 'Marital Status', 'value': common.html_details_list_items(self.object.marital_status.all())},
@@ -41,7 +51,9 @@ class PersonDetailView(DetailView):
             ],
         ])
 
+        # Related data
         context['letterperson_details'] = common.letterperson_details(self.object)
+        context['related_people'] = self.object.person.filter(admin_published=True)
 
         return context
 
@@ -78,8 +90,8 @@ class PersonListView(ListView):
                 Q(alternative_names__icontains=search) |
                 Q(year_of_birth__icontains=search) |
                 Q(year_of_death__icontains=search) |
-                Q(year_active_start__icontains=search) |
-                Q(year_active_end__icontains=search) |
+                Q(year_of_birth__icontains=search) |
+                Q(year_of_death__icontains=search) |
                 Q(occupation__icontains=search) |
 
                 # Annotation fields
@@ -132,49 +144,49 @@ class PersonListView(ListView):
             {
                 'filter_id': f'{common.filter_pre_mm}gender',
                 'filter_name': 'Gender',
-                'filter_options': models.SlPersonGender.objects.all()
+                'filter_options': filter_options_limit_to_published_related_people(models.SlPersonGender.objects)
             },
             {
                 'filter_id': f'{common.filter_pre_mm}marital_status',
                 'filter_name': 'Marital Status',
-                'filter_options': models.SlPersonMaritalStatus.objects.all()
+                'filter_options': filter_options_limit_to_published_related_people(models.SlPersonMaritalStatus.objects)
             },
             {
                 'filter_id': f'{common.filter_pre_mm}religion',
                 'filter_name': 'Religion',
-                'filter_options': models.SlPersonReligion.objects.all()
+                'filter_options': filter_options_limit_to_published_related_people(models.SlPersonReligion.objects)
             },
             {
                 'filter_id': f'{common.filter_pre_mm}rank',
                 'filter_name': 'Rank',
-                'filter_options': models.SlPersonRank.objects.all()
+                'filter_options': filter_options_limit_to_published_related_people(models.SlPersonRank.objects)
             },
             {
-                'filter_id': f'{common.filter_pre_gt}year_active_start',
+                'filter_id': f'{common.filter_pre_gt}year_of_birth',
                 'filter_classes': common.filter_pre_gt,
-                'filter_name': 'Year Active Start (from)',
-                'filter_options': models.Person.objects.filter(year_active_start__gt=1000).exclude(year_active_start__isnull=True).distinct().order_by('year_active_start').values_list('year_active_start', flat=True),  # NOQA
+                'filter_name': 'Year of Birth (from)',
+                'filter_options': models.Person.objects.filter(year_of_birth__gt=1000).exclude(year_of_birth__isnull=True).distinct().order_by('year_of_birth').values_list('year_of_birth', flat=True),  # NOQA
                 'valueSameAsText': True
             },
             {
-                'filter_id': f'{common.filter_pre_lt}year_active_start',
+                'filter_id': f'{common.filter_pre_lt}year_of_birth',
                 'filter_classes': common.filter_pre_lt,
-                'filter_name': 'Year Active Start (to)',
-                'filter_options': models.Person.objects.filter(year_active_start__gt=1000).exclude(year_active_start__isnull=True).distinct().order_by('year_active_start').values_list('year_active_start', flat=True),  # NOQA
+                'filter_name': 'Year of Birth (to)',
+                'filter_options': models.Person.objects.filter(year_of_birth__gt=1000).exclude(year_of_birth__isnull=True).distinct().order_by('year_of_birth').values_list('year_of_birth', flat=True),  # NOQA
                 'valueSameAsText': True
             },
             {
-                'filter_id': f'{common.filter_pre_gt}year_active_end',
+                'filter_id': f'{common.filter_pre_gt}year_of_death',
                 'filter_classes': common.filter_pre_gt,
-                'filter_name': 'Year Active End (from)',
-                'filter_options': models.Person.objects.filter(year_active_end__gt=1000).exclude(year_active_end__isnull=True).distinct().order_by('year_active_end').values_list('year_active_end', flat=True),  # NOQA
+                'filter_name': 'Year of Death (from)',
+                'filter_options': models.Person.objects.filter(year_of_death__gt=1000).exclude(year_of_death__isnull=True).distinct().order_by('year_of_death').values_list('year_of_death', flat=True),  # NOQA
                 'valueSameAsText': True
             },
             {
-                'filter_id': f'{common.filter_pre_lt}year_active_end',
+                'filter_id': f'{common.filter_pre_lt}year_of_death',
                 'filter_classes': common.filter_pre_lt,
-                'filter_name': 'Year Active End (to)',
-                'filter_options': models.Person.objects.filter(year_active_end__gt=1000).exclude(year_active_end__isnull=True).distinct().order_by('year_active_end').values_list('year_active_end', flat=True),  # NOQA
+                'filter_name': 'Year of Death End (to)',
+                'filter_options': models.Person.objects.filter(year_of_death__gt=1000).exclude(year_of_death__isnull=True).distinct().order_by('year_of_death').values_list('year_of_death', flat=True),  # NOQA
                 'valueSameAsText': True
             }
         ]

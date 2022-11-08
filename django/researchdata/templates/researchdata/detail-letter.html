@@ -14,9 +14,11 @@
                 <li id="transcription">Transcription</li>
             {% endif %}
             <li id="details">Letter Details</li>
-            <li id="people">People</li>
-            {% if object.letter.all %}
-                <li id="relatedletters">Related Letters</li>
+            {% if letterperson_details %}
+                <li id="people">People ({{ letterperson_details | length }})</li>
+            {% endif %}
+            {% if related_letters %}
+                <li id="relatedletters">Related Letters ({{ related_letters | length }})</li>
             {% endif %}
         </ul>
     </section>
@@ -70,12 +72,12 @@
         {% include "researchdata/snippets/letterpersons.html" %}
     </section>
 
-    {% if object.letter.all %}
+    {% if related_letters %}
         <section class="tabbed container" id="tabbed-relatedletters">
             <div class="tabbed-title">Related Letters</div>
 
             <div class="detail-relateditems">
-                {% for related_letter in object.letter.all %}
+                {% for related_letter in related_letters %}
                     <a class="detail-relateditems-item" href="{% url 'researchdata:letter-detail' related_letter.id %}">{{ related_letter }}</a>
                 {% endfor %}
             </div>
