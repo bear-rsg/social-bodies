@@ -1,8 +1,27 @@
 from django.views.generic import (DetailView, ListView)
 from django.urls import reverse
-from django.db.models import Q
+from django.db.models import Q, Count
+from django.core.exceptions import FieldError
 from .. import models
 from . import common
+
+
+def filter_options_limit_to_published_related_letters(objects):
+    """
+    Only include filter options in select lists if selecting them will show items
+    E.g. if there are published letters that belong to each filter
+    """
+
+    # If has a direct relationship to Letter model (e.g. a direct FK field in Letter model)
+    try:
+        return objects.annotate(
+            published_letters_count=Count('related_letter', filter=Q(related_letter__admin_published=True))
+        ).filter(published_letters_count__gt=0)
+    # If has a relationship to Letter model through LetterPerson (e.g. a direct M2M field in LetterPerson model)
+    except FieldError:
+        return objects.annotate(
+            published_letters_count=Count('letterperson__letter', filter=Q(letterperson__letter__admin_published=True))
+        ).filter(published_letters_count__gt=0)
 
 
 class LetterDetailView(DetailView):
@@ -43,7 +62,9 @@ class LetterDetailView(DetailView):
             ],
         ])
 
+        # Related data
         context['letterperson_details'] = common.letterperson_details(self.object)
+        context['related_letters'] = self.object.letter.filter(admin_published=True)
 
         return context
 
@@ -59,6 +80,10 @@ class LetterListView(ListView):
     def get_queryset(self):
         # Start with all published objects
         queryset = self.model.objects.filter(admin_published=True)
+        # Show letters to Transcribe or not
+        transcribe = self.request.GET.get('transcribe', '0')
+        show_transcribe = True if transcribe == '1' else False
+        queryset = queryset.filter(transcription_is_public=show_transcribe)
         # Search
         search = self.request.GET.get('search', '')
         if search != '':
@@ -126,32 +151,44 @@ class LetterListView(ListView):
             {
                 'filter_id': f'{common.filter_pre_mm}collection',
                 'filter_name': 'Collection',
-                'filter_options': models.SlLetterCollection.objects.all()
+                'filter_options': filter_options_limit_to_published_related_letters(
+                    models.SlLetterCollection.objects
+                )
             },
             {
                 'filter_id': f'{common.filter_pre_mm}repository',
                 'filter_name': 'Repository',
-                'filter_options': models.SlLetterRepository.objects.all()
+                'filter_options': filter_options_limit_to_published_related_letters(
+                    models.SlLetterRepository.objects
+                )
             },
             {
                 'filter_id': f'{common.filter_pre_mm}letterperson__condition_specific_state',
                 'filter_name': 'Specific State',
-                'filter_options': models.SlLetterPersonConditionSpecificState.objects.all()
+                'filter_options': filter_options_limit_to_published_related_letters(
+                    models.SlLetterPersonConditionSpecificState.objects
+                )
             },
             {
                 'filter_id': f'{common.filter_pre_mm}letterperson__emotion',
                 'filter_name': 'Emotion',
-                'filter_options': models.SlLetterPersonEmotion.objects.all()
+                'filter_options': filter_options_limit_to_published_related_letters(
+                    models.SlLetterPersonEmotion.objects
+                )
             },
             {
                 'filter_id': f'{common.filter_pre_mm}letterperson__body_part',
                 'filter_name': 'Body Part',
-                'filter_options': models.SlLetterPersonBodyPart.objects.all()
+                'filter_options': filter_options_limit_to_published_related_letters(
+                    models.SlLetterPersonBodyPart.objects
+                )
             },
             {
                 'filter_id': f'{common.filter_pre_mm}letterperson__bodily_activity',
                 'filter_name': 'Bodily Activity',
-                'filter_options': models.SlLetterPersonBodilyActivity.objects.all()
+                'filter_options': filter_options_limit_to_published_related_letters(
+                    models.SlLetterPersonBodilyActivity.objects
+                )
             },
             # Year
             {

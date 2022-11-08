@@ -245,13 +245,19 @@ class Letter(models.Model):
     Letter model
     """
 
-    related_name = "letter"
+    related_name = "related_letter"
 
     title = models.CharField(max_length=255)
     summary = models.TextField(blank=True, null=True)
-    collection = models.ForeignKey(SlLetterCollection, on_delete=models.SET_NULL, blank=True, null=True)
+    collection = models.ForeignKey(SlLetterCollection,
+                                   related_name=related_name,
+                                   on_delete=models.SET_NULL,
+                                   blank=True, null=True)
     item_number = models.CharField(max_length=255, blank=True, null=True)
-    repository = models.ForeignKey(SlLetterRepository, on_delete=models.SET_NULL, blank=True, null=True)
+    repository = models.ForeignKey(SlLetterRepository,
+                                   related_name=related_name,
+                                   on_delete=models.SET_NULL,
+                                   blank=True, null=True)
     permission_reproduce_text = models.BooleanField(blank=True, null=True)
     permission_reproduce_image = models.BooleanField(blank=True, null=True)
     transcription_is_public = models.BooleanField(default=False,
@@ -274,6 +280,7 @@ class Letter(models.Model):
     commentary = models.ManyToManyField(SlLetterCommentary, related_name=related_name, blank=True)
     location = models.ManyToManyField(SlLetterLocation, related_name=related_name, blank=True)
     estimated_proportion_of_letter = models.ForeignKey(SlLetterEstimatedProportionOfLetter,
+                                                       related_name=related_name,
                                                        on_delete=models.SET_NULL, blank=True, null=True)
     # Many to many relationship fields
     letter = models.ManyToManyField("self", related_name=related_name, blank=True, through='M2MLetterLetter')
@@ -451,7 +458,10 @@ class Person(models.Model):
     year_of_death = models.IntegerField(blank=True, null=True)
     year_active_start = models.IntegerField(blank=True, null=True)
     year_active_end = models.IntegerField(blank=True, null=True)
-    gender = models.ForeignKey(SlPersonGender, on_delete=models.SET_NULL, blank=True, null=True)
+    gender = models.ForeignKey(SlPersonGender,
+                               related_name=related_name,
+                               on_delete=models.SET_NULL,
+                               blank=True, null=True)
     title = models.ManyToManyField(SlPersonTitle, related_name=related_name, blank=True)
     marital_status = models.ManyToManyField(SlPersonMaritalStatus, related_name=related_name, blank=True)
     religion = models.ManyToManyField(SlPersonReligion, related_name=related_name, blank=True)

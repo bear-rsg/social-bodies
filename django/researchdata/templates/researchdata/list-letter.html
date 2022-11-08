@@ -4,6 +4,7 @@
 <!-- Title -->
 {% block list_title %}
     Letters
+    {% if "transcribe=1" in request.get_full_path %} to Transcribe{% endif %}
 {% endblock %}
 
 <!-- Link to detail -->
@@ -20,4 +21,9 @@
     <option value="item_number">Item Number</option>
     <option value="repository__name">Repository</option>
     <option value="count_letterperson">Number of People</option>
+{% endblock %}
+
+<!-- Transcribe -->
+{% block list_options_transcribe %}
+    <input type="hidden" id="list-options-transcribe-value" value="0" name="transcribe">
 {% endblock %}
