@@ -9,7 +9,7 @@
 
 <!-- Link to detail -->
 {% block list_item_link %}
-    {% url 'researchdata:letter-detail' object.id %}
+    {% url 'researchdata:letter-detail' object.id %}{% if object.transcription_is_public %}?tab=transcription{% endif %}
 {% endblock %}
 
 <!-- Order By -->

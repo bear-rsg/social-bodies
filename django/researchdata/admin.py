@@ -52,6 +52,13 @@ def permission_reproduce_image_false(modeladmin, request, queryset):
     # Sets all objects in queryset to: permission_reproduce_image = False
     queryset.update(permission_reproduce_image=False)
 
+def approved_by_project_team_true(modeladmin, request, queryset):
+    # Sets all objects in queryset to: approved_by_project_team = True
+    queryset.update(approved_by_project_team=True)
+    
+def approved_by_project_team_false(modeladmin, request, queryset):
+    # Sets all objects in queryset to: approved_by_project_team = False
+    queryset.update(approved_by_project_team=False)
 
 admin_published_true.short_description = "Admin published: Yes"
 admin_published_false.short_description = "Admin published: No"
@@ -92,6 +99,11 @@ class LetterLetter2Inline(admin.TabularInline):
     model = models.Letter.letter.through
     fk_name = "letter_1"
     autocomplete_fields = ('letter_2', 'relationship_type')
+
+
+class LetterImagePublicTranscriptionInline(admin.TabularInline):
+    model = models.LetterImagePublicTranscription
+    fields = ('transcription_text',)
 
 
 class PersonPerson1Inline(admin.TabularInline):
@@ -165,6 +177,23 @@ class LetterAdminView(admin.ModelAdmin):
             obj.created_by = request.user
         obj.lastupdated_by = request.user
         obj.save()
+
+
+class LetterPublicTranscriptionAdminView(admin.ModelAdmin):
+    """
+    Customise the LetterPublicTranscription section of the Django admin
+    """
+
+    list_display = ('id', 'letter', 'transcription_text_brief', 'approved_by_project_team',
+                    'person_name', 'person_email', 'person_country',
+                    'created_datetime')
+    list_filter = ('approved_by_project_team',)
+    search_fields = ('letter__title', 'letterimagepublictranscription__transcription_text', 'person_name', 'person_email', 'person_country__name')
+    ordering = ('-created_datetime', 'id')
+    inlines = [LetterImagePublicTranscriptionInline]
+    readonly_fields = ('letter', 'created_datetime', 'lastupdated_datetime')
+    actions = (approved_by_project_team_true,
+               approved_by_project_team_false)
 
 
 class LetterPersonAdminView(admin.ModelAdmin):
@@ -350,6 +379,7 @@ class M2MPersonPersonAdminView(admin.ModelAdmin):
 # Register classes
 
 # SL models
+admin.site.register(models.SlCountry, SlGenericAdminView)
 # Person
 admin.site.register(models.SlPersonGender, SlGenericAdminView)
 admin.site.register(models.SlPersonMaritalStatus, SlGenericAdminView)
@@ -385,6 +415,7 @@ admin.site.register(models.SlM2MPersonPersonRelationshipType, SlGenericAdminView
 
 # Main models
 admin.site.register(models.Letter, LetterAdminView)
+admin.site.register(models.LetterPublicTranscription, LetterPublicTranscriptionAdminView)
 admin.site.register(models.LetterPerson, LetterPersonAdminView)
 admin.site.register(models.Person, PersonAdminView)
 

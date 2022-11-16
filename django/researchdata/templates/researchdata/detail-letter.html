@@ -27,6 +27,8 @@
         <section class="tabbed" id="tabbed-transcription">
             <div class="tabbed-title">Transcription</div>
 
+            <div id="detail-fullscreen">s</div>
+
             {% if object.permission_reproduce_image %}
                 <div id="transcription-images" class="transcription-section {% if not object.permission_reproduce_text %}sole-section{% endif %}">
                     {% for image in object.letterimage_set.all %}
@@ -34,26 +36,103 @@
                         {% if image.description %}
                             <p>{{ image.description }}</p>
                         {% endif %}
-                        <div id="transcription-images-image-container-{{ forloop.counter }}" class="transcription-images-image-container">
+                        <div class="transcription-images-image-container" data-imageid="{{ image.id }}">
                             <img src="{{ image.image.url }}" alt="{{ image }}">
                         </div>
                     {% endfor %}
                 </div>
             {% endif %}
 
-            {% if object.permission_reproduce_text %}
+            {% if object.transcription_is_public %}
+                <div id="transcription-publicinput" class="transcription-section {% if not object.permission_reproduce_image %}sole-section{% endif %}">
+                    <!-- Switch between new/exising transcriptions -->
+                    <div id="transcription-publicinput-switch" class="transcription-content-switch">
+                        <div data-textid="new">Create a New Transcription</div><div data-textid="existing">View Existing Transcriptions</div>
+                    </div>
+
+                    <div id="transcription-content-section-existing" class="transcription-content-section">
+                        {% if letterpublictranscriptions %}
+                            <label for="transcription-publicinput-existing-select">Select an existing transcription:</label>
+                            <select id="transcription-publicinput-existing-select">
+                                {% for lpt in letterpublictranscriptions %}
+                                    <option value="{{ lpt.id }}">{{ lpt }}</option>
+                                {% endfor %}
+                            </select>
+                            
+                            {% for lpt in letterpublictranscriptions %}
+                                <div class="transcription-publicinput-existing-instance" data-id="{{ lpt.id }}">
+                                    {% for page in lpt.letterimagepublictranscription.all %}
+                                        <div class="transcription-publicinput-existing-instance-page" data-imageid="{{ page.letter_image.id }}">
+                                            <h3>Image {{ page.image_order_in_letter }}</h3>
+                                            <div >
+                                                {{ page.transcription_text | safe | linebreaks }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>
+                                No existing transcriptions to show.
+                            </p>
+                            <p>
+                                Please check back soon.
+                            </p>
+                        {% endif %}
+                    </div>
+
+                    <!-- New transcription form -->
+                    <div id="transcription-content-section-new" class="transcription-content-section">
+                        <form id="transcription-publicinput-new-form" enctype="multipart/form-data" name="transcription-publicinput-new-form" method="POST" action="{% url 'researchdata:transcribe-submit' %}">
+                            {% csrf_token %}
+
+                            <input type="hidden" name="letter-id" value="{{ object.id }}">
+
+                            {% for image in object.letterimage_set.all %}
+                                <h3>Transcribe Image {{ forloop.counter }}</h3>
+                                <textarea class="transcription-publicinput-new-form-transcribe" placeholder="Start transcribing..." name="transcribe-image-{{ image.id }}" data-imageid="{{ image.id }}"></textarea>
+                            {% endfor %}
+
+                            <div id="transcription-publicinput-new-form-personalinfo">
+                                <div>
+                                    <label for="transcription-publicinput-new-form-personalinfo-name">Name</label>
+                                    <input id="transcription-publicinput-new-form-personalinfo-name" type="text" name="name">
+                                </div>
+
+                                <div>
+                                    <label for="transcription-publicinput-new-form-personalinfo-email">Email</label>
+                                    <input id="transcription-publicinput-new-form-personalinfo-email" type="email" name="email">
+                                </div>
+
+                                <div>
+                                    <label for="transcription-publicinput-new-form-personalinfo-country">Country</label>
+                                    <select id="transcription-publicinput-new-form-personalinfo-country" name="country">
+                                        <option value="">-- Please select --</option>
+                                        {% for country in countries %}
+                                            <option value="{{ country.id }}">{{ country.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button id="transcription-publicinput-new-form-submit" type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+
+            {% elif object.permission_reproduce_text %}
                 <!-- Transcription Text -->
                 <div id="transcription-texts" class="transcription-section {% if not object.permission_reproduce_image %}sole-section{% endif %}">
                     <!-- Switch between texts -->
-                    <div id="transcription-texts-switch">
+                    <div id="transcription-texts-switch" class="transcription-content-switch">
                         <div data-textid="plain">Plain</div><div data-textid="normalized">Normalized</div>
                     </div>
                     <!-- Transcription Text: Plain -->
-                    <div id="transcription-texts-text-plain" class="transcription-texts-text">
+                    <div id="transcription-content-section-plain" class="transcription-content-section">
                         {{ letter.transcription_plain | safe | linebreaksbr }}
                     </div>
                     <!-- Transcription Text: Normalized -->
-                    <div id="transcription-texts-text-normalized" class="transcription-texts-text">
+                    <div id="transcription-content-section-normalized" class="transcription-content-section">
                         {{ letter.transcription_normalized | safe | linebreaksbr }}
                     </div>
                 </div>

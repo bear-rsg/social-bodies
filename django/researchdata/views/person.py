@@ -187,7 +187,7 @@ class PersonListView(ListView):
             {
                 'filter_id': f'{common.filter_pre_lt}year_of_death',
                 'filter_classes': common.filter_pre_lt,
-                'filter_name': 'Year of Death End (to)',
+                'filter_name': 'Year of Death (to)',
                 'filter_options': models.Person.objects.filter(year_of_death__gt=1000).exclude(year_of_death__isnull=True).distinct().order_by('year_of_death').values_list('year_of_death', flat=True),  # NOQA
                 'valueSameAsText': True
             }

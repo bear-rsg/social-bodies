@@ -53,6 +53,17 @@ h3 {
     border: none;
 }
 
+button {
+    display: block;
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 0.5em;
+    border-radius: 0.2em;
+    background: #f9d301;
+    color: black;
+}
+
 /* ---------- Navigation ---------- */
 
 nav {
@@ -551,7 +562,7 @@ section.tabbed {
     padding: 1em;
     overflow: scroll;
     display: inline-block;
-    height: 80vh;
+    height: 90vh;
 }
 
 #transcription-images {
@@ -573,11 +584,52 @@ section.tabbed {
     margin: 2em auto;
 }
 
-#transcription-texts {
+#transcription-publicinput-new-form {
+    width: 100%;
+    display: block;
+}
+
+#transcription-publicinput-new-form label {
+    display: block;
+    margin: 2em 0 0.3em 0;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+#transcription-publicinput-new-form input,
+#transcription-publicinput-new-form select,
+#transcription-publicinput-new-form textarea {
+    width: 100%;
+    padding: 0.5em;
+}
+
+.transcription-publicinput-new-form-transcribe {
+    height: 13em;
+    min-height: 3em;
+    max-height: 100vh;
+}
+
+#transcription-publicinput-new-form-personalinfo {
+    display: block;
+    width: 100%;
+    margin: 3em 0;
+}
+
+#transcription-publicinput-existing-select {
+    display: block;
+    width: 100%;
+}
+
+.transcription-publicinput-existing-instance {
+    cursor: pointer;
+}
+
+#transcription-texts,
+#transcription-publicinput {
     width: 40%;
 }
 
-.transcription-texts-text {
+.transcription-content-section {
     display: none;
     background: rgba(0, 0, 0, 0.2);
     padding: 1em;
@@ -587,11 +639,11 @@ section.tabbed {
     font-size: 1em;
 }
 
-#transcription-texts-switch {
+.transcription-content-switch {
     margin-bottom: 2em;
 }
 
-#transcription-texts-switch div {
+.transcription-content-switch div {
     display: inline-block;
     width: 50%;
     background: rgba(0, 0, 0, 0.27);
@@ -601,9 +653,72 @@ section.tabbed {
     cursor: pointer;
 }
 
-#transcription-texts-switch div.active {
+.transcription-content-switch div:not(.active):hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.transcription-content-switch div.active {
     background: #f9d301;
     color: #283747;
+}
+
+#detail-fullscreen {
+    background: rgba(0, 0, 0, 0.27);
+    color: white;
+    padding: 0.5em;
+    display: block;
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+#detail-fullscreen:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+#detail-fullscreen i {
+    font-size: 1.8em;
+}
+
+#detail-fullscreen:not(.fullscreen) {
+    margin: -1em 0 1em 0;
+}
+
+#detail-fullscreen.fullscreen {
+    position: fixed;
+    z-index: 100001;
+    top: 0.5em;
+    left: 0.5em;
+    background: #f9d301;
+    color: black;
+}
+
+#transcription-images.fullscreen,
+#transcription-texts.fullscreen,
+#transcription-publicinput.fullscreen {
+    position: fixed;
+    height: 100vh;
+    background: #283747;
+    z-index: 10000;
+}
+
+#transcription-images.fullscreen {
+    top: 0;
+    left: 0;
+    width: 60vw;
+}
+
+#transcription-texts.fullscreen,
+#transcription-publicinput.fullscreen {
+    top: 0;
+    right: 0;
+    width: 40vw;
+}
+
+body.fullscreen {
+    overflow: hidden;
 }
 
 .detail-letterperson {
