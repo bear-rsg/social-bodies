@@ -70,7 +70,9 @@ class LetterDetailView(DetailView):
         context['letterperson_details'] = common.letterperson_details(self.object)
         context['related_letters'] = self.object.letter.filter(admin_published=True)
         context['countries'] = models.SlCountry.objects.all().order_by('id')
-        context['letterpublictranscriptions'] = models.LetterPublicTranscription.objects.filter(approved_by_project_team=True).order_by('-created_datetime')
+        context['letterpublictranscriptions'] = models.LetterPublicTranscription.objects.filter(
+            approved_by_project_team=True
+        ).order_by('-created_datetime')
 
         return context
 
