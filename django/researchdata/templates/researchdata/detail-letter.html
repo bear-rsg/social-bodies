@@ -90,7 +90,7 @@
 
                             {% for image in object.letterimage_set.all %}
                                 <h3>Transcribe Image {{ forloop.counter }}</h3>
-                                <textarea class="transcription-publicinput-new-form-transcribe" placeholder="Start transcribing..." name="transcribe-image-{{ image.id }}" data-imageid="{{ image.id }}"></textarea>
+                                <textarea class="transcription-publicinput-new-form-transcribe" name="transcribe-image-{{ image.id }}" data-imageid="{{ image.id }}"></textarea>
                             {% endfor %}
 
                             <div id="transcription-publicinput-new-form-personalinfo">

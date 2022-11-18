@@ -2,6 +2,8 @@ from django.views.generic import (DetailView, ListView, RedirectView, TemplateVi
 from django.urls import reverse
 from django.db.models import Q, Count
 from django.core.exceptions import FieldError
+from django.core.mail import send_mail
+from django.conf import settings
 from .. import models
 from . import common
 
@@ -248,6 +250,13 @@ class TranscribeSubmitRedirectView(RedirectView):
                         letter_image=letter_image,
                         transcription_text=transcription_text,
                     )
+
+            # Email project team
+            send_mail('Social Bodies database - New public transcription submitted',
+                      "A new public transcription has been submitted to the Social Bodies database",
+                      settings.DEFAULT_FROM_EMAIL,
+                      (settings.EMAIL_HOST_USER,),
+                      fail_silently=True)
 
             return reverse('researchdata:transcribe-success')
 
