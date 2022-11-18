@@ -23,7 +23,6 @@ $(document).ready(function() {
 
     // Scroll to an image in the list of images
     function scrollToImage(imageId){
-
         var topContainer = $('#transcription-images').scrollTop();
         var topThis = $('.transcription-images-image-container[data-imageid="' + imageId + '"]').position().top;
         var topExtra = ($('#transcription-images').hasClass('fullscreen') ? 150 : 400);
