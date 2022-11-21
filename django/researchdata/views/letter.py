@@ -1,7 +1,9 @@
-from django.views.generic import (DetailView, ListView)
+from django.views.generic import (DetailView, ListView, RedirectView, TemplateView)
 from django.urls import reverse
 from django.db.models import Q, Count
 from django.core.exceptions import FieldError
+from django.core.mail import send_mail
+from django.conf import settings
 from .. import models
 from . import common
 
@@ -30,7 +32,11 @@ class LetterDetailView(DetailView):
     """
     template_name = 'researchdata/detail-letter.html'
     queryset = models.Letter.objects.filter(admin_published=True)\
-        .prefetch_related('letter', 'letterimage_set', 'letterperson_set')\
+        .prefetch_related(
+            'letter',
+            'letterimage_set',
+            'letterperson_set',
+            'letterpublictranscription__letterimagepublictranscription')\
         .select_related('collection', 'repository')
 
     def get_context_data(self, **kwargs):
@@ -65,6 +71,10 @@ class LetterDetailView(DetailView):
         # Related data
         context['letterperson_details'] = common.letterperson_details(self.object)
         context['related_letters'] = self.object.letter.filter(admin_published=True)
+        context['countries'] = models.SlCountry.objects.all().order_by('id')
+        context['letterpublictranscriptions'] = models.LetterPublicTranscription.objects.filter(
+            approved_by_project_team=True
+        ).order_by('-created_datetime')
 
         return context
 
@@ -208,3 +218,62 @@ class LetterListView(ListView):
         ]
 
         return context
+
+
+class TranscribeSubmitRedirectView(RedirectView):
+    """
+    Class-based view for letter transcribe submission
+    """
+    permanent = False
+
+    def get_redirect_url(self, *args, **kwargs):
+        """
+        This method submits the data to the database,
+        redirecting to a success/fail page accordingly
+        """
+        try:
+            # Save LetterPublicTranscription object
+            letter = models.Letter.objects.get(id=self.request.POST.get('letter-id'))
+            letter_public_transcription_obj = models.LetterPublicTranscription.objects.create(letter=letter)
+            # Optional fields
+            letter_public_transcription_obj.person_name = self.request.POST.get('name', '')
+            letter_public_transcription_obj.person_email = self.request.POST.get('email', '')
+            letter_public_transcription_obj.person_country_id = self.request.POST.get('country')
+            letter_public_transcription_obj.save()
+
+            # Save related/child LetterImagePublicTranscription objects
+            for letter_image in letter.letterimage_set.all():
+                transcription_text = self.request.POST.get(f'transcribe-image-{letter_image.id}')
+                if transcription_text:
+                    models.LetterImagePublicTranscription.objects.create(
+                        letter_public_transcription=letter_public_transcription_obj,
+                        letter_image=letter_image,
+                        transcription_text=transcription_text,
+                    )
+
+            # Email project team
+            send_mail('Social Bodies database - New public transcription submitted',
+                      "A new public transcription has been submitted to the Social Bodies database",
+                      settings.DEFAULT_FROM_EMAIL,
+                      (settings.EMAIL_HOST_USER,),
+                      fail_silently=True)
+
+            return reverse('researchdata:transcribe-success')
+
+        except Exception as ex:
+            print(ex)
+            return reverse('researchdata:transcribe-fail')
+
+
+class TranscribeSuccessTemplateView(TemplateView):
+    """
+    Class-based view for letter transcribe success template
+    """
+    template_name = 'researchdata/transcribe-success.html'
+
+
+class TranscribeFailTemplateView(TemplateView):
+    """
+    Class-based view for letter transcribe fail template
+    """
+    template_name = 'researchdata/transcribe-fail.html'

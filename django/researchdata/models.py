@@ -41,6 +41,13 @@ class SlGeneric(models.Model):
         ordering = ['name', 'id']
 
 
+class SlCountry(SlGeneric):
+    """
+    Select List table: country (e.g. UK, France, Spain)
+    Inherits from standard SlGeneric model
+    """
+
+
 class SlPersonGender(SlGeneric):
     """
     Select List table: person's gender (e.g. Male, Female)
@@ -407,9 +414,13 @@ class LetterImage(models.Model):
     image_thumbnail = models.ImageField(upload_to=media_dir_letterimage_thumbnails, blank=True, null=True)
     description = models.CharField(max_length=255, blank=True, null=True)
 
+    @property
+    def order_in_letter(self):
+        return LetterImage.objects.filter(letter=self.letter, id__lte=self.id).count()
+
     def __str__(self):
         if self.letter:
-            return "Image of letter: {}".format(self.letter.title)
+            return f"Image #{self.order_in_letter} of letter: {self.letter.title}"
         else:
             return "An image of a letter"
 
@@ -440,6 +451,70 @@ class LetterImage(models.Model):
             pass
         except Exception:
             pass
+
+
+class LetterPublicTranscription(models.Model):
+    """
+    A group of letter image transcriptions (created by the public)
+    """
+
+    related_name = 'letterpublictranscription'
+
+    letter = models.ForeignKey(Letter, related_name=related_name, on_delete=models.CASCADE)
+    person_name = models.CharField(max_length=150, blank=True)
+    person_email = models.EmailField(blank=True)
+    person_country = models.ForeignKey(SlCountry, blank=True, null=True, on_delete=models.SET_NULL)
+
+    # Admin fields
+    approved_by_project_team = models.BooleanField(blank=True, null=True)
+    admin_notes = models.TextField(blank=True, null=True)
+
+    # Meta fields
+    created_datetime = models.DateTimeField(auto_now_add=True, verbose_name="Created")
+    lastupdated_datetime = models.DateTimeField(auto_now=True, verbose_name="Last Updated")
+
+    @property
+    def transcription_text_full(self):
+        return "\n\n=========\n\n".join([t.transcription_text for t in self.letterimagepublictranscription.all()])
+
+    @property
+    def transcription_text_brief(self):
+        return textwrap.shorten(self.transcription_text_full, width=270, placeholder="...")
+
+    @property
+    def order_in_letter(self):
+        return LetterPublicTranscription.objects.filter(
+            letter=self.letter,
+            approved_by_project_team=True,
+            created_datetime__lte=self.created_datetime
+        ).count()
+
+    def __str__(self):
+        text = f"Transcription #{self.order_in_letter} (Submitted "
+        text += f"by {self.person_name}, " if self.person_name else ""
+        text += f"{str(self.created_datetime)[:16]})"
+        return text.strip()
+
+
+class LetterImagePublicTranscription(models.Model):
+    """
+    A public transcription of an individual letter image
+    """
+
+    related_name = 'letterimagepublictranscription'
+
+    letter_public_transcription = models.ForeignKey(LetterPublicTranscription,
+                                                    related_name=related_name,
+                                                    on_delete=models.RESTRICT)
+    letter_image = models.ForeignKey(LetterImage, related_name=related_name, on_delete=models.RESTRICT)
+    transcription_text = models.TextField()
+
+    @property
+    def image_order_in_letter(self):
+        return self.letter_image.order_in_letter
+
+    def __str__(self):
+        return f"Public transcription of letter image: {self.letter_image}"
 
 
 class Person(models.Model):
