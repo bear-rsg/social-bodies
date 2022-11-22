@@ -67,6 +67,7 @@ def approved_by_project_team_false(modeladmin, request, queryset):
     # Sets all objects in queryset to: approved_by_project_team = False
     queryset.update(approved_by_project_team=False)
 
+
 def copy_public_transcription_to_parent_letter(modeladmin, request, queryset):
     # Copies the content of the public transcription text to the parent letter
     for public_transcription in queryset:
