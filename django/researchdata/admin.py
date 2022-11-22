@@ -53,6 +53,11 @@ def permission_reproduce_image_false(modeladmin, request, queryset):
     queryset.update(permission_reproduce_image=False)
 
 
+def approved_by_project_team_none(modeladmin, request, queryset):
+    # Sets all objects in queryset to: approved_by_project_team = None
+    queryset.update(approved_by_project_team=None)
+
+
 def approved_by_project_team_true(modeladmin, request, queryset):
     # Sets all objects in queryset to: approved_by_project_team = True
     queryset.update(approved_by_project_team=True)
@@ -61,6 +66,12 @@ def approved_by_project_team_true(modeladmin, request, queryset):
 def approved_by_project_team_false(modeladmin, request, queryset):
     # Sets all objects in queryset to: approved_by_project_team = False
     queryset.update(approved_by_project_team=False)
+
+def copy_public_transcription_to_parent_letter(modeladmin, request, queryset):
+    # Copies the content of the public transcription text to the parent letter
+    for public_transcription in queryset:
+        public_transcription.letter.transcription_plain = public_transcription.transcription_text_full
+        public_transcription.letter.save()
 
 
 admin_published_true.short_description = "Admin published: Yes"
@@ -71,6 +82,10 @@ permission_reproduce_text_false.short_description = "Permission to reproduce tex
 permission_reproduce_image_none.short_description = "Permission to reproduce image: Unknown"
 permission_reproduce_image_true.short_description = "Permission to reproduce image: Yes"
 permission_reproduce_image_false.short_description = "Permission to reproduce image: No"
+approved_by_project_team_none.short_description = "Approved by project team: Unknown"
+approved_by_project_team_true.short_description = "Approved by project team: Yes"
+approved_by_project_team_false.short_description = "Approved by project team: No"
+copy_public_transcription_to_parent_letter.short_description = "Copy public transcription to parent letter"
 
 
 # Functions
@@ -199,8 +214,10 @@ class LetterPublicTranscriptionAdminView(admin.ModelAdmin):
     ordering = ('-created_datetime', 'id')
     inlines = [LetterImagePublicTranscriptionInline]
     readonly_fields = ('letter', 'created_datetime', 'lastupdated_datetime')
-    actions = (approved_by_project_team_true,
-               approved_by_project_team_false)
+    actions = (approved_by_project_team_none,
+               approved_by_project_team_true,
+               approved_by_project_team_false,
+               copy_public_transcription_to_parent_letter)
 
 
 class LetterPersonAdminView(admin.ModelAdmin):
