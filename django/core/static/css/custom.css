@@ -64,6 +64,11 @@ button {
     color: black;
 }
 
+.helptext {
+    opacity: 0.8;
+    font-size: 0.9em;
+}
+
 /* ---------- Navigation ---------- */
 
 nav {
@@ -603,6 +608,13 @@ section.tabbed {
     padding: 0.5em;
 }
 
+#transcription-publicinput-new-form-existingtranscriptionscount {
+    background: #f9d301;
+    color: black;
+    padding: 1em;
+    margin: 1em 0;
+}
+
 .transcription-publicinput-new-form-transcribe {
     height: 13em;
     min-height: 3em;
@@ -613,6 +625,22 @@ section.tabbed {
     display: block;
     width: 100%;
     margin: 3em 0;
+}
+
+#transcription-publicinput-new-form-consent label,
+#transcription-publicinput-new-form-consent input {
+    display: inline-block;
+    text-align: left;
+    width: fit-content;
+}
+
+#transcription-publicinput-new-form-consent input {
+    transform: scale(1.5);
+    margin-right: 0.5em;
+}
+
+#transcription-publicinput-new-form-submit {
+    margin-top: 1.3em;
 }
 
 #transcription-publicinput-existing-select {

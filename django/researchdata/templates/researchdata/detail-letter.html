@@ -50,6 +50,76 @@
                         <div data-textid="new">Create a New Transcription</div><div data-textid="existing">View Existing Transcriptions</div>
                     </div>
 
+                    <!-- New transcription form -->
+                    <div id="transcription-content-section-new" class="transcription-content-section">
+                        <form id="transcription-publicinput-new-form" enctype="multipart/form-data" name="transcription-publicinput-new-form" method="POST" action="{% url 'researchdata:transcribe-submit' %}">
+                            {% csrf_token %}
+
+                            <input type="hidden" name="letter-id" value="{{ object.id }}">
+
+                            <div id="transcription-publicinput-new-form-welcome">
+                                <p>
+                                    Thank you for helping us transcribe these letters. Your work as a ‘digital citizen’ will contribute to this open-access collection of letters and help to make them more accessible. You will also be contributing to the ‘Material Identities, Social Bodies’ research project.
+                                </p>
+                                <p>
+                                    Some general tips:
+                                </p>
+                                <ul>
+                                    <li>The ‘Golden Rule’: Please transcribe exactly what is written in the letters (including any exact spelling, capitalization and punctuation). Try to replicate the layout, too (starting a new line when the letter writer does so).</li>
+                                    <li>Handwriting can be difficult to read. If something is illegible you can simply insert ‘[illeg]’. If you think you know what something says, but are not entirely sure (for example, if you <em>think</em> the word may be ‘butter’), you can insert ‘[?butter]’. Anything in square brackets is your comment (and not in the original).</li>
+                                    <li>Most letters are more than one page. If you wish to transcribe the whole letter, that’s terrific. But you can also choose to transcribe just one page if you prefer.</li>
+                                    <li>Your transcription will not go live immediately but will be quickly reviewed before being published on this page.</li>
+                                    <li>Use our <a href="{% static 'documents/social-bodies-guidance-on-transcription.pdf' %}" target="_blank">‘Guidance on Transcription’</a> if you are unsure how to record something.</li>
+                                </ul>
+                            </div>
+
+                            {% if existingtranscriptionscount %}
+                                <div id="transcription-publicinput-new-form-existingtranscriptionscount">
+                                    Note: This letter has already been transcribed {{ existingtranscriptionscount }} time{% if existingtranscriptionscount != 1 %}s{% endif %} (some may be pending approval, so not yet visible). Please review these existing transcriptions first to prevent duplicating transcriptions.
+                                </div>
+                            {% endif %}
+
+                            {% for image in object.letterimage_set.all %}
+                                <h3>Transcribe Image {{ forloop.counter }}</h3>
+                                <textarea class="transcription-publicinput-new-form-transcribe" name="transcribe-image-{{ image.id }}" data-imageid="{{ image.id }}"></textarea>
+                            {% endfor %}
+
+                            <div id="transcription-publicinput-new-form-personalinfo">
+                                <div>
+                                    <label for="transcription-publicinput-new-form-personalinfo-name">Name</label>
+                                    <input id="transcription-publicinput-new-form-personalinfo-name" type="text" name="name">
+                                    <div class="helptext">Optional. Will be shared on the website.</div>
+                                </div>
+
+                                <div>
+                                    <label for="transcription-publicinput-new-form-personalinfo-email">Email</label>
+                                    <input id="transcription-publicinput-new-form-personalinfo-email" type="email" name="email">
+                                    <div class="helptext">Optional. Will not be shared on the website.</div>
+                                </div>
+
+                                <div>
+                                    <label for="transcription-publicinput-new-form-personalinfo-country">Country</label>
+                                    <select id="transcription-publicinput-new-form-personalinfo-country" name="country">
+                                        <option value="">-- Please select --</option>
+                                        {% for country in countries %}
+                                            <option value="{{ country.id }}">{{ country.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="helptext">Optional. Will not be shared on the website.</div>
+                                </div>
+                            </div>
+
+                            <div id="transcription-publicinput-new-form-consent">
+                                <label>
+                                    <input type="checkbox" required> I give my consent for this data to be stored by the project team and for certain bits of data to be shared publicly, including through this website.
+                                </label>
+                            </div>
+
+                            <button id="transcription-publicinput-new-form-submit" type="submit">Submit</button>
+                        </form>
+                    </div>
+
+                    <!-- Existing Trancriptions -->
                     <div id="transcription-content-section-existing" class="transcription-content-section">
                         {% if letterpublictranscriptions %}
                             <label for="transcription-publicinput-existing-select">Select an existing transcription:</label>
@@ -79,44 +149,6 @@
                                 Please check back soon.
                             </p>
                         {% endif %}
-                    </div>
-
-                    <!-- New transcription form -->
-                    <div id="transcription-content-section-new" class="transcription-content-section">
-                        <form id="transcription-publicinput-new-form" enctype="multipart/form-data" name="transcription-publicinput-new-form" method="POST" action="{% url 'researchdata:transcribe-submit' %}">
-                            {% csrf_token %}
-
-                            <input type="hidden" name="letter-id" value="{{ object.id }}">
-
-                            {% for image in object.letterimage_set.all %}
-                                <h3>Transcribe Image {{ forloop.counter }}</h3>
-                                <textarea class="transcription-publicinput-new-form-transcribe" name="transcribe-image-{{ image.id }}" data-imageid="{{ image.id }}"></textarea>
-                            {% endfor %}
-
-                            <div id="transcription-publicinput-new-form-personalinfo">
-                                <div>
-                                    <label for="transcription-publicinput-new-form-personalinfo-name">Name</label>
-                                    <input id="transcription-publicinput-new-form-personalinfo-name" type="text" name="name">
-                                </div>
-
-                                <div>
-                                    <label for="transcription-publicinput-new-form-personalinfo-email">Email</label>
-                                    <input id="transcription-publicinput-new-form-personalinfo-email" type="email" name="email">
-                                </div>
-
-                                <div>
-                                    <label for="transcription-publicinput-new-form-personalinfo-country">Country</label>
-                                    <select id="transcription-publicinput-new-form-personalinfo-country" name="country">
-                                        <option value="">-- Please select --</option>
-                                        {% for country in countries %}
-                                            <option value="{{ country.id }}">{{ country.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-
-                            <button id="transcription-publicinput-new-form-submit" type="submit">Submit</button>
-                        </form>
                     </div>
                 </div>
 
