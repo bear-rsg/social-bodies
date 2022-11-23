@@ -475,7 +475,9 @@ class LetterPublicTranscription(models.Model):
 
     @property
     def transcription_text_full(self):
-        return "\n\n=========\n\n".join([t.transcription_text for t in self.letterimagepublictranscription.all()])
+        return "\n\n\n[next page]\n\n\n".join(
+            [t.transcription_text for t in self.letterimagepublictranscription.all()]
+        )
 
     @property
     def transcription_text_brief(self):
