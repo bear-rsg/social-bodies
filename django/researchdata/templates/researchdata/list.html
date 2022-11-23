@@ -10,6 +10,20 @@
     <!-- List Title -->
     <h2>{% block list_title %}{% endblock %}</h2>
 
+    {% if "transcribe=1" in request.get_full_path %}
+        <div>
+            <p>
+                Thank you for helping us transcribe these letters. Your work as a ‘digital citizen’ will contribute to this open-access collection of letters and help to make them more accessible. You will also be contributing to the ‘Material Identities, Social Bodies’ research project.
+            </p>
+            <p>
+                The ‘Golden Rule’ is to transcribe exactly what is written in the letters (including any exact spelling, capitalization and punctuation). Try to replicate the layout, too (starting a new line when the letter writer does so). Further guidance can be found here [link to the further guidance], and once you click on a letter.
+            </p>
+            <p>
+                Select or search for a letter to begin!
+            </p>
+        </div>
+    {% endif %}
+
     <!-- List Options -->
     <div class="list-options">
         
@@ -199,6 +213,18 @@ $(document).ready(function() {
     // Trigger on page load - either from cookie if exists, or default to grid view if no cookie
     if (getCookie(cookieViewKey) !== null) $('#list-options-views-' + getCookie(cookieViewKey)).trigger('click');
     else $('#list-options-views-grid').trigger('click');
+
+    // Hide some filters on transcribe list page
+    isTranscribe = new URL(window.location.href).searchParams.get('transcribe');
+    if (isTranscribe == 1){
+        const filters = [
+            'filter_mm_letterperson__condition_specific_state',
+            'filter_mm_letterperson__emotion',
+            'filter_mm_letterperson__bodily_activity',
+            'filter_mm_letterperson__body_part'
+        ]
+        for (filter of filters) $('#' + filter).closest('.list-options-filters-filter').hide();
+    }
 
     // Reset form
     $('.reset-form').on('click', function(){
