@@ -421,7 +421,10 @@ class LetterImage(models.Model):
 
     def __str__(self):
         if self.letter:
-            return f"Image #{self.order_in_letter} of letter: {self.letter.title}"
+            try:
+                return f"Image #{self.order_in_letter} of letter: {self.letter.title}"
+            except Exception:
+                return f"An image of letter: {self.letter.title}"
         else:
             return "An image of a letter"
 
