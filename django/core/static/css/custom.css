@@ -563,6 +563,11 @@ section.tabbed {
     margin: 1.3rem 0 0.2rem 0;
 }
 
+#tabbed-detail-copyrightholderuntraced {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1em;
+}
+
 .transcription-section {
     padding: 1em;
     overflow: scroll;

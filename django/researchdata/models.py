@@ -265,6 +265,7 @@ class Letter(models.Model):
                                    related_name=related_name,
                                    on_delete=models.SET_NULL,
                                    blank=True, null=True)
+    copyright_holder_untraced = models.BooleanField(default=False)
     permission_reproduce_text = models.BooleanField(blank=True, null=True)
     permission_reproduce_image = models.BooleanField(blank=True, null=True)
     transcription_is_public = models.BooleanField(default=False,

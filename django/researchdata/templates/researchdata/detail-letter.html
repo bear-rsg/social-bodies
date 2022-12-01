@@ -172,6 +172,11 @@
 
     <section class="tabbed container" id="tabbed-details">
         <div class="tabbed-title">Details</div>
+        {% if object.copyright_holder_untraced %}
+            <div id="tabbed-detail-copyrightholderuntraced">
+                We have been unable to trace the copyright holder of this letter. If you are the copyright holder of this letter or if you know how we could reach the copyright holder, please <a href="mailto:socialbodies@contacts.bham.ac.uk">contact us</a>.
+            </div>
+        {% endif %}
         {% include "researchdata/snippets/details-detail.html" with details=details %}
     </section>
 
