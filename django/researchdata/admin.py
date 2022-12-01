@@ -161,6 +161,7 @@ class LetterAdminView(admin.ModelAdmin):
                    'permission_reproduce_image',
                    'admin_published',
                    'transcription_is_public',
+                   'copyright_holder_untraced',
                    ('collection', RelatedDropdownFilter),
                    ('repository', RelatedDropdownFilter),
                    ('letter_type', RelatedDropdownFilter),
