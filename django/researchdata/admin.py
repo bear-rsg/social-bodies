@@ -68,6 +68,16 @@ def approved_by_project_team_false(modeladmin, request, queryset):
     queryset.update(approved_by_project_team=False)
 
 
+def copyright_holder_untraced_true(modeladmin, request, queryset):
+    # Sets all objects in queryset to: copyright_holder_untraced = True
+    queryset.update(copyright_holder_untraced=True)
+
+
+def copyright_holder_untraced_false(modeladmin, request, queryset):
+    # Sets all objects in queryset to: copyright_holder_untraced = False
+    queryset.update(copyright_holder_untraced=False)
+
+
 def copy_public_transcription_to_parent_letter(modeladmin, request, queryset):
     # Copies the content of the public transcription text to the parent letter
     for public_transcription in queryset:
@@ -86,6 +96,8 @@ permission_reproduce_image_false.short_description = "Permission to reproduce im
 approved_by_project_team_none.short_description = "Approved by project team: Unknown"
 approved_by_project_team_true.short_description = "Approved by project team: Yes"
 approved_by_project_team_false.short_description = "Approved by project team: No"
+copyright_holder_untraced_true.short_description = "Copyright holder untraced: Yes"
+copyright_holder_untraced_false.short_description = "Copyright holder untraced: No"
 copy_public_transcription_to_parent_letter.short_description = "Copy public transcription to parent letter"
 
 
@@ -155,6 +167,7 @@ class LetterAdminView(admin.ModelAdmin):
                     'summary',
                     'permission_reproduce_text',
                     'permission_reproduce_image',
+                    'copyright_holder_untraced',
                     'admin_published',
                     'transcription_is_public')
     list_filter = ('permission_reproduce_text',
@@ -181,7 +194,9 @@ class LetterAdminView(admin.ModelAdmin):
                permission_reproduce_text_false,
                permission_reproduce_image_none,
                permission_reproduce_image_true,
-               permission_reproduce_image_false)
+               permission_reproduce_image_false,
+               copyright_holder_untraced_true,
+               copyright_holder_untraced_false)
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
