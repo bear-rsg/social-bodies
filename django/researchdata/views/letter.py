@@ -8,7 +8,7 @@ from .. import models
 from . import common
 
 
-def filter_options_limit_to_published_related_letters(objects):
+def filter_options_limit_to_published_related_letters(objects, order='name'):
     """
     Only include filter options in select lists if selecting them will show items
     E.g. if there are published letters that belong to each filter
@@ -18,12 +18,12 @@ def filter_options_limit_to_published_related_letters(objects):
     try:
         return objects.annotate(
             published_letters_count=Count('related_letter', filter=Q(related_letter__admin_published=True))
-        ).filter(published_letters_count__gt=0)
+        ).filter(published_letters_count__gt=0).order_by(order)
     # If has a relationship to Letter model through LetterPerson (e.g. a direct M2M field in LetterPerson model)
     except FieldError:
         return objects.annotate(
             published_letters_count=Count('letterperson__letter', filter=Q(letterperson__letter__admin_published=True))
-        ).filter(published_letters_count__gt=0)
+        ).filter(published_letters_count__gt=0).order_by(order)
 
 
 class LetterDetailView(DetailView):
