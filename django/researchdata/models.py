@@ -511,8 +511,8 @@ class LetterImagePublicTranscription(models.Model):
 
     letter_public_transcription = models.ForeignKey(LetterPublicTranscription,
                                                     related_name=related_name,
-                                                    on_delete=models.RESTRICT)
-    letter_image = models.ForeignKey(LetterImage, related_name=related_name, on_delete=models.RESTRICT)
+                                                    on_delete=models.CASCADE)
+    letter_image = models.ForeignKey(LetterImage, related_name=related_name, on_delete=models.CASCADE)
     transcription_text = models.TextField()
 
     @property
