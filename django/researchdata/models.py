@@ -291,7 +291,7 @@ class Letter(models.Model):
                                                        related_name=related_name,
                                                        on_delete=models.SET_NULL, blank=True, null=True)
     # Many to many relationship fields
-    letter = models.ManyToManyField("self", related_name=related_name, blank=True, through='M2MLetterLetter')
+    letter = models.ManyToManyField("self", blank=True, through='M2MLetterLetter')
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
     admin_published = models.BooleanField(default=False)
@@ -548,7 +548,7 @@ class Person(models.Model):
     religion = models.ManyToManyField(SlPersonReligion, related_name=related_name, blank=True)
     rank = models.ManyToManyField(SlPersonRank, related_name=related_name, blank=True)
     occupation = models.TextField(blank=True, null=True)
-    person = models.ManyToManyField("self", related_name=related_name, through='M2MPersonPerson', blank=True)
+    person = models.ManyToManyField("self", through='M2MPersonPerson', blank=True)
     # Admin fields
     admin_notes = models.TextField(blank=True, null=True)
     admin_published = models.BooleanField(default=True)
