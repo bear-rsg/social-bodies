@@ -304,6 +304,23 @@ class Letter(models.Model):
     lastupdated_datetime = models.DateTimeField(auto_now=True, verbose_name="Last Updated")
 
     @property
+    def sent_date(self):
+        date = ""
+        date += str(self.sent_date_day) if self.sent_date_day else ""
+        date += str(self.sent_date_month) if self.sent_date_month else ""
+        date += str(self.sent_date_year) if self.sent_date_year and len(str(self.sent_date_year)) > 3 else ""
+        return date if len(date) else None
+
+    @property
+    def cite(self):
+        cite = self.title
+        cite += f", {self.sent_date}" if self.sent_date else ""
+        cite += f": {self.repository}" if self.repository else ""
+        cite += f", {self.collection}" if self.collection else ""
+        cite += f", {self.item_number}" if self.item_number else ""
+        return cite
+
+    @property
     def list_image_url(self):
         if self.permission_reproduce_image and self.letterimage_set.all():
             thumbnail = self.letterimage_set.all()[0].image_thumbnail

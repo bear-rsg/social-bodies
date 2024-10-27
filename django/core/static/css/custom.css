@@ -69,6 +69,22 @@ button {
     font-size: 0.9em;
 }
 
+#feedback-btn {
+    position: fixed;
+    bottom: 2em;
+    right: 2em;
+    background: #f9d301;
+    color: #283747;
+    font-weight: bold;
+    padding: 0.7em 1em;
+    font-size: 1.1em;
+    border-radius: 1em;
+}
+
+#feedback-btn:hover {
+    text-decoration: none;
+}
+
 /* ---------- Navigation ---------- */
 
 nav {

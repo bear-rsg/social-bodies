@@ -20,6 +20,7 @@
             {% if related_letters %}
                 <li id="relatedletters">Related Letters ({{ related_letters | length }})</li>
             {% endif %}
+            <li id="cite">How to Cite</li>
         </ul>
     </section>
 
@@ -196,6 +197,13 @@
             </div>
         </section>
     {% endif %}
+
+    <section class="tabbed container" id="tabbed-cite">
+        <div class="tabbed-title">How to Cite</div>
+        <p>
+            {{ object.cite }}
+        </p>
+    </section>
 
 </div>
 

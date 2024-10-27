@@ -61,10 +61,6 @@ class LetterDetailView(DetailView):
                 {'label': 'Sent Time', 'value': self.object.sent_time},
                 {'label': 'Location: Sent from', 'value': self.object.sent_from_location},
                 {'label': 'Location: Sent to', 'value': self.object.sent_to_location},
-                {'label': 'Letter Type', 'value': common.html_details_list_items(self.object.letter_type.all())},
-                {'label': 'Commentary', 'value': common.html_details_list_items(self.object.commentary.all())},
-                {'label': 'Location', 'value': common.html_details_list_items(self.object.location.all())},
-                {'label': 'Estimated Proportion of the Letter', 'value': self.object.estimated_proportion_of_letter},
             ],
         ])
 
