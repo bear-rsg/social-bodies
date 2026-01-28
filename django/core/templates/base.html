@@ -80,6 +80,10 @@
                     <li class="nav-item">
                         <a class="nav-link{% if "transcribe=1" in request.get_full_path or "/transcribe/" in request.get_full_path or "tab=transcription" in request.get_full_path %} active{% endif %}" href="{% url 'researchdata:letter-list' %}?transcribe=1">Transcribe</a>
                     </li>
+                    <!-- Resources -->
+                    <li class="nav-item">
+                        <a class="nav-link{% if "/resources/" in request.path %} active{% endif %}" href="{% url 'resources' %}">Resources</a>
+                    </li>
                     <!-- Blog -->
                     <li class="nav-item">
                         <a class="nav-link{% if "/blog/" in request.path %} active{% endif %}" href="{% url 'blog' %}">Blog</a>
