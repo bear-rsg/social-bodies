@@ -15,6 +15,13 @@ class AboutTemplateView(TemplateView):
     template_name = 'general/about.html'
 
 
+class ResourcesTemplateView(TemplateView):
+    """
+    Class-based view to show the resources template
+    """
+    template_name = 'general/resources.html'
+
+
 class BlogTemplateView(TemplateView):
     """
     Class-based view to show the blog template
