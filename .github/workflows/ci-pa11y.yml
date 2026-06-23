@@ -38,7 +38,9 @@ jobs:
         python manage.py migrate
 
     - name: Start Django development server
-      run: python manage.py runserver 0.0.0.0:8000 &
+      run: |
+        cd django
+        python manage.py runserver 0.0.0.0:8000 &
       env:
         SECRET_KEY: 'dummy-key-for-ci-testing'
         DEBUG: 'True'
