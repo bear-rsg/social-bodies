@@ -167,15 +167,6 @@ main a {
     margin-top: -5em;
 }
 
-.twittertimeline-container {
-    display: block;
-    overflow: auto;
-    width: 30em;
-    max-width: 90%;
-    height: 40em;
-    margin: 0 auto;
-}
-
 /* ---------- About ---------- */
 
 .team-member-name {
